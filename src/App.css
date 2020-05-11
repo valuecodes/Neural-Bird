@@ -195,7 +195,15 @@ body{
   background-color: rgb(224, 225, 226);
 }
 
-
+.charts{
+  position: relative;
+  height: 300px;
+  width: 400px;
+  /* background-color: azure; */
+  top:-650px;
+  left:620px;
+  /* overflow: hidden; */
+}
 
 /* Chrome */
 @media screen and (-webkit-min-device-pixel-ratio:0) {

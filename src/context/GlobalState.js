@@ -1,7 +1,7 @@
 import React,{ createContext,useReducer } from 'react'
 import AppReducer from './AppReducer'
 const initialState={
-    generation:0,
+    globalRoundScore:[],
     birdCount:0,
     scorecount:0,
 }
@@ -12,8 +12,9 @@ export const GlobalProvider=({children})=>{
 
     const [state,dispatch]= useReducer(AppReducer,initialState);
 
-    function setGlobalState(){
-        console.log('Global state')
+    function setGlobalState(score){
+
+        // console.log('Global state'+score)
         // dispatch({
         //     type:'LOG_USER_IN',
         //     payload:{
@@ -25,9 +26,32 @@ export const GlobalProvider=({children})=>{
         // console.log('logging user in...')
     }
 
+    function setGlobalRoundScore(score){
+        dispatch({
+            type:'GLOBAL_ROUND_SCORE',
+            payload:{
+                data:score
+            },
+        })
+    }
+
+    function logUserOut(){
+        console.log('conte')
+        // dispatch({
+        //     type:'LOG_USER_OUT',
+        //     payload:{
+        //         loggedIn:false,
+        //         currentUser:null
+        //     },
+        // })
+    }
+
 
     return (<GlobalContext.Provider
         value={{
+            setGlobalState,
+            globalRoundScore:state.globalRoundScore,
+            setGlobalRoundScore
             // portfolio:state.portfolio,
             // logUserIn,
             // logUserOut,

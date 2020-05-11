@@ -1,10 +1,10 @@
 export default (state,action)=>{
     switch(action.type){
-        // case 'UPDATE_TICKERS':
-        //     return{
-        //         ...state,
-        //         portfolio:action.payload
-        //     }
+        case 'GLOBAL_ROUND_SCORE':
+            return{
+                ...state,
+                globalRoundScore:[...state.globalRoundScore,action.payload.data]
+            }
 
         default:
             return state

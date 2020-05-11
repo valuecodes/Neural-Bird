@@ -17,13 +17,16 @@ class NeuralNetwork{
     }
 
     predict(inputs){
-        const xs=tf.tensor2d([inputs])
-        const ys=this.model.predict(xs)
-        const outputs=ys.dataSync();
-        return outputs
+        return tf.tidy(() => {
+            const xs=tf.tensor2d([inputs])
+            const ys=this.model.predict(xs)
+            const outputs=ys.dataSync();
+            return outputs
+        });
     }
 
     copy(){
+        return tf.tidy(() => {
         const modelCopy=this.createModel();
         const weights=this.model.getWeights();
         const weightCopies=[];
@@ -36,6 +39,7 @@ class NeuralNetwork{
             this.inputNodes,
             this.hiddenNodes,
             this.outputNodes)
+        });
     }
 
     mutate(rate=0.1){

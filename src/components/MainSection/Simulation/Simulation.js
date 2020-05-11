@@ -9,7 +9,8 @@ import {GlobalContext} from '../../../context/GlobalState'
 
 
 export default function Simulation() {
-
+    
+    const { setGlobalState,setGlobalRoundScore } =useContext(GlobalContext);
     const canvasRef = React.useRef(null)
 
     const [draw,setDraw]=useState([]);
@@ -24,16 +25,18 @@ export default function Simulation() {
     const [savedGeneration,setGeneration]=useState(1)
     const [savedCurrentRound,setCurrentRound]=useState(0)
     const [savedScoreCount,setScoreCount]=useState(0)
+    const [savedRoundScore,setRoundScore]=useState([])
 
-    const { setGlobalState } =useContext(GlobalContext);
+    
 
     useEffect(() => {
         // startSimulation(speed,gapWidth,false);
+        
         setupAnimation();
     }, [])
 
     function startSimulation(speed,gapWidth,reset){
-
+        
         setPause(false);
         if(!reset){
             setState('Online')
@@ -71,13 +74,12 @@ export default function Simulation() {
         let currentRound=reset?0:savedCurrentRound;
         let generation=reset?0:savedGeneration;
         let copy=reset?null:savedCopy;
-
         async function newDraw(){
 
 
             for(var q=0;q<speed;q++){
 
-                let difficulty=currentRound/15;
+                let difficulty=currentRound/25;
                 let padding=0;
                 
                 if(difficulty>500){
@@ -117,7 +119,7 @@ export default function Simulation() {
 
                 if(birds.length===1&&scoreCount>2000){
                     copy=birds[0].brain.copy()
-                    // console.log(copy);
+                    console.log(copy);
                     // if(speed>20){
                     //     speed=3;
                     // }
@@ -133,22 +135,26 @@ export default function Simulation() {
                     }   
                     pipes=[];
                     pipes.push(new Pipe(300))
+                    setRoundScore([...savedRoundScore,currentRound]);
+                    setGlobalRoundScore(currentRound)
                     currentRound=0;
                     scoreCount=0;
                     generation++;
+                     
                 }
                 currentRound++;
                 scoreCount++;
             }
-
+            
             animation(birds,pipes,generation,currentRound,scoreCount,copy)
             if(speed>0){
                 setDraw(requestAnimationFrame(newDraw))
             }
         }
+        
         newDraw();
     }
-
+    
     function animation(birds,pipes,generation,currentRound,scoreCount,copy){        
         const canvas=canvasRef.current
         const ctx=canvas.getContext('2d')
@@ -171,6 +177,7 @@ export default function Simulation() {
         setCurrentRound(currentRound)
         setScoreCount(scoreCount)
         setCopy(copy)
+        setGlobalState(scoreCount)
     }
 
     const setupAnimation=()=>{
