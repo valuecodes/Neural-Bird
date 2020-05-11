@@ -24,7 +24,6 @@ export default function Options(props) {
                     visibility:state==='Offline'?'hidden':'visible'
                 }} onClick={()=>props.resetSimulation()}>Reset</button>             }
             </div>
-
             <div className='statistics' >
                 <Statistics
                     generation={generation}

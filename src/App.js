@@ -2,13 +2,16 @@ import React from 'react';
 import './App.css';
 import NavBar from './components/Navigation/NavBar'
 import Main from './components/MainSection/Main'
+import { GlobalProvider } from './context/GlobalState'
 
 function App() {
   return (
-    <div className="App">
-        <NavBar/>
-        <Main/>
-    </div>
+    <GlobalProvider>
+      <div className="App">
+          <NavBar/>
+          <Main/>
+      </div>
+    </GlobalProvider>
   );
 }
 

@@ -15,13 +15,13 @@ export default function Input(props) {
                     <p>Difficulty</p>
                     <input type='range' defaultValue={50} onChange={(e)=>props.changeGapWidth(e)} />                         
                 </div>
-                <h3 className='inputValue'>{gapWidth}</h3>                 
+                <h3 className='inputValue'>{100-gapWidth/2}%</h3>                 
             </div>
         
                 <div className='input'>
                     <div>
                     <p>Initial population</p>
-                    <input type='range' defaultValue={50} onChange={(e)=>props.changePopulationSize(e)} />                           
+                    <input type='range' defaultValue={5} onChange={(e)=>props.changePopulationSize(e)} />                           
                 </div>
                 <h3 className='inputValue'>{initialPopulation}</h3> 
             </div>    

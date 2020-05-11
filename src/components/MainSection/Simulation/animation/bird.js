@@ -33,11 +33,10 @@ class Bird{
         this.think=(pipe,gapW)=>{
             let inputs=[];
             inputs[0]=this.y/600;
-            inputs[1]=(pipe.gap+10)/600;
-            inputs[2]=(pipe.gap+gapW-10)/600;
+            inputs[1]=(pipe.gap+gapW+10)/600;
+            inputs[2]=(pipe.gap-gapW-10)/600;
             inputs[3]=pipe.x/600;
             inputs[4]=this.velocity/20;
-            // console.log(this.velocity)
             let output = this.brain.predict(inputs);
             return output;
         }
