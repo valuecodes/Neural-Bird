@@ -1,5 +1,7 @@
 
-
+body{
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
 
 /* Navigation */
 
@@ -23,24 +25,178 @@
 
 }
 
-/* Options */
-.options{
-  background-color: rgb(197, 197, 156);
-  width: 600px;
-  margin-top: auto;
-  justify-content: center;
-  height: 100%;
-}
-
 /* Neural Network */
 .neuralNetwork{
   background-color: white;  
   height: 800px;
   display: grid;
-  grid-template-rows: 150px 600px;
+  grid-template-rows: 150px 1px 600px;
   border: 1px solid rgb(163, 163, 163);
+}
+
+/* Options */
+.options{
+  background-color: rgb(241, 241, 241);
+  width: 600px;
+  height: 150px;
+  display: grid;
+  grid-template-columns: 200px 1fr 200px;
+}
+
+.optionHeader{
+  display: grid;
+  grid-template-columns:  1fr 40px;
+  font-size: 14px;
+  margin-top: -12px;
+}
+
+.optionHeader h2{
+  /* margin-top: 2px; */
+}
+
+.optionImage{
+  margin-top: 17px;
+  width: 30px;
+  height: 30px;
+}
+
+.optionImage:hover{
+  cursor: pointer;
+}
+
+.buttons{
+  margin-top: 4px;
+  display: grid;
+  grid-template-rows: repeat(3,45px);
+  grid-gap: 3px;
+}
+
+.buttons button{
+  margin: auto;
+  width: 180px;
+  height: 100%;
+  border: none;
+  font-size: 15px;
+  background-color: rgb(182, 194, 184);
+  border-radius: 5px;
+
+}
+
+.buttons button:hover{
+  background-color: rgb(108, 134, 128);
+  color: white;
+  cursor: pointer;
+}
+
+.inputs{
+  position: relative;
+  margin: 5px 5px 5px 0px;
+  height: 100px;
+  display: grid;
+  grid-template-rows: 40px repeat(10,50px);
+  z-index: 10;
+  overflow: hidden;
+  background-color: rgb(182, 194, 184);
+  border: 2px solid black;
+  border-radius: 5px;
+  padding-left: 5px;
+}
+
+.inputs h2{
+  margin: 0px;
+  padding: 0px;
+  align-self: center;
+}
+
+.input{
+  width: 150px;
+  display: grid;
+  grid-template-columns: 140px 50px;
+}
+
+.input p{
+  margin: 0px;
+  padding: 0px;
+}
+
+.inputValue{
+  margin: 0px;
+  margin-top: 20px;
+  text-align: left;
+}
+
+/* Statistics */
+.statistics{
+  margin: 5px 10px 5px 0px;
+  height: auto;
+  /* background-color: rgb(224, 224, 224); */
+  border: 2px solid black;
+  border-radius: 5px;
+  height: 140px;
+}
+
+.statistics h3{
+  text-align: center;
+  margin: 0px;
+  margin-top: 30px;
+  /* padding: 0px; */
+}
+.statistics h1{
+  margin: 0px;
+  padding: 0px;
+  text-align: center;
+}
+
+.speedInput{
+  position: relative;
+  margin-left: 3px;
+  font-size: 18px;
+}
+
+.speed{
+  width: 594px;
+  border: 30px;
+  margin: 0px;
+  padding: 0px;
+  font-size: 25px;
+}
+
+.speedHeader{
+  font-size: 25px;
 }
 
 .canvas{
   background-color: rgb(224, 225, 226);
+}
+
+/* Chrome */
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  input[type='range'] {
+    -webkit-appearance: none;
+    background-color: rgb(68, 173, 138)
+  }
+  
+  input[type='range']::-webkit-slider-runnable-track {
+    width: 20px;
+    height: 2px;
+    border: none;
+    border-radius: 3px
+  }
+  
+  input[type='range']::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+    height: 14px;
+    width: 14px;
+    border-radius: 510%;
+    background: #141414;
+    border: 2px solid #515151;
+    margin-top: -6px;
+    cursor: pointer
+  }
+
+  input[type=range]:focus {
+    outline: none
+  }
+
 }

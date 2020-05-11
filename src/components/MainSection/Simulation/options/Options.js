@@ -1,29 +1,50 @@
-import React from 'react'
+import React,{useState} from 'react'
+import Statistics from './Statistics'
+import Inputs from './Inputs'
 
 export default function Options(props) {
 
     // console.log(props);
-    const {speed,gapWidth}=props
+    const {speed,gapWidth,initialPopulation,population,count,generation,scoreCount,state}=props
+
+    const [optionsOpen,setOptions]=useState(false)
+
+    const openOptions=()=>{
+        setOptions(!optionsOpen)
+    }
 
     return (
         <div className='options'>
             <div className='buttons'>
                 <button onClick={()=>props.startSimulation(speed,gapWidth)}>Start Simulation</button>
-                <button onClick={()=>props.pauseSimulation()}>Pause</button>
-                <button onClick={()=>props.resetSimulation()}>Reset</button>            
-            </div>
-            <div className='inputs'>
-                <p>Speed</p>
-                <input type='range' step={10} defaultValue={10} onChange={(e)=>props.changeSpeed(e)} />  
-                <p>{speed}</p> 
-                <p>Difficulty</p>
-                <input type='range' defaultValue={50} onChange={(e)=>props.changeGapWidth(e)} /> 
-                <p>Initial population</p>
-                <input type='range' defaultValue={50} onChange={(e)=>props.changePopulationSize(e)} />  
-                           
-
+                <button style={{
+                    visibility:state==='Offline'?'hidden':'visible'
+                }} onClick={()=>props.pauseSimulation()}>{state==='Paused'?'Continue':'Pause'}</button> 
+                <button style={{
+                    visibility:state==='Offline'?'hidden':'visible'
+                }} onClick={()=>props.resetSimulation()}>Reset</button>             }
             </div>
 
+            <div className='statistics' >
+                <Statistics
+                    generation={generation}
+                    count={count}
+                    scoreCount={scoreCount}
+                    state={state}
+                />
+            </div>
+
+            <div className='inputs' style={{
+                height:optionsOpen?600:140
+                }}>
+                <Inputs
+                    gapWidth={props.gapWidth}
+                    initialPopulation={props.initialPopulation}
+                    changeGapWidth={props.changeGapWidth}
+                    changePopulationSize={props.changePopulationSize}
+                    openOptions={openOptions}
+                />
+            </div>
         </div>
     )
 }

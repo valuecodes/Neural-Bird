@@ -218,6 +218,7 @@ import Bird from './animation/bird'
 import Pipe from './animation/pipe'
 import NeuralNetwork from './NeuralNetwork'
 import Options from './options/Options'
+import SpeedInput from './options/SpeedInput'
 
 export default function Simulation() {
 
@@ -228,8 +229,8 @@ export default function Simulation() {
     const [draw,setDraw]=useState([]);
     const [speed,setSpeed]=useState(1);
     const [initialPopulation,setInitialPopulation]=useState(100)
-    // const [previousSpeed,setPreviousSpeed]=useState(0);
     const [pause,setPause]=useState(true);
+    const [state,setState]=useState('Offline')
     const [gapWidth,setGapWidth]=useState(150);
     const [savedPipes,setPipes]=useState([]);
     const [savedBirds,setBirds]=useState([]);
@@ -245,6 +246,12 @@ export default function Simulation() {
 
 
     function startSimulation(speed,gapWidth,reset){
+
+        setPause(false);
+        if(!reset){
+            setState('Online')
+        }
+        
 
         console.log(initialPopulation)
 
@@ -327,11 +334,11 @@ export default function Simulation() {
 
                 if(birds.length===1&&scoreCount>2000){
                     copy=birds[0].brain.copy()
-                    console.log(copy);
-                    if(speed>20){
-                        speed=3;
-                    }
-                    scoreCount=0;
+                    // console.log(copy);
+                    // if(speed>20){
+                    //     speed=3;
+                    // }
+                    // scoreCount=0;
 
                 }
 
@@ -340,22 +347,22 @@ export default function Simulation() {
                         birds=createBirds('')
                     }else{
                         birds=[new Bird(copy)]
-                    }
-                    
+                    }   
                     pipes=[];
                     pipes.push(new Pipe(Math.floor(Math.random() *difficulty+(200-difficulty/2))))
                     currentRound=0;
                     scoreCount=0;
                     generation++;
                 }
-
                 currentRound++;
                 scoreCount++;
             }
 
             animation(birds,pipes,generation,currentRound,scoreCount,copy)
-
-            setDraw(requestAnimationFrame(newDraw))
+            if(speed>0){
+                setDraw(requestAnimationFrame(newDraw))
+            }
+            
         }
 
         newDraw();
@@ -371,11 +378,13 @@ export default function Simulation() {
             ctx.rect(...birds[b].getPosition());
         }
 
-        ctx.font = "20px Arial";
-        ctx.fillText(`Generation: ${generation}`,10,20);
-        ctx.fillText(`Bird count: ${birds.length}`,170,20);
-        ctx.fillText(`Current score: ${scoreCount}`,320,20);
+        ctx.font = "18px Segoe UI";
+        ctx.fillText(`Generation: ${generation}`,120,26);
+        ctx.fillText(`Bird count: ${birds.length}`,270,26);
+        ctx.fillText(`Current score: ${scoreCount}`,420,26);
 
+        // ctx.font = "27px Segoe UI";
+        // ctx.fillText(generation,215,26);
         for(var i=0;i<pipes.length;i++){
             ctx.rect(...pipes[i].getTopPipe());
             ctx.rect(...pipes[i].getBotPipe(gapWidth));
@@ -395,27 +404,29 @@ export default function Simulation() {
     }
 
     function changeSpeed(e){
-        setSpeed(e.target.value/10)
-        if(!pause) startSimulation(e.target.value/10,gapWidth,false);
+        setSpeed(e.target.value)
+        if(state!=='Offline') startSimulation(e.target.value,gapWidth,false);
     }
 
     function click(e){
-        const canvas=canvasRef.current
-        const ctx=canvas.getContext('2d')
-        const rect = canvas.getBoundingClientRect()
-        console.log('clicked');
+        // const canvas=canvasRef.current
+        // const ctx=canvas.getContext('2d')
+        // const rect = canvas.getBoundingClientRect()
+        // console.log('clicked');
     }
 
     function changeGapWidth(e){
         let newSpeed=pause===true?0:speed;
         setGapWidth(e.target.value*5);
-        startSimulation(newSpeed,e.target.value*5,false);
+        if(state!=='Offline') startSimulation(newSpeed,e.target.value*5,false);
     }
 
     const pauseSimulation=()=>{
         let newSpeed=pause===false?0:speed;
         startSimulation(newSpeed,gapWidth,false);
         setPause(!pause)
+
+        setState(pause?'Online':'Paused')
     }
 
     const resetSimulation=()=>{
@@ -426,14 +437,15 @@ export default function Simulation() {
         setGeneration(0);
         setCurrentRound(0);
         setScoreCount(0);
-        startSimulation(3,100,true);
+        setState('Offline')
+        startSimulation(0,100,true);
     }
 
     const changePopulationSize=(e)=>{
-        let newSpeed=pause===false?0:speed;
+        // let newSpeed=pause===false?0:speed;
         let population=e.target.value*2;
         setInitialPopulation(population)
-        // startSimulation(newSpeed,gapWidth,population,false);
+        if(state!=='Offline') startSimulation(speed,e.target.value*5,false);
     }
 
     return (
@@ -441,13 +453,23 @@ export default function Simulation() {
             <Options
                 speed={speed}
                 gapWidth={gapWidth}
+                initialPopulation={initialPopulation}
                 startSimulation={startSimulation}
                 pauseSimulation={pauseSimulation}
                 resetSimulation={resetSimulation}
                 changeSpeed={changeSpeed}
                 changeGapWidth={changeGapWidth}
                 changePopulationSize={changePopulationSize}
+                generation={savedGeneration}
+                count={savedBirds.length}
+                scoreCount={savedScoreCount}   
+                state={state}             
             />
+            <SpeedInput
+                speed={speed}
+                changeSpeed={changeSpeed}
+            />
+
             <canvas
                 ref={canvasRef}
                 className='canvas'
@@ -457,13 +479,8 @@ export default function Simulation() {
                     fill:'black',
                 }}
             >
-
             </canvas>
-            {/* <button onClick={()=>start(speed,gapWidth)}>start</button>
-            <button onClick={()=>stop()}>stop</button>
-            <input type='range' step={10} defaultValue={10} onChange={(e)=>changeSpeed(e)} />  
-            <input type='range' defaultValue={50} onChange={(e)=>changeGapWidth(e)} />  
-            <p>{speed}</p> */}
+
         </div>
     )
 }
