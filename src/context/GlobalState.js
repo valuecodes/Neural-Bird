@@ -2,6 +2,7 @@ import React,{ createContext,useReducer } from 'react'
 import AppReducer from './AppReducer'
 const initialState={
     globalRoundScore:[],
+    globalRoundTotalScore:[],
     birdCount:0,
     scorecount:0,
 }
@@ -35,6 +36,15 @@ export const GlobalProvider=({children})=>{
         })
     }
 
+    function setGlobalRoundTotalScore(score){
+        dispatch({
+            type:'GLOBAL_ROUND_TOTAL_SCORE',
+            payload:{
+                data:score
+            },
+        })
+    }
+
     function logUserOut(){
         console.log('conte')
         // dispatch({
@@ -51,7 +61,9 @@ export const GlobalProvider=({children})=>{
         value={{
             setGlobalState,
             globalRoundScore:state.globalRoundScore,
-            setGlobalRoundScore
+            setGlobalRoundScore,
+            globalRoundTotalScore:state.globalRoundTotalScore,
+            setGlobalRoundTotalScore,
             // portfolio:state.portfolio,
             // logUserIn,
             // logUserOut,

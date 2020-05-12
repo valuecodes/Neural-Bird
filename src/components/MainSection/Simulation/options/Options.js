@@ -5,7 +5,7 @@ import Inputs from './Inputs'
 export default function Options(props) {
 
     // console.log(props);
-    const {speed,gapWidth,initialPopulation,population,count,generation,scoreCount,state}=props
+    const {speed,gapWidth,initialPopulation,population,count,generation,scoreCount,state,closingRate,mutateRate}=props
 
     const [optionsOpen,setOptions]=useState(false)
 
@@ -37,12 +37,16 @@ export default function Options(props) {
                 height:optionsOpen?600:140
                 }}>
                 <Inputs
-                    gapWidth={props.gapWidth}
-                    initialPopulation={props.initialPopulation}
-                    changeGapWidth={props.changeGapWidth}
-                    changePopulationSize={props.changePopulationSize}
                     openOptions={openOptions}
-                />
+                    changeGapWidth={props.changeGapWidth}
+                    gapWidth={props.gapWidth}
+                    changePopulationSize={props.changePopulationSize}
+                    initialPopulation={props.initialPopulation}
+                    changeClosingRate={props.changeClosingRate}
+                    closingRate={closingRate}
+                    mutateRate={mutateRate}
+                    changeMutateRate={props.changeMutateRate}
+                />  
             </div>
         </div>
     )

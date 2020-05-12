@@ -6,19 +6,22 @@ import Options from './options/Options'
 import SpeedInput from './options/SpeedInput'
 import SimulationStats from './options/SimulationStats'
 import {GlobalContext} from '../../../context/GlobalState'
-
+import {nextGeneration} from './NextGeneration'
 
 export default function Simulation() {
     
-    const { setGlobalState,setGlobalRoundScore } =useContext(GlobalContext);
+    const { setGlobalState,setGlobalRoundScore,setGlobalRoundTotalScore } =useContext(GlobalContext);
     const canvasRef = React.useRef(null)
 
     const [draw,setDraw]=useState([]);
     const [speed,setSpeed]=useState(1);
-    const [initialPopulation,setInitialPopulation]=useState(10)
+    const [initialPopulation,setInitialPopulation]=useState(20)
     const [pause,setPause]=useState(true);
     const [state,setState]=useState('Offline')
     const [gapWidth,setGapWidth]=useState(100);
+    const [initialGapWidth,setInitialGapWidth]=useState(100);
+    const [closingRate,setClosingRate]=useState(500);
+    const [mutateRate,setMutateRate]=useState(0.1);
     const [savedPipes,setPipes]=useState([]);
     const [savedBirds,setBirds]=useState([]);
     const [savedCopy,setCopy]=useState(null)
@@ -26,7 +29,6 @@ export default function Simulation() {
     const [savedCurrentRound,setCurrentRound]=useState(0)
     const [savedScoreCount,setScoreCount]=useState(0)
     const [savedRoundScore,setRoundScore]=useState([])
-
     
 
     useEffect(() => {
@@ -57,34 +59,42 @@ export default function Simulation() {
         function createBirds(nn){
             let createdBirds=[]
             for(var w=0;w<population;w++){
-                createdBirds.push(new Bird('',speed))
+                createdBirds.push(new Bird(''))
                 createdBirds[w].y=Math.random()*400+ 100;
             }      
             return createdBirds  
         }        
-
+        
         let birds=savedBirds;
 
         if(birds.length===0||reset){
             birds=[];
             birds=createBirds();
         }
-
+        // let closingRate=closingRate;
         let scoreCount=reset?0:savedScoreCount;
         let currentRound=reset?0:savedCurrentRound;
         let generation=reset?0:savedGeneration;
         let copy=reset?null:savedCopy;
+        let generationTop10=[];
         async function newDraw(){
-
-
             for(var q=0;q<speed;q++){
 
-                let difficulty=currentRound/25;
+                let difficulty=currentRound/20;
                 let padding=0;
                 
-                if(difficulty>500){
-                    difficulty=500;
-                }                
+                if(difficulty>400){
+                    difficulty=400;
+                }             
+
+                if(scoreCount%closingRate==0){
+                    if(gapWidth>10){
+                        gapWidth--
+                    }   
+                }
+
+                // gapWidth*=0.9999
+                // console.log(gapWidth,closingRate)
 
                 // Pipes
                 if(pipes[0].x<300&&pipes.length<2){
@@ -100,39 +110,57 @@ export default function Simulation() {
                 // Remove pipe when it reaches off screen
                 if(pipes[0].x<-10) pipes.shift();
 
+                // console.log(`
+                // Bird y ${birds[b].y} 
+                // Bird y ${birds[b].y}
+                // Bird y ${birds[b].y}
+                // Bird y ${birds[b].y}`)
+
+
                 for(var b=0;b<birds.length;b++){
-                    birds[b].update(speed);
+                    birds[b].update();
                     let choice=await birds[b].think(pipes[0],gapWidth);
                     if(choice[0]<0.5){
                         birds[b].up()
                     }
-                    if(birds[b].x>pipes[0].x-10&&birds[b].x<pipes[0].x+10){
-                        if(birds[b].y<pipes[0].gap||birds[b].y>pipes[0].gap+gapWidth){
+                    // console.log(birds[b].x,pipes[0].x)
+                    if(birds[b].x>pipes[0].x
+                        // &&birds[b].x<pipes[0].x+10
+                    ){
+                        if(birds[b].y<pipes[0].gap-gapWidth||birds[b].y>pipes[0].gap+gapWidth){
                             birds[b].alive=false;
                         }
                     }
                 }
 
-                let newBirds=[...birds]
-                newBirds= newBirds.filter(bird=>bird.alive===true);
+                let newBirds=[];
+
+                for(var x=0;x<birds.length;x++){
+                    if(birds[x].alive){
+                        newBirds.push(birds[x]);
+                    }else{
+                        if(birds.length<=10){
+                            generationTop10.push(birds[x])
+                        }
+                    }
+                };
                 birds=newBirds;
 
-                if(birds.length===1&&scoreCount>2000){
-                    copy=birds[0].brain.copy()
-                    console.log(copy);
-                    // if(speed>20){
-                    //     speed=3;
-                    // }
-                    // scoreCount=0;
-
-                }
-
                 if(birds.length<1){
-                    if(copy===null){
-                        birds=createBirds('')
+                    if(generationTop10.length===0){
+                        birds=createBirds()
                     }else{
-                        birds=[new Bird(copy)]
-                    }   
+                        let data=nextGeneration(generationTop10,initialPopulation,mutateRate)
+                        birds=data.birds;
+                        setGlobalRoundTotalScore(data.fitness)
+                    }
+                    // if(copy===null){
+                        
+
+                    // }else{
+                    //     birds=[new Bird(copy)]
+                    // }  
+
                     pipes=[];
                     pipes.push(new Pipe(300))
                     setRoundScore([...savedRoundScore,currentRound]);
@@ -140,13 +168,14 @@ export default function Simulation() {
                     currentRound=0;
                     scoreCount=0;
                     generation++;
-                     
+                    generationTop10=[]
+                    gapWidth=initialGapWidth
                 }
                 currentRound++;
                 scoreCount++;
             }
             
-            animation(birds,pipes,generation,currentRound,scoreCount,copy)
+            animation(birds,pipes,generation,currentRound,scoreCount,copy,gapWidth)
             if(speed>0){
                 setDraw(requestAnimationFrame(newDraw))
             }
@@ -155,7 +184,7 @@ export default function Simulation() {
         newDraw();
     }
     
-    function animation(birds,pipes,generation,currentRound,scoreCount,copy){        
+    function animation(birds,pipes,generation,currentRound,scoreCount,copy,gapWidth){        
         const canvas=canvasRef.current
         const ctx=canvas.getContext('2d')
         ctx.beginPath(0,0);
@@ -177,6 +206,7 @@ export default function Simulation() {
         setCurrentRound(currentRound)
         setScoreCount(scoreCount)
         setCopy(copy)
+        setGapWidth(gapWidth)
         setGlobalState(scoreCount)
     }
 
@@ -187,6 +217,7 @@ export default function Simulation() {
 
         let pipes=[];
         pipes.push(new Pipe(300))
+        pipes[0].x=300;
 
         let population=initialPopulation
 
@@ -238,6 +269,7 @@ export default function Simulation() {
     function changeGapWidth(e){
         let newSpeed=pause===true?0:speed;
         setGapWidth(200-(e.target.value*2));
+        setInitialGapWidth(200-(e.target.value*2));
         if(state!=='Offline') startSimulation(newSpeed,200-(e.target.value*2),false)
         else setupAnimation();
     }
@@ -269,6 +301,14 @@ export default function Simulation() {
         else setupAnimation();
     }
 
+    const changeClosingRate=(e)=>{
+        setClosingRate(e.target.value)
+    }
+
+    const changeMutateRate=(e)=>{
+        setMutateRate(e.target.value/100);
+    }
+
     return (
         <div className='neuralNetwork' onClick={(e)=>click(e)}>
             <Options
@@ -281,8 +321,11 @@ export default function Simulation() {
                 changeSpeed={changeSpeed}
                 changeGapWidth={changeGapWidth}
                 changePopulationSize={changePopulationSize}
- 
-                state={state}             
+                state={state}   
+                closingRate={closingRate} 
+                changeClosingRate={changeClosingRate}  
+                mutateRate={mutateRate}
+                changeMutateRate={changeMutateRate}     
             />            
             <SimulationStats
                 generation={savedGeneration}

@@ -6,6 +6,12 @@ export default (state,action)=>{
                 globalRoundScore:[...state.globalRoundScore,action.payload.data]
             }
 
+        case 'GLOBAL_ROUND_TOTAL_SCORE':
+            return{
+                ...state,
+                globalRoundTotalScore:[...state.globalRoundTotalScore,action.payload.data]
+            }
+
         default:
             return state
     }

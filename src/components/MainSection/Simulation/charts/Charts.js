@@ -4,28 +4,43 @@ import { Bar } from 'react-chartjs-2';
 
 export default function Charts() {
 
-    const { globalRoundScore } = useContext(GlobalContext)
+    const { globalRoundScore,globalRoundTotalScore } = useContext(GlobalContext)
+
     const [chartData,setChartData]=useState({});
+    const [chartDataTotal,setChartDataTotal]=useState({});
     const [chartOptions,setChartOptions]=useState({
                 maintainAspectRatio: true,
                 responsive: true,
+                legend: {
+                    display: true,
+                },
                 scales: {
+                    xAxes: [{
+                        maxBarThickness: 20,
+                        gridLines: {
+                            drawOnChartArea: false
+                        }
+                    }],
                     yAxes: [{
-                        ticks: {
-                            // beginAtZero: true
+                        position: 'right',
+                        gridLines: {
+                            drawOnChartArea: false
                         }
                     }]
                 },
             })
     
 
-    console.log(globalRoundScore)
+    // console.log(globalRoundScore)
 
     useEffect(()=>{
         let labels=globalRoundScore.map((score,index)=>
              'Gen:'+index
         )
-        console.log(labels)
+        let labelsTotal=globalRoundTotalScore.map((score,index)=>
+        'Gen:'+index
+         )
+        // console.log(labels)
 
         const data= {
             labels: labels,
@@ -37,8 +52,19 @@ export default function Charts() {
                 borderWidth: 1
             }]
         }
+        const dataTotal= {
+            labels: labelsTotal,
+            datasets: [{
+                label: 'Total points per generation',    
+                data: globalRoundTotalScore,
+                backgroundColor: 'rgba(33, 105, 194, 0.2)',
+                borderColor:'rgba(33, 105, 194, 1)',
+                borderWidth: 1
+            }]
+        }
 
         setChartData(data);
+        setChartDataTotal(dataTotal)
         // return set
 
     },[globalRoundScore])
@@ -56,15 +82,21 @@ export default function Charts() {
     //     })
     //         }
 
-    console.log(globalRoundScore)
+    // console.log(globalRoundScore)
 
     return (
         <div className='charts'>
-            test
             <Bar
                 data={chartData}
                 width={50}
-                height={30}
+                height={40}
+                options={chartOptions}
+                // datasetKeyProvider={globalRoundScore}
+            />
+            <Bar
+                data={chartDataTotal}
+                width={50}
+                height={40}
                 options={chartOptions}
                 // datasetKeyProvider={globalRoundScore}
             />

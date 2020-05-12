@@ -25,6 +25,33 @@ class NeuralNetwork{
         });
     }
 
+    shuffleGenes(otherParent){
+        tf.tidy(() => {
+            const mutatedWeights = [];
+            const weights = this.model.getWeights();
+            let oWeights=otherParent.brain.model.getWeights();
+            for (let i = 0; i < weights.length; i++) {
+              let tensor = weights[i];
+              let shape = weights[i].shape;
+              let values = tensor.dataSync().slice();
+              let oTensor=oWeights[i]
+              let oValues=oTensor.dataSync().slice();
+
+              for (let j = 0; j < values.length; j++) {
+
+                if (Math.random() < 0.5) {
+                    let w = values[j];
+                    let ov = oValues[j]
+                    values[j] = (w + ov)/2;                    
+                }
+              }
+              let newTensor = tf.tensor(values, shape);
+              mutatedWeights[i] = newTensor;
+            }
+            this.model.setWeights(mutatedWeights);
+          });
+    }
+
     copy(){
         return tf.tidy(() => {
         const modelCopy=this.createModel();
@@ -42,19 +69,27 @@ class NeuralNetwork{
         });
     }
 
-    mutate(rate=0.1){
-        console.log('mutate')
+    mutate(rate=0.1,alpha){
         tf.tidy(() => {
             const weights = this.model.getWeights();
             const mutatedWeights = [];
+
+            let aWeights=alpha.brain.model.getWeights();
+
             for (let i = 0; i < weights.length; i++) {
               let tensor = weights[i];
               let shape = weights[i].shape;
               let values = tensor.dataSync().slice();
+              
+              let aTensor=aWeights[i]
+              let aValues=aTensor.dataSync().slice();
               for (let j = 0; j < values.length; j++) {
+                
+                let w = values[j];
+                let av = aValues[j]
+                values[j] = (w + av)/2;
                 if (Math.random() < rate) {
-                  let w = values[j];
-                  values[j] = w + Math.random();
+                    values[j] = (w+av/2) + randomGaussian();
                 }
               }
               let newTensor = tf.tensor(values, shape);
@@ -81,3 +116,12 @@ class NeuralNetwork{
     }
 }
 export default NeuralNetwork;
+
+
+function randomGaussian() {
+    var rand = 0;
+    for (var i = 0; i < 6; i += 1) {
+      rand += Math.random();
+    }
+    return (rand/6)-0.5;
+  }

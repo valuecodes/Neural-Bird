@@ -1,7 +1,7 @@
 import NeuralNetwork from '../NeuralNetwork';
 
 class Bird{
-    constructor(brain,speed){
+    constructor(brain){
         this.y=(250);
         this.x=20;
         this.size=10;
@@ -9,14 +9,17 @@ class Bird{
         this.lift=-10;
         this.velocity=0;
         this.alive=true;
+        this.score=0;
+        this.fitness=0;
         if(brain){
             this.brain=brain.copy();
         }else{
-            this.brain=new NeuralNetwork(5,8,2);
+            this.brain=new NeuralNetwork(5,14,2);
         }
-        this.update=(speed)=>{
+        this.update=()=>{
             this.velocity+=this.gravity;
             this.y+=this.velocity*0.9;
+            this.score++;
             if(this.y>600-this.size){
                 this.alive=false
             }
@@ -32,11 +35,15 @@ class Bird{
         }
         this.think=(pipe,gapW)=>{
             let inputs=[];
+
+            // console.log(`Pipe top:${pipe.gap+gapW} Pipe bot ${pipe.gap-gapW} Pipe x: ${pipe.x} Bird y:${this.y}`)
             inputs[0]=this.y/600;
-            inputs[1]=(pipe.gap+gapW+10)/600;
-            inputs[2]=(pipe.gap-gapW-10)/600;
+            inputs[1]=(pipe.gap+gapW)/600;
+            inputs[2]=(pipe.gap-gapW)/600;
             inputs[3]=pipe.x/600;
             inputs[4]=this.velocity/20;
+            // inputs[5]=gapW/600
+            // console.log(inputs)
             let output = this.brain.predict(inputs);
             return output;
         }
