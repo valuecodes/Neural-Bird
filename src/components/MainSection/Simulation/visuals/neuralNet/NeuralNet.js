@@ -16,16 +16,10 @@ export default function NeuralNet() {
     useEffect(()=>{
         setNeuralNet(globalNeuralNetwork)
     },[globalNeuralNetwork])
-
-    useEffect(()=>{
-
-
-    },[coordinates])
     
     const addNeular=(id)=>{
         const nn=[...neuralNet];
         const layer= nn.filter(nn=>nn.id===id)
-
         layer[0].neurals.push({id:layer[0].neurals.length,name:layer[0].neurals.length});
         nn[id]=layer[0];
         layer[0].neuralsCount++;

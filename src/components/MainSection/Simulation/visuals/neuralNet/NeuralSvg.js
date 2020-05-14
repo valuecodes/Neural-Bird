@@ -5,24 +5,17 @@ import {GlobalContext} from '../../../../../context/GlobalState'
 export default function NeuralSvg(props) {
 
     const [coordinates,setCoordinates]=useState([]);
-
     const { nnCoordinates} =useContext(GlobalContext);
 
     useEffect(()=>{
         var offsets = document.getElementById('layers').getBoundingClientRect();
-        console.log(props,nnCoordinates)
         let newCoordinates=calculateConnections(nnCoordinates,props.neuralNet,offsets);
-        console.log(newCoordinates);
         setCoordinates(newCoordinates);
     },[nnCoordinates]);
     
     const calculateConnections=(nnc,nn,offSet)=>{
-
         let layers=nn.map(layer=>layer.neurals)
-        console.log(offSet)
-
         let coordinates=[]
-
         let sCount=0;
         let eCount=0;
         let totalCount=0;
@@ -41,30 +34,23 @@ export default function NeuralSvg(props) {
                     eCount++;
                     
                 }     
-                eCount=layers[thisLayer].length+totalCount;         
+                eCount=layers[thisLayer].length+totalCount;
                 sCount++;
             }
             totalCount=+layers[thisLayer].length;
         }
         return coordinates
-        console.log(coordinates.forEach(elem=>console.log(elem)))
     }
-
-    // console.log(nnCoordinates)
 
     return (
         <svg className='neuralSvg'>
-
             {coordinates.map(elem=>
-                // <div></div>
                 <line x1={elem.x1} y1={elem.y1} x2={elem.x2} y2={elem.y2} strokeWidth="1" 
                 style={{
                     stroke:'black',
                     strokeWidth:1,
                 }}  /> 
             )}
-            
-
         </svg>
     )
 }

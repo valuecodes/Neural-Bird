@@ -18,14 +18,16 @@ export default function Simulation() {
         setGlobalInputData,
         visual,
         globalNeuralNetwork,
-        setGlobalDNA 
+        setGlobalDNA,
+        updateGenerationData,
+        generationData
     } =useContext(GlobalContext);
 
     const canvasRef = React.useRef(null)
     const [nnForm,setnnForm]=useState([5,8,2])
     const [draw,setDraw]=useState([]);
     const [speed,setSpeed]=useState(1);
-    const [initialPopulation,setInitialPopulation]=useState(20)
+    const [initialPopulation,setInitialPopulation]=useState(10)
     const [pause,setPause]=useState(true);
     const [state,setState]=useState('Offline')
     const [gapWidth,setGapWidth]=useState(100);
@@ -39,7 +41,8 @@ export default function Simulation() {
     const [savedCurrentRound,setCurrentRound]=useState(0)
     const [savedScoreCount,setScoreCount]=useState(0)
     const [savedRoundScore,setRoundScore]=useState([])
-    
+    const [savedDeadBirds,setDeadBirds]=useState([]);
+
 
     useEffect(() => {
         // startSimulation(speed,gapWidth,false);
@@ -103,6 +106,7 @@ export default function Simulation() {
         let copy=reset?null:savedCopy;
         let generationTop10=[];
         let inputData=null;
+        let deadBirds=savedDeadBirds;
         async function newDraw(){
             for(var q=0;q<speed;q++){
 
@@ -168,28 +172,23 @@ export default function Simulation() {
 
                 let newBirds=[];
 
-                for(var x=0;x<birds.length;x++){
+                for(var x=0;x<birds.length;x++){                        
                     if(birds[x].alive){
                         newBirds.push(birds[x]);
                     }else{
-                        if(birds.length<=10){
-                            generationTop10.push(birds[x])
-                        }
+                        deadBirds.push(birds[x])
                     }
                 };
                 birds=newBirds;
 
                 if(birds.length<1){
-                    if(generationTop10.length===0){
-                        birds=createBirds()
-                    }else{
-                        let data=nextGeneration(generationTop10,initialPopulation,mutateRate,nnForm)
-                        birds=data.birds;
-                        setGlobalRoundTotalScore(data.fitness)
-                        setGlobalDNA(data.dna); 
-                    }
-
+                    let data=nextGeneration(deadBirds,initialPopulation,mutateRate,nnForm,generationData)
+                    birds=data.birds;
+                    setGlobalRoundTotalScore(data.fitness)
+                    setGlobalDNA(data.dna); 
+                    updateGenerationData(data.generationData);
                     pipes=[];
+                    deadBirds=[];
                     pipes.push(new Pipe(300))
                     setRoundScore([...savedRoundScore,currentRound]);
                     setGlobalRoundScore(currentRound)
@@ -204,6 +203,11 @@ export default function Simulation() {
                 scoreCount++;
             }
             animation(birds,pipes,generation,currentRound,scoreCount,copy,gapWidth,inputData)
+            setBirds(birds);
+            setPipes(pipes)
+            setGapWidth(gapWidth) 
+            setDeadBirds(deadBirds)
+
             if(speed>0){
                 setDraw(requestAnimationFrame(newDraw))
             }
@@ -212,7 +216,7 @@ export default function Simulation() {
         newDraw();
     }
     
-    function animation(birds,pipes,generation,currentRound,scoreCount,copy,gapWidth,inputData){   
+    function animation(birds,pipes,generation,currentRound,scoreCount,copy,gapWidth,inputData,deadBirds){   
         const canvas=canvasRef.current
         const ctx=canvas.getContext('2d')
         ctx.beginPath(0,0);
@@ -233,13 +237,12 @@ export default function Simulation() {
             displayVisual(canvas,ctx,inputData);
         }
            
-        setBirds(birds);
-        setPipes(pipes)
+  
+
         setGeneration(generation)
         setCurrentRound(currentRound)
         setScoreCount(scoreCount)
         setCopy(copy)
-        setGapWidth(gapWidth)
         setGlobalState(scoreCount)
     }
 

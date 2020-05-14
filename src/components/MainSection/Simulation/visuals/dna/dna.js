@@ -50,7 +50,6 @@ export default function DNA() {
                     }
                 }
             }
-            console.log(sum);
             setData(newData)   
             setSum(sum); 
         }
@@ -83,7 +82,6 @@ export default function DNA() {
                     ref={chartRef}
                 />            
             </div>
-
         </div>
     )
 }

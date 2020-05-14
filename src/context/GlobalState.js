@@ -10,6 +10,10 @@ const initialState={
     birdCount:0,
     scorecount:0,
     nnCoordinates:[],
+    generationData:{
+        oldGenerations:[],
+        currentGeneration:[],
+    },
     globalNeuralNetwork:[
         {type:'Input',neuralsCount:5,id:0,neurals:[
             {id:1,name:'1'},
@@ -120,7 +124,18 @@ export const GlobalProvider=({children})=>{
                 },
             })            
         }
+    }
 
+    function updateGenerationData(data){
+        if(data.oldGenerations.length!==state.generationData.oldGenerations.length){
+            dispatch({
+                type:'UPDATE_GENERATION_DATA',
+                payload:{
+                    data:data
+                },
+            })   
+        }
+         
     }
 
     return (<GlobalContext.Provider
@@ -142,6 +157,8 @@ export const GlobalProvider=({children})=>{
             setGlobalDNA,
             nnCoordinates:state.nnCoordinates,
             updateNNCoordinates,
+            generationData:state.generationData,
+            updateGenerationData,
             // portfolio:state.portfolio,
             // logUserIn,
             // logUserOut,

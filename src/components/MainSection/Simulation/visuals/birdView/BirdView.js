@@ -8,8 +8,8 @@ export default function BirdView() {
     return (
         <div className='birdView'>
             <VisualHeader header={'Bird View'}/>
-            {globalInputData.map(input=>
-                <div className='birdInput'>
+            {globalInputData.map((input,index)=>
+                <div key={index} className='birdInput'>
                     <p>{`Bird y:${input[0].toFixed(2)}`}</p>
                     <p>{`Pipe top:${input[1].toFixed(2)}`}</p>
                     <p>{`Pipe bot:${input[2].toFixed(2)}`}</p>

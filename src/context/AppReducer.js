@@ -48,6 +48,11 @@ export default (state,action)=>{
                 ...state,
                 nnCoordinates:action.payload.data
             }
+        case 'UPDATE_GENERATION_DATA':
+            return{
+                ...state,
+                generationData:action.payload.data
+            }
         default:
             return state
     }

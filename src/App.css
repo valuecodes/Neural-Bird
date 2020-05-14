@@ -392,8 +392,64 @@ body{
   margin-top: 50px;
 }
 
+
+/* Family Tree */
+
 .familyTree{
   margin-top: 50px;
+  height: 500px;
+  
+}
+
+.generationContainer{
+  height: auto;
+  max-height: 600px;
+  overflow-y: scroll;
+  display: flex; 
+  flex-direction: column-reverse;
+}
+
+.generationContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.generation{
+  display: grid;
+  grid-template-columns: repeat(10,1fr);
+  grid-column-gap: 5px;
+  margin-top: 5px;
+}
+
+.oldgen{
+  background-color: rgb(206, 228, 216);
+  border-radius: 40%;
+  height: 30px;
+  width: 40px;
+}
+
+.oldgen p{
+  text-align: center;
+  margin: 0px;
+  padding-top: 5px;
+  font-size: 12px;
+}
+
+.currentGen{
+  display: grid;
+  grid-template-columns: repeat(10,1fr);
+  border-top: 2px solid black;
+  margin-top: 15px;
+}
+
+.currentGen p{
+  background-color: rgb(206, 228, 216); 
+  border-radius: 40%; 
+  height: 30px; 
+  width: 40px;
+  text-align: center;
+  font-size: 15px;
+  padding-top: 7px;
+  margin-top: 5px;
 }
 
 /* Chrome */

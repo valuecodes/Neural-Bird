@@ -26,18 +26,20 @@ export default function Visuals() {
             <div className='visualPages'>
                 <div
                     style={{
-                        display:currentPage==='bird'?'':'none'
-                    }}
-                    className='visualPage'>
-                    <BirdView/>
-                </div>
-                <div
-                    style={{
                         display:currentPage==='nn'?'':'none'
                     }}
                 className='visualPage'>
                     <NeuralNet/>
                 </div>
+
+                <div
+                    style={{
+                        display:currentPage==='bird'?'':'none'
+                    }}
+                    className='visualPage'>
+                    <BirdView/>
+                </div>
+
                 <div
                     style={{
                         display:currentPage==='family'?'':'none'

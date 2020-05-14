@@ -2,95 +2,84 @@ import Bird from '../Simulation/animation/bird'
 
 let alfa={score:0};
 
-export function nextGeneration(birds,population,mutateRate,nnForm) {
+export function nextGeneration(birds,population,mutateRate,nnForm,generationData) {
 
     let totalFitness=calculateFitness(birds);
-
-    // let familyTree=[];
-    // let createdBirds=[];
-    // for(var w=0;w<population;w++){
-    //   let data=pickOne(birds);
-    //   createdBirds.push(new Bird(nnForm,data.bird))
-    //   let otherParent=selectOtherParent(birds);
-    //   createdBirds[w].brain.shuffleGenes(otherParent.bird);
-    //   createdBirds[w].brain.mutate(mutateRate,alfa);
-    //   familyTree.push({parent1:data.id,paoe});
-    // } 
-
-    // console.log(familyTree);
-    // let dna=birds[birds.length-1].brain.getDNA()
-
-
-
-
-
     let createdBirds=[];
-    for(var w=0;w<population;w++){
-      let data=pickOne(birds);
-      createdBirds.push(new Bird(nnForm,data.bird))
-      let otherParent=selectOtherParent(birds);
-      createdBirds[w].brain.shuffleGenes(otherParent.bird);
+
+    let oldGen=generationData.currentGeneration;
+    let newGen=[];
+    let familyTree=[];
+
+    if(birds[0].fitness>=0.098){
+      mutateRate=0.99;
+    }
+
+    for(var w=0;w<birds.length;w++){
+      let parent1=selectParentOne(birds);
+      createdBirds.push(new Bird(nnForm,parent1.bird.brain.copy()))
+      let parent2=selectParentTwo(birds,parent1);
+      createdBirds[w].brain.shuffleGenes(parent2.bird);
       createdBirds[w].brain.mutate(mutateRate,alfa);
+      if(generationData.currentGeneration.length!==0){
+        oldGen[w]=[
+          ...oldGen[w],        
+          w,
+          birds[w].fitness,
+          birds[w].score
+        ]        
+      }
+      newGen.push([
+        parent1.data[0],
+        parent2.data[0]
+      ])
     } 
+
+    generationData.oldGenerations.unshift(oldGen);
+    generationData.currentGeneration=newGen;
+
     let dna=birds[birds.length-1].brain.getDNA()
 
     return {
       birds:createdBirds,
       fitness:totalFitness,
-      dna:dna
+      dna:dna,
+      generationData:generationData
     }
   }
 
-  function selectOtherParent(birds,w){
-    let selectedBird=null;
-    let index;
-    for(var i=birds.length-1;i>0;i--){
-      if(Math.random()<birds[i].fitness){
-          selectedBird=birds[i];
-          index=i;
-      }
+  function selectParentOne(birds){
+    let found=false;
+    while(!found){
+      for(var i=0;i<birds.length;i++){
+        if(Math.random()<birds[i].fitness){
+            found=true;
+            // return birds[i].brain.copy()
+            return {
+              bird:birds[i],
+              data:[i,birds[i].score,birds[i].fitness]
+            };
+        }
+      }         
     }
-    if(selectedBird===null){
-      let r=Math.floor(Math.random()*birds.length);
-      selectedBird=birds[r];
-      index=r;
-    }
-    // console.log(index,birds.length-1)
-    // if(index===w){
-    //   selectedBird= birds[Math.floor(Math.random()*birds.length)];
-    // }
-    let otherParent={
-      bird:selectedBird,
-      id:index
-    }
-    return otherParent
   }
 
-  function shuffleGenes(currentBird,birds){
-    let randomBird= birds[Math.floor(Math.random()*birds.length)];
+  function selectParentTwo(birds,parent1){
+    let found=false;
+    while(!found){
+      for(var i=0;i<birds.length;i++){
+        if(i===parent1.id) continue
+        if(Math.random()<birds[i].fitness){
+            found=true;
+            return {
+              bird:birds[i],
+              data:[i,birds[i].score,birds[i].fitness]
+            };
+        }
+      }         
+    }
   }
-  
-  function pickOne(birds) { 
-    let selectedBird=null;
-    let index=null;
-    for(var i=0;i<birds.length;i++){
-      if(Math.random()<birds[i].fitness){
-          selectedBird=birds[i];
-          index=i;
-      }
-    }
-    if(selectedBird===null){
-      let r=Math.floor(Math.random()*birds.length);
-      selectedBird=birds[r];
-      index=r;
-    }
-    let data={
-      bird:selectedBird.brain.copy(),
-      id:index
-    }
-    return data;
-  }
-  
+
   function calculateFitness(birds) {
     let pow=1;
     let sum = 0;
