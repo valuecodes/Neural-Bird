@@ -16,17 +16,16 @@ body{
 
 /* Main Section */
 .mainSection{
-  width: 600px;
   margin: auto; 
   margin-top: 20px;
-  background-color: rgb(210, 215, 224);
   height: 800px;
   display: grid;
-
+  grid-template-columns: 1fr 600px 1fr;
 }
 
 /* Neural Network */
 .neuralNetwork{
+  position: relative;
   background-color: white;  
   height: 800px;
   display: grid;
@@ -34,6 +33,7 @@ body{
   border: 1px solid rgb(163, 163, 163);
   /* border-bottom-left-radius: 10px; */
   /* border-bottom-right-radius: 10px; */
+
 }
 
 /* Options */
@@ -131,8 +131,6 @@ body{
 .statistics{
   margin: 5px 10px 5px 0px;
   height: auto;
-  /* background-color: rgb(224, 224, 224); */
-  /* border: 2px solid black; */
   border-radius: 5px;
   height: 140px;
 }
@@ -196,13 +194,206 @@ body{
 }
 
 .charts{
-  position: relative;
+  margin:auto;
+  margin-top: 165px;
   height: 300px;
-  width: 400px;
-  /* background-color: azure; */
-  top:-650px;
-  left:620px;
-  /* overflow: hidden; */
+  width: 500px;
+  display: grid;
+  grid-row-gap: 100px;
+}
+
+.visuals{
+  height: 300px;
+  width: 500px;
+  margin:auto;
+  margin-top: 0px;
+}
+
+.visualControls{
+  height: 50px;
+  background-color: rgb(110, 143, 148);
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+}
+
+.visualControls button{
+  height: 50px;
+  background-color: rgb(227, 231, 231);
+  border: none;
+  padding: 0px;
+  z-index: 1;
+}
+
+
+.visualControls button:hover{
+  cursor: pointer;
+}
+
+.visualPages{
+  /* margin-top: 100px; */
+}
+
+.visualHeader{
+  width: 100%;
+  height: 50px;
+  background-color: rgb(233, 233, 233);
+  border-radius: 5px;
+}
+.visualHeader h1{
+  margin: 0px;
+  padding: 0px;
+  padding-left: 5px;
+}
+
+.birdView{
+  margin-top: 50px;
+}
+
+.birdInput p{
+  text-align: center;
+  margin: 0px;
+  padding: 0px;
+  font-size: 10px;
+  z-index: -2;
+}
+
+.birdInput{
+  display: grid;
+  grid-template-columns: repeat(6,1fr);
+}
+
+.fade{
+  background: rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(255, 255, 255, .1) 30%, rgba(255, 255, 255, .5) 55%, rgba(255, 255, 255, 1) 100%) repeat scroll 0 0;
+  position: relative;
+  margin-top: -200px;
+  height: 200px;
+  z-index: -1;
+}
+
+.neuralNet{
+  margin-top: 50px;
+  display: grid;
+  grid-template-rows: 50px 50px 0px 1fr;
+  overflow: hidden;
+}
+
+
+.layerOptions {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 0px;
+  height: 60px;
+}
+
+.layerOpen{
+  z-index: 1;
+  margin-left: -40px;
+}
+
+.lOptions{
+  background-color: rgba(152, 153, 155, 0.363);
+  position: relative;
+  z-index: -1;
+  height: 40px;
+  border: 2px solid black;
+  border-radius: 5px;
+  display: grid;
+  grid-template-columns: repeat(3,1fr)
+}
+.lOptions h3{
+  text-align: center;
+  margin: 0px;
+  padding-top: 7px;
+  font-size: 20px;
+  font-weight: 500;
+  color: rgb(82, 82, 82);
+}
+
+.oValue{
+  color: rgb(55, 61, 80);
+}
+
+.neuralOptions{
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  position: relative;
+}
+
+#layers{
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(auto-fit,minmax(70px,1fr));
+  height: auto;
+  /* z-index: ; */
+}
+
+.neuralSvg{
+  position: relative;
+  height: 2000px;
+  width: 500px;
+  z-index: -2;
+}
+
+.layer{
+  display: grid;
+  grid-template-rows: 200px repeat(auto-fit,minmax(30,1fr)); 
+  justify-self: center;
+  grid-row-gap: 10px;
+  /* margin-left: 15px; */
+}
+
+
+.layerHeader h3{
+  margin: 0px;
+  padding: 0px;
+}
+
+.addLayer{
+  position: relative;
+  height: 20px;
+  display: grid;
+  grid-template-columns: 30px 1fr 30px;
+  padding: 0px 9px 0px 9px;
+  z-index: 5;
+}
+
+.addLayer button{
+  font-size: 13px;
+  background-color: white;
+  border-radius: 5px;
+}
+
+.addLayer button:hover{
+  cursor: pointer;
+  background-color: rgb(233, 178, 178);
+}
+
+.neuron{
+  height: 30px;
+  width: 30px;
+  border: 2px solid black;
+  background-color: white;
+  border-radius: 50%;
+  justify-self: center;
+  display: flex;
+}
+
+.neuron p{
+  width: 30px;
+  align-self: center;
+  text-align: center;
+}
+
+.DNA{
+  margin-top: 50px;
+}
+
+.dnaChart{
+  margin-top: 50px;
+}
+
+.familyTree{
+  margin-top: 50px;
 }
 
 /* Chrome */

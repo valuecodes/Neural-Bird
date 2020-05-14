@@ -25,6 +25,19 @@ class NeuralNetwork{
         });
     }
 
+    getDNA(){
+        let dna=[];
+        tf.tidy(() => {
+            const weights = this.model.getWeights();
+            for (let i = 0; i < weights.length; i++) {
+              let tensor = weights[i];
+              let values = tensor.dataSync().slice();
+              dna.push(values);
+            }
+          });
+          return dna
+    }
+
     shuffleGenes(otherParent){
         tf.tidy(() => {
             const mutatedWeights = [];
@@ -39,10 +52,18 @@ class NeuralNetwork{
 
               for (let j = 0; j < values.length; j++) {
 
-                if (Math.random() < 0.5) {
-                    let w = values[j];
-                    let ov = oValues[j]
-                    values[j] = (w + ov)/2;                    
+                let chance=Math.random();
+                let w = values[j];
+                let ov = oValues[j]
+
+                if(chance<0.33){
+                    values[j] = w
+                }
+                if(chance>=0.33&&chance<0.66){
+                    values[j] = ov
+                }
+                if(chance>=0.66){
+                    values[j] = (w + ov)/2; 
                 }
               }
               let newTensor = tf.tensor(values, shape);

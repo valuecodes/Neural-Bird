@@ -1,7 +1,7 @@
 import NeuralNetwork from '../NeuralNetwork';
 
 class Bird{
-    constructor(brain){
+    constructor(nnForm,brain){
         this.y=(250);
         this.x=20;
         this.size=10;
@@ -14,7 +14,7 @@ class Bird{
         if(brain){
             this.brain=brain.copy();
         }else{
-            this.brain=new NeuralNetwork(5,14,2);
+            this.brain=new NeuralNetwork(nnForm[0],nnForm[1],nnForm[2]);
         }
         this.update=()=>{
             this.velocity+=this.gravity;
@@ -45,7 +45,10 @@ class Bird{
             // inputs[5]=gapW/600
             // console.log(inputs)
             let output = this.brain.predict(inputs);
-            return output;
+            return {
+                outputData:output,
+                inputData:inputs
+            };
         }
 
     }

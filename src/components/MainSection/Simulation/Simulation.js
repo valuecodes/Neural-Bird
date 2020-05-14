@@ -10,9 +10,19 @@ import {nextGeneration} from './NextGeneration'
 
 export default function Simulation() {
     
-    const { setGlobalState,setGlobalRoundScore,setGlobalRoundTotalScore } =useContext(GlobalContext);
-    const canvasRef = React.useRef(null)
+    const { 
+        setGlobalState,
+        setGlobalRoundScore,
+        setGlobalRoundTotalScore,
+        setGlobalSimulationState,
+        setGlobalInputData,
+        visual,
+        globalNeuralNetwork,
+        setGlobalDNA 
+    } =useContext(GlobalContext);
 
+    const canvasRef = React.useRef(null)
+    const [nnForm,setnnForm]=useState([5,8,2])
     const [draw,setDraw]=useState([]);
     const [speed,setSpeed]=useState(1);
     const [initialPopulation,setInitialPopulation]=useState(20)
@@ -20,7 +30,7 @@ export default function Simulation() {
     const [state,setState]=useState('Offline')
     const [gapWidth,setGapWidth]=useState(100);
     const [initialGapWidth,setInitialGapWidth]=useState(100);
-    const [closingRate,setClosingRate]=useState(500);
+    const [closingRate,setClosingRate]=useState(5000);
     const [mutateRate,setMutateRate]=useState(0.1);
     const [savedPipes,setPipes]=useState([]);
     const [savedBirds,setBirds]=useState([]);
@@ -33,7 +43,21 @@ export default function Simulation() {
 
     useEffect(() => {
         // startSimulation(speed,gapWidth,false);
+        let newnnForm=globalNeuralNetwork.map(nn=>nn.neuralsCount);
+        setnnForm(newnnForm)
+        console.log(newnnForm)
+    }, [globalNeuralNetwork])  
+
+
+    useEffect(()=>{
+        if(state!=='Offline'&&state!=='Paused') startSimulation(speed,gapWidth,false)
         
+        // startSimulation(newSpeed,200-(e.target.value*2),false)
+    },[visual])
+
+
+    useEffect(() => {
+        // startSimulation(speed,gapWidth,false);
         setupAnimation();
     }, [])
 
@@ -42,6 +66,7 @@ export default function Simulation() {
         setPause(false);
         if(!reset){
             setState('Online')
+            setGlobalSimulationState('Online')
         }
         
         cancelAnimationFrame(draw);
@@ -59,7 +84,7 @@ export default function Simulation() {
         function createBirds(nn){
             let createdBirds=[]
             for(var w=0;w<population;w++){
-                createdBirds.push(new Bird(''))
+                createdBirds.push(new Bird(nnForm,''))
                 createdBirds[w].y=Math.random()*400+ 100;
             }      
             return createdBirds  
@@ -77,6 +102,7 @@ export default function Simulation() {
         let generation=reset?0:savedGeneration;
         let copy=reset?null:savedCopy;
         let generationTop10=[];
+        let inputData=null;
         async function newDraw(){
             for(var q=0;q<speed;q++){
 
@@ -116,16 +142,23 @@ export default function Simulation() {
                 // Bird y ${birds[b].y}
                 // Bird y ${birds[b].y}`)
 
-
                 for(var b=0;b<birds.length;b++){
                     birds[b].update();
-                    let choice=await birds[b].think(pipes[0],gapWidth);
-                    if(choice[0]<0.5){
+                    let currentPipe=pipes[0].x>10?pipes[0]:pipes[1];
+                    
+                    let nndata=await birds[b].think(currentPipe,gapWidth);
+                    let choice=nndata.outputData
+
+                    if(b===0&&speed<5){
+                        inputData=nndata.inputData;
+                        inputData.push(choice[0]);
+                        setGlobalInputData(inputData)                
+                    }
+
+                    if(choice[0]<0.55){
                         birds[b].up()
                     }
-                    // console.log(birds[b].x,pipes[0].x)
                     if(birds[b].x>pipes[0].x
-                        // &&birds[b].x<pipes[0].x+10
                     ){
                         if(birds[b].y<pipes[0].gap-gapWidth||birds[b].y>pipes[0].gap+gapWidth){
                             birds[b].alive=false;
@@ -150,21 +183,17 @@ export default function Simulation() {
                     if(generationTop10.length===0){
                         birds=createBirds()
                     }else{
-                        let data=nextGeneration(generationTop10,initialPopulation,mutateRate)
+                        let data=nextGeneration(generationTop10,initialPopulation,mutateRate,nnForm)
                         birds=data.birds;
                         setGlobalRoundTotalScore(data.fitness)
+                        setGlobalDNA(data.dna); 
                     }
-                    // if(copy===null){
-                        
-
-                    // }else{
-                    //     birds=[new Bird(copy)]
-                    // }  
 
                     pipes=[];
                     pipes.push(new Pipe(300))
                     setRoundScore([...savedRoundScore,currentRound]);
                     setGlobalRoundScore(currentRound)
+
                     currentRound=0;
                     scoreCount=0;
                     generation++;
@@ -174,8 +203,7 @@ export default function Simulation() {
                 currentRound++;
                 scoreCount++;
             }
-            
-            animation(birds,pipes,generation,currentRound,scoreCount,copy,gapWidth)
+            animation(birds,pipes,generation,currentRound,scoreCount,copy,gapWidth,inputData)
             if(speed>0){
                 setDraw(requestAnimationFrame(newDraw))
             }
@@ -184,11 +212,12 @@ export default function Simulation() {
         newDraw();
     }
     
-    function animation(birds,pipes,generation,currentRound,scoreCount,copy,gapWidth){        
+    function animation(birds,pipes,generation,currentRound,scoreCount,copy,gapWidth,inputData){   
         const canvas=canvasRef.current
         const ctx=canvas.getContext('2d')
         ctx.beginPath(0,0);
         ctx.clearRect(0, 0, 800, 800);
+        ctx.strokeStyle = "#000000";
 
         for(var b=0;b<birds.length;b++){
             ctx.rect(...birds[b].getPosition());
@@ -198,8 +227,12 @@ export default function Simulation() {
             ctx.rect(...pipes[i].getTopPipe(gapWidth));
             ctx.rect(...pipes[i].getBotPipe(gapWidth));
         }
-        
-        ctx.stroke();   
+        ctx.stroke();
+
+        if(visual==='bird'&&speed<5&&inputData!==null){
+            displayVisual(canvas,ctx,inputData);
+        }
+           
         setBirds(birds);
         setPipes(pipes)
         setGeneration(generation)
@@ -208,6 +241,17 @@ export default function Simulation() {
         setCopy(copy)
         setGapWidth(gapWidth)
         setGlobalState(scoreCount)
+    }
+
+    const displayVisual=(canvas,ctx,inputData)=>{   
+        ctx.beginPath(0,0);
+        ctx.strokeStyle = "#FF0000";
+        ctx.rect(inputData[3]*600-5,inputData[2]*600-15,30,30)
+        ctx.rect(inputData[3]*600-5,inputData[1]*600-15,30,30)
+        ctx.rect(20-5,inputData[0]*600-5,20,20)
+        // ctx.rect(20-5,0,0,inputData[0]*600-5)
+        ctx.rect(20+30,inputData[0]*600+5,0,-20+inputData[4]*120)
+        ctx.stroke();
     }
 
     const setupAnimation=()=>{
@@ -221,11 +265,12 @@ export default function Simulation() {
 
         let population=initialPopulation
 
+        console.log()
         // Create Birds
         function createBirds(nn){
             let createdBirds=[]
             for(var w=0;w<population;w++){
-                createdBirds.push(new Bird('',speed))
+                createdBirds.push(new Bird(nnForm,''))
                 createdBirds[w].y=Math.random()*400+ 100;
             }      
             return createdBirds  
@@ -280,6 +325,7 @@ export default function Simulation() {
         setPause(!pause)
 
         setState(pause?'Online':'Paused')
+        setGlobalSimulationState(pause?'Online':'Paused')
     }
 
     const resetSimulation=()=>{
@@ -291,6 +337,7 @@ export default function Simulation() {
         setCurrentRound(0);
         setScoreCount(0);
         setState('Offline')
+        setGlobalSimulationState('Offline')
         startSimulation(0,100,true);
     }
 

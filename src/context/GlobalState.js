@@ -3,8 +3,36 @@ import AppReducer from './AppReducer'
 const initialState={
     globalRoundScore:[],
     globalRoundTotalScore:[],
+    globalSimulationState:'Offline',
+    globalInputData:[],
+    visual:'bird',
+    globalDNA:[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0]],
     birdCount:0,
     scorecount:0,
+    nnCoordinates:[],
+    globalNeuralNetwork:[
+        {type:'Input',neuralsCount:5,id:0,neurals:[
+            {id:1,name:'1'},
+            {id:2,name:'1'},
+            {id:3,name:'1'},
+            {id:4,name:'1'},
+            {id:5,name:'1'},
+        ]},
+        {type:'Hidden',neuralsCount:8,id:1,neurals:[
+            {id:1,name:'1'},
+            {id:2,name:'1'},
+            {id:3,name:'1'},
+            {id:4,name:'1'},
+            {id:5,name:'1'},
+            {id:6,name:'1'},
+            {id:7,name:'1'},
+            {id:8,name:'1'},
+        ]},
+        {type:'Output',neuralsCount:2,id:2,neurals:[
+            {id:1,name:'1'},
+            {id:2,name:'1'},
+        ]},
+    ]
 }
 
 export const GlobalContext = createContext(initialState);
@@ -14,17 +42,7 @@ export const GlobalProvider=({children})=>{
     const [state,dispatch]= useReducer(AppReducer,initialState);
 
     function setGlobalState(score){
-
-        // console.log('Global state'+score)
-        // dispatch({
-        //     type:'LOG_USER_IN',
-        //     payload:{
-        //         loggedIn:true,
-        //         currentUser:user,
-        //         portfolio:user.portfolio
-        //     },
-        // })
-        // console.log('logging user in...')
+        
     }
 
     function setGlobalRoundScore(score){
@@ -45,17 +63,65 @@ export const GlobalProvider=({children})=>{
         })
     }
 
-    function logUserOut(){
-        console.log('conte')
-        // dispatch({
-        //     type:'LOG_USER_OUT',
-        //     payload:{
-        //         loggedIn:false,
-        //         currentUser:null
-        //     },
-        // })
+    function setGlobalInputData(data){
+        // let giData= [...state.globalInputData]
+        // giData.push(data);
+        // console.log(giData);
+        dispatch({
+            type:'GLOBAL_INPUT_DATA',
+            payload:{
+                data:data
+            },
+        })
     }
 
+    function setGlobalSimulationState(state){
+        dispatch({
+            type:'SET_GLOBAL_SIMULATION_STATE',
+            payload:{
+                data:state
+            },
+        })
+    }
+
+    function setGlobalNeuralNetwork(nn){
+        dispatch({
+            type:'SET_GLOBAL_NEURAL_NETWORK',
+            payload:{
+                data:nn
+            },
+        })
+    }
+
+    function setVisual(page){
+        dispatch({
+            type:'SET_VISUAL',
+            payload:{
+                data:page
+            },
+        })
+    }
+
+    function setGlobalDNA(dna){
+        dispatch({
+            type:'SET_GLOBAL_DNA',
+            payload:{
+                data:dna
+            },
+        })
+    }
+
+    function updateNNCoordinates(cor){
+        if(cor.length!==state.nnCoordinates.length){
+            dispatch({
+                type:'UPDATE_NN_COORDINATES',
+                payload:{
+                    data:cor,
+                },
+            })            
+        }
+
+    }
 
     return (<GlobalContext.Provider
         value={{
@@ -64,6 +130,18 @@ export const GlobalProvider=({children})=>{
             setGlobalRoundScore,
             globalRoundTotalScore:state.globalRoundTotalScore,
             setGlobalRoundTotalScore,
+            setGlobalSimulationState,
+            globalSimulationState:state.globalSimulationState,
+            globalInputData:state.globalInputData,
+            setGlobalInputData,
+            visual:state.visual,
+            setVisual,
+            globalNeuralNetwork:state.globalNeuralNetwork,
+            setGlobalNeuralNetwork,
+            globalDNA:state.globalDNA,
+            setGlobalDNA,
+            nnCoordinates:state.nnCoordinates,
+            updateNNCoordinates,
             // portfolio:state.portfolio,
             // logUserIn,
             // logUserOut,

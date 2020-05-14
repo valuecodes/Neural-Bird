@@ -20,14 +20,14 @@ export default function Input(props) {
                 <div className='input'>
                     <div>
                     <p>Initial population</p>
-                    <input type='range' defaultValue={10} onChange={(e)=>props.changePopulationSize(e)} />                           
+                    <input type='range' defaultValue={5} onChange={(e)=>props.changePopulationSize(e)} />                           
                 </div>
                 <h3 className='inputValue'>{initialPopulation}</h3> 
             </div>    
             <div className='input'>
                     <div>
                     <p>Closing Rate</p>
-                    <input type='range' defaultValue={500} step={10} min={10} max={1000}onChange={(e)=>props.changeClosingRate(e)} />                           
+                    <input type='range' defaultValue={5000} step={10} min={100} max={9999}onChange={(e)=>props.changeClosingRate(e)} />                           
                 </div>
                 <h3 className='inputValue'>{closingRate}</h3> 
             </div>  
@@ -36,7 +36,7 @@ export default function Input(props) {
                     <p>Mutate rate</p>
                     <input type='range'min={0} max={50} defaultValue={10} onChange={(e)=>props.changeMutateRate(e)} />
                 </div>
-                <h3 className='inputValue'>{mutateRate*100+'%'}</h3> 
+                <h3 className='inputValue'>{(mutateRate*100).toFixed(0)+'%'}</h3> 
             </div>    
       </>
     )

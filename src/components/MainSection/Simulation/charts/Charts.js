@@ -4,7 +4,7 @@ import { Bar } from 'react-chartjs-2';
 
 export default function Charts() {
 
-    const { globalRoundScore,globalRoundTotalScore } = useContext(GlobalContext)
+    const { globalRoundScore,globalRoundTotalScore,globalSimulationState } = useContext(GlobalContext)
 
     const [chartData,setChartData]=useState({});
     const [chartDataTotal,setChartDataTotal]=useState({});
@@ -13,6 +13,11 @@ export default function Charts() {
                 responsive: true,
                 legend: {
                     display: true,
+                    
+                    labels: {
+                        boxWidth: 0,
+                        "fontSize": 20,
+                    }
                 },
                 scales: {
                     xAxes: [{
@@ -30,9 +35,6 @@ export default function Charts() {
                 },
             })
     
-
-    // console.log(globalRoundScore)
-
     useEffect(()=>{
         let labels=globalRoundScore.map((score,index)=>
              'Gen:'+index
@@ -86,20 +88,24 @@ export default function Charts() {
 
     return (
         <div className='charts'>
-            <Bar
-                data={chartData}
-                width={50}
-                height={40}
-                options={chartOptions}
-                // datasetKeyProvider={globalRoundScore}
-            />
-            <Bar
-                data={chartDataTotal}
-                width={50}
-                height={40}
-                options={chartOptions}
-                // datasetKeyProvider={globalRoundScore}
-            />
+            <div className='chart'>
+                <Bar
+                    data={chartData}
+                    // width={60}
+                    // height={40}
+                    options={chartOptions}
+                    // datasetKeyProvider={globalRoundScore}
+                />                
+            </div>
+            <div className='chart'>
+                <Bar
+                    data={chartDataTotal}
+                    // width={60}
+                    // height={40}
+                    options={chartOptions}
+                    // datasetKeyProvider={globalRoundScore}
+                />    
+            </div>
         </div>
     )
 }
