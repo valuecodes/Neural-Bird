@@ -3,13 +3,16 @@ body{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
 }
 
-/* Navigation */
+:root{
+  --line-color:rgb(182, 182, 182)
+}
 
+/* Navigation */
 .navbar{
   width: 100vw;
   height: 30px;
   margin-top: 10px;
-  background-color: rgb(211, 211, 211);
+  background-color: rgb(255, 255, 255);
   text-align: center;
 }
 
@@ -26,28 +29,28 @@ body{
 /* Neural Network */
 .neuralNetwork{
   position: relative;
-  background-color: white;  
+  background-color: rgb(211, 212, 212);  
   height: 800px;
+  width: 600px;
   display: grid;
   grid-template-rows: 150px 0px 0px 600px 50px;
-  border: 1px solid rgb(163, 163, 163);
-  /* border-bottom-left-radius: 10px; */
-  /* border-bottom-right-radius: 10px; */
-
+  border: 2px solid rgb(163, 163, 163);
+  border-radius: 10px;
+  box-shadow: 0px 0px 2px 2px #d3d3d3;
 }
 
 /* Options */
 .options{
-  background-color: rgb(241, 241, 241);
+  /* background-color: rgb(255, 255, 255); */
   width: 600px;
-  height: 150px;
   display: grid;
-  grid-template-columns: 200px 1fr 200px;
+  grid-template-columns: 1fr 200px 0px;
+  border-radius: 10px 10px 0px 0px;
 }
 
 .optionHeader{
   display: grid;
-  grid-template-columns:  1fr 40px;
+  grid-template-columns: 40px 1fr ;
   font-size: 14px;
   margin-top: -12px;
 }
@@ -56,58 +59,75 @@ body{
   /* margin-top: 2px; */
 }
 
+.optionsButton{
+  height:50px;
+  background-color: rgba(255, 255, 255, 0);
+  border: none;
+}
+
 .optionImage{
-  margin-top: 17px;
   width: 30px;
   height: 30px;
+  z-index: 2;
 }
 
 .optionImage:hover{
   cursor: pointer;
 }
 
-.buttons{
-  margin-top: 4px;
+
+.setupInputs{
+  margin-top: 5px;
+  height: 130px;
   display: grid;
-  grid-template-rows: repeat(3,45px);
-  grid-gap: 3px;
+  grid-template-rows: 60px 1fr 1fr;
 }
 
-.buttons button{
-  margin: auto;
-  width: 180px;
-  height: 100%;
-  border: none;
-  font-size: 15px;
-  background-color: rgb(182, 194, 184);
-  border-radius: 5px;
-
-}
-
-.buttons button:hover{
-  background-color: rgb(108, 134, 128);
-  color: white;
-  cursor: pointer;
-}
-
-.inputs{
-  position: relative;
-  margin: 5px 5px 5px 0px;
-  height: 100px;
+.setupInput{
   display: grid;
-  grid-template-rows: 40px repeat(10,50px);
-  z-index: 10;
-  overflow: hidden;
-  background-color: rgb(182, 194, 184);
-  border: 2px solid black;
-  border-radius: 5px;
-  padding-left: 5px;
+  grid-template-columns: 1fr 50px;
 }
 
-.inputs h2{
+.isetup{
+  height: 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+}
+
+.isetup p{
   margin: 0px;
   padding: 0px;
-  align-self: center;
+  padding-top: 3px;
+}
+
+.isetupValue {
+  font-weight: 900;
+}
+
+.setupInput h2{
+  font-size: 30px;
+  margin: 0px;
+  padding:0px;
+}
+
+.additionalnputs{
+  width: 400px;
+  position: relative;
+  margin-top: 5px;
+  height: 750px;
+  display: grid;
+  grid-template-rows: 40px repeat(10,50px);
+  overflow: hidden;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid var(--line-color);
+  border-top-right-radius: 5px;
+  border-bottom-right-radius: 5px;
+  background-color: rgb(194, 206, 202);
+}
+
+.inputContainer{
+  width: 400px;
+  margin: auto;
 }
 
 .input{
@@ -127,12 +147,53 @@ body{
   text-align: left;
 }
 
-/* Statistics */
-.statistics{
-  margin: 5px 10px 5px 0px;
-  height: auto;
-  border-radius: 5px;
+/* Simulation control */
+.simulationControl{
   height: 140px;
+  display: grid;
+  grid-template-rows: 40px 1fr;
+  /* background-color: antiquewhite; */
+}
+
+.simulationButtons{
+  height: 25px;
+  display: grid;
+  grid-template-columns: repeat(3,120px);
+  grid-gap: 5px;
+  margin: 0px 5px;
+  
+}
+
+.simulationButtons button{
+  border: none;
+  font-size: 15px;
+  background-color: rgb(160, 160, 160);
+  color: rgba(255, 255, 255, 0.856);
+  border-radius: 0px 0px 5px 5px;
+}
+
+
+.simulationButtons button:hover{
+  /* background-color: rgb(108, 134, 128); */
+  color: white;
+  cursor: pointer;
+}
+
+.simulationState{
+  padding-left: 10px;
+  height: 80px;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.5) 39%, rgba(0,0,0,0) 100%);
+}
+
+.simulationState h3{
+  margin: 0px;
+  margin-top: 7px;
+  padding: 0px;
+}
+
+.simulationState h1{
+  margin: 0px;
+  padding: 0px;
 }
 
 .statistics h3{
@@ -150,22 +211,25 @@ body{
 /* Simulation stats */
 .simulationStats{
   position: relative;
-  border-bottom-right-radius: 5px;
-  border-bottom-left-radius: 5px;
+  height: 150px;
+  border-top-right-radius: 5px;
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  text-align: center;
+  grid-template-rows: 1fr 1fr 1fr;
+  color: rgb(114, 114, 114);
+  border-left: 2px solid rgb(131, 131, 131);
+  padding-left: 10px;
+  background-color: #bbbbbb;
 }
 
 .simulationStats p{
   font-size: 18px;
-  padding-top: 0px;
+  padding-top: 5px;
   margin: 0px;
 }
 
 .simulationNumber{
+  font-size: 25px;
   margin: 0px;
-  padding: 0px;
   font-weight: 600;
 }
 
@@ -174,7 +238,7 @@ body{
   position: relative;
   margin-left: 3px;
   font-size: 18px;
-  margin-top: 10px;
+  margin-top: -17px;
 }
 
 .speed{
@@ -185,12 +249,19 @@ body{
   font-size: 25px;
 }
 
+.speedTag{
+  margin: 0px;
+  padding: 0px;
+}
+
 .speedHeader{
   font-size: 25px;
 }
 
 .canvas{
-  background-color: rgb(224, 225, 226);
+  background-color: rgb(255, 255, 255);
+  border-bottom: 2px solid var(--line-color);
+  border-top: 2px solid var(--line-color);
 }
 
 .charts{
@@ -209,23 +280,23 @@ body{
   margin-top: 0px;
 }
 
-.visualControls{
+.visualNavigation{
   height: 50px;
-  background-color: rgb(110, 143, 148);
+  background-color: rgb(233, 233, 233);
   display: grid;
   grid-template-columns: repeat(4,1fr);
+  border-radius: 5px;
 }
 
-.visualControls button{
+.visualNavigation button{
+  background-color: rgba(255, 255, 255, 0);
   height: 50px;
-  background-color: rgb(227, 231, 231);
   border: none;
   padding: 0px;
-  z-index: 1;
 }
 
 
-.visualControls button:hover{
+.visualNavigation button:hover{
   cursor: pointer;
 }
 
@@ -324,7 +395,6 @@ body{
   display: grid;
   grid-template-columns: repeat(auto-fit,minmax(70px,1fr));
   height: auto;
-  /* z-index: ; */
 }
 
 .neuralSvg{
@@ -333,6 +403,24 @@ body{
   width: 500px;
   z-index: -2;
 }
+
+.neuralLine{
+  stroke-dasharray: 1500;
+  stroke-dashoffset: 0;
+  animation-name: example;
+  animation-duration: 3s;
+  animation-timing-function: ease-in-out;
+  animation-iteration-count: 1;
+}
+
+@keyframes example {
+  
+  0%   {stroke-dashoffset: 1500}
+  /* 25%  {stroke-dashoffset: 100} */
+  /* 50%  {stroke-dashoffset: 100} */
+  100% {stroke-dashoffset: 0}
+}
+
 
 .layer{
   display: grid;
@@ -371,11 +459,16 @@ body{
 .neuron{
   height: 30px;
   width: 30px;
-  border: 2px solid black;
-  background-color: white;
+  border: 1px solid rgb(194, 194, 194);
+  background-color: rgb(255, 255, 255);
   border-radius: 50%;
   justify-self: center;
   display: flex;
+  box-shadow: inset 0 0 3px rgb(97, 97, 97);
+}
+
+.neuron:hover{
+
 }
 
 .neuron p{
@@ -384,12 +477,28 @@ body{
   text-align: center;
 }
 
+
 .DNA{
   margin-top: 50px;
 }
 
 .dnaChart{
   margin-top: 50px;
+  height: auto;
+  display: grid;
+  grid-template-rows: 0px 1fr;
+}
+
+.centerDot{
+  margin: auto;
+  margin-top: 229px;
+  height: 40px;
+  width: 40px;
+  border: 2px solid rgba(124, 124, 124, 0.438);
+  /* background-color: rgb(186, 202, 207); */
+  background-color: rgb(207, 207, 207);
+  border-radius: 50%;
+  z-index: 1;
 }
 
 

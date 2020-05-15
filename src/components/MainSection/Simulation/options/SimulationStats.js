@@ -1,9 +1,11 @@
 import React from 'react'
 
 export default function SimulationStats(props) {
-    const {generation,count,scoreCount,initialPopulation}=props;
+    const {generation,count,scoreCount,initialPopulation,state}=props;
     return (
-        <div className='simulationStats'>
+        <div className='simulationStats' style={{
+            display:state==='Online'?'':'none'
+        }}>
             <div className='simulationStat'>
                 <p>Generation: <span className='simulationNumber'>{generation}</span></p>
             </div>

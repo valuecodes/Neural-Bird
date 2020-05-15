@@ -30,6 +30,11 @@ export default function DNA() {
             let newData={
                 labels: [],
                 datasets: [{
+                    // fill:false,
+                    // backgroundColor: 'rgba(13, 72, 92,0.2)',
+                    // borderColor: "rgba(179,181,198,0)",
+                    // pointBorderColor: "#fff",
+                    // pointBackgroundColor: "rgba(179,181,198,1)",
                     data: []
                 }
             ]
@@ -59,6 +64,7 @@ export default function DNA() {
         <div className='DNA'>
             <VisualHeader header={'DNA'}/>
             <div className='dnaChart'>
+            <div className='centerDot'></div>
                 <Radar
                     data={data}
                     width={50}
@@ -69,10 +75,12 @@ export default function DNA() {
                         },
                         scale: {
                             angleLines: {
-                                display: false
+                                // display: false,
+                                // color: 'rgba(13, 72, 92,0.8)',
                             },
                             gridLines: {
-                                display: false
+                                display: false,
+                                circular: true 
                             },
                             ticks: {
                                 display:false

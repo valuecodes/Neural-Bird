@@ -1,6 +1,10 @@
 import React,{useState} from 'react'
-import Statistics from './Statistics'
-import Inputs from './Inputs'
+import SimulationControl from './SimulationControl'
+import AdditionalInputs from './AdditionalInputs'
+import SetupInput from './SetupInput'
+import SimulationButtons from './SimulationButtons'
+import SimulationStats from './SimulationStats'
+import svgs from '../../../../utils/Utils'
 
 export default function Options(props) {
 
@@ -15,37 +19,48 @@ export default function Options(props) {
 
     return (
         <div className='options'>
-            <div className='buttons'>
-                <button onClick={()=>props.startSimulation(speed,gapWidth)}>Start Simulation</button>
-                <button style={{
-                    visibility:state==='Offline'?'hidden':'visible'
-                }} onClick={()=>props.pauseSimulation()}>{state==='Paused'?'Continue':'Pause'}</button> 
-                <button style={{
-                    visibility:state==='Offline'?'hidden':'visible'
-                }} onClick={()=>props.resetSimulation()}>Reset</button>             }
-            </div>
-            <div className='statistics' >
-                <Statistics
+            <div className='simulationControl' >
+                <SimulationButtons
+                    speed={props.speed}
+                    gapWidth={props.gapWidth}
+                    state={state}
+                    startSimulation={props.startSimulation}
+                    pauseSimulation={props.pauseSimulation}
+                    resetSimulation={props.resetSimulation}
+                />
+                <SimulationControl
                     generation={generation}
                     count={count}
                     scoreCount={scoreCount}
                     state={state}
                 />
             </div>
-
-            <div className='inputs' style={{
-                height:optionsOpen?600:140
+            <SimulationStats
+                generation={generation}
+                count={count}
+                scoreCount={scoreCount}
+                initialPopulation={initialPopulation} 
+                state={state} 
+            />
+            <SetupInput
+                openOptions={openOptions}
+                changeGapWidth={props.changeGapWidth}
+                gapWidth={props.gapWidth}
+                changePopulationSize={props.changePopulationSize}
+                initialPopulation={props.initialPopulation}
+                state={state}
+            />
+            <div className='additionalnputs' style={{
+                width:optionsOpen?500:0,
+                marginLeft:optionsOpen?1:0,
+                display:state==='Offline'?'':'none'
                 }}>
-                <Inputs
-                    openOptions={openOptions}
-                    changeGapWidth={props.changeGapWidth}
-                    gapWidth={props.gapWidth}
-                    changePopulationSize={props.changePopulationSize}
-                    initialPopulation={props.initialPopulation}
+                <AdditionalInputs
                     changeClosingRate={props.changeClosingRate}
                     closingRate={closingRate}
                     mutateRate={mutateRate}
                     changeMutateRate={props.changeMutateRate}
+                    state={state}
                 />  
             </div>
         </div>

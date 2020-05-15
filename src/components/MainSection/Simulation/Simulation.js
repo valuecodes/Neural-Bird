@@ -182,7 +182,7 @@ export default function Simulation() {
                 birds=newBirds;
 
                 if(birds.length<1){
-                    let data=nextGeneration(deadBirds,initialPopulation,mutateRate,nnForm,generationData)
+                    let data=nextGeneration(deadBirds,initialPopulation,mutateRate,nnForm,generationData,currentRound)
                     birds=data.birds;
                     setGlobalRoundTotalScore(data.fitness)
                     setGlobalDNA(data.dna); 
@@ -264,11 +264,9 @@ export default function Simulation() {
 
         let pipes=[];
         pipes.push(new Pipe(300))
-        pipes[0].x=300;
 
         let population=initialPopulation
 
-        console.log()
         // Create Birds
         function createBirds(nn){
             let createdBirds=[]
@@ -280,16 +278,12 @@ export default function Simulation() {
         }        
 
         let birds=createBirds();
-
-
         ctx.beginPath(0,0);
         ctx.clearRect(0, 0, 800, 800);
 
         for(var b=0;b<birds.length;b++){
             ctx.rect(...birds[b].getPosition());
         }
-
-
         for(var i=0;i<pipes.length;i++){
             ctx.rect(...pipes[i].getTopPipe(gapWidth));
             ctx.rect(...pipes[i].getBotPipe(gapWidth));
@@ -375,14 +369,11 @@ export default function Simulation() {
                 closingRate={closingRate} 
                 changeClosingRate={changeClosingRate}  
                 mutateRate={mutateRate}
-                changeMutateRate={changeMutateRate}     
-            />            
-            <SimulationStats
+                changeMutateRate={changeMutateRate}  
                 generation={savedGeneration}
                 count={savedBirds.length}
-                scoreCount={savedScoreCount}
-                initialPopulation={initialPopulation}  
-            />
+                scoreCount={savedScoreCount}   
+            />            
             <SpeedInput
                 speed={speed}
                 changeSpeed={changeSpeed}

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function Statistics(props) {
+export default function SimulationControl(props) {
 
     const {generation,count,scoreCount,state}=props
     let color;
@@ -19,9 +19,9 @@ export default function Statistics(props) {
     }
 
     return (
-        <>
+        <div className='simulationState'>
             <h3 className='statHeader'>Simulation</h3>
-            <h1 style={{color:color}}>{state}</h1>
-        </>
+            <h1  style={{color:color}}>{state}</h1>
+        </div>
     )
 }

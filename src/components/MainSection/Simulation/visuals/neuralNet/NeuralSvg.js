@@ -45,10 +45,12 @@ export default function NeuralSvg(props) {
     return (
         <svg className='neuralSvg'>
             {coordinates.map(elem=>
-                <line x1={elem.x1} y1={elem.y1} x2={elem.x2} y2={elem.y2} strokeWidth="1" 
+                <line className='neuralLine' x1={elem.x1} y1={elem.y1} x2={elem.x2} y2={elem.y2} strokeWidth="1" 
                 style={{
                     stroke:'black',
-                    strokeWidth:1,
+                    strokeWidth:0.5,
+                    // strokeDasharray: 100,
+                    // strokeDashoffset:150
                 }}  /> 
             )}
         </svg>
