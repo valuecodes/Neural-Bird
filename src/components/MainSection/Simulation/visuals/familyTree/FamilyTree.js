@@ -1,4 +1,4 @@
-import React,{useContext,useEffect} from 'react'
+import React,{useContext} from 'react'
 import VisualHeader from '../VisualHeader'
 import {GlobalContext} from '../../../../../context/GlobalState'
 import Generation from './Generation'
@@ -15,9 +15,9 @@ export default function GenerationData() {
             </div>                
             <div className='currentGen'>
                 {generationData.currentGeneration.map((gen,index)=>
-                    <>
-                        <p key={index}>{gen[0]}{gen[1]}</p>
-                    </> 
+                    <div key={index}>
+                        <p >{gen[0]}{gen[1]}</p>
+                    </div> 
                 )}
             </div>
         </div>

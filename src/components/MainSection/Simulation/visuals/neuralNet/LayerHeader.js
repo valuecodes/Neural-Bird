@@ -1,6 +1,5 @@
 import React,{useState} from 'react'
 import svgs from '../../../../../utils/Utils'
-import NeuralNet from './NeuralNet';
 import AddNeular from './AddNeular'
 
 export default function LayerHeader(props) {
@@ -36,8 +35,9 @@ export default function LayerHeader(props) {
                 marginTop:optionOpen?20:-120
             }}
             className='neuralOptions'>
-                {neuralNet.map(layer=>
+                {neuralNet.map((layer,index)=>
                         <AddNeular
+                        key={index}
                         layer={layer.id}
                         addNeular={props.addNeular}
                         deleteNeular={props.deleteNeular}

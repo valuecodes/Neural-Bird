@@ -2,7 +2,7 @@ import React from 'react'
 import svgs from '../../../../utils/Utils'
 
 export default function SetupInput(props) {
-    const {gapWidth,initialPopulation,closingRate,state}=props
+    const {gapWidth,initialPopulation,state}=props
     return (
         <div className='setupInputs'
             style={{

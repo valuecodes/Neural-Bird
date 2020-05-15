@@ -156,7 +156,7 @@ body{
 }
 
 .simulationButtons{
-  height: 25px;
+  height: 35px;
   display: grid;
   grid-template-columns: repeat(3,120px);
   grid-gap: 5px;
@@ -167,14 +167,14 @@ body{
 .simulationButtons button{
   border: none;
   font-size: 15px;
-  background-color: rgb(160, 160, 160);
+  background-color: rgb(134, 134, 134);;
   color: rgba(255, 255, 255, 0.856);
   border-radius: 0px 0px 5px 5px;
 }
 
 
 .simulationButtons button:hover{
-  /* background-color: rgb(108, 134, 128); */
+  background-color: rgb(100, 100, 100);
   color: white;
   cursor: pointer;
 }
@@ -490,17 +490,30 @@ body{
 }
 
 .centerDot{
-  margin: auto;
-  margin-top: 229px;
-  height: 40px;
-  width: 40px;
-  border: 2px solid rgba(124, 124, 124, 0.438);
-  /* background-color: rgb(186, 202, 207); */
-  background-color: rgb(207, 207, 207);
-  border-radius: 50%;
+  margin-left: 230px;
+  margin-top: 234px;
+  height: 30px;
+  width: 120px;
+  border: 2px solid rgba(53, 53, 53, 0.638);
+  background-color: rgb(163, 163, 163);
+  border-radius: 25px;
   z-index: 1;
+  display: flex;
 }
 
+.centerDot p{
+  padding-left: 5px;
+  font-size: 15px;
+  margin: 0px;
+  align-self: center;
+}
+
+.fitnessPercentage{
+  align-self: center;
+  margin: 0px;
+  padding-left: 5px;
+  font-size: 17px;
+}
 
 /* Family Tree */
 

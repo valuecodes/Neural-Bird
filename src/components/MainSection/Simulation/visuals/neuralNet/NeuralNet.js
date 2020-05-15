@@ -64,8 +64,8 @@ export default function NeuralNet() {
             />
             <NeuralSvg neuralNet={neuralNet} />
             <div id='layers'>
-                {neuralNet.map(layer=>
-                    <Layer updateCoordinates={updateCoordinates} layer={layer}/>
+                {neuralNet.map((layer,index)=>
+                    <Layer key={index} updateCoordinates={updateCoordinates} layer={layer}/>
                 )}                
             </div>
             

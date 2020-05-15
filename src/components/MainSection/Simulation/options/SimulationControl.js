@@ -2,7 +2,7 @@ import React from 'react'
 
 export default function SimulationControl(props) {
 
-    const {generation,count,scoreCount,state}=props
+    const {state}=props
     let color;
     switch(state){
         case 'Offline':

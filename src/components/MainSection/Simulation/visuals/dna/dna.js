@@ -1,19 +1,37 @@
-import React,{useContext,useEffect,useState,useRef} from 'react'
+import React,{useContext,useEffect,useState} from 'react'
 import {GlobalContext} from '../../../../../context/GlobalState'
 import { Radar } from 'react-chartjs-2';
 import VisualHeader from '../VisualHeader'
 
+
 export default function DNA() {
     const chartRef = React.useRef(null)
-    const { globalDNA } =useContext(GlobalContext);
+    const { globalDNA,globalRoundScore } =useContext(GlobalContext);
+
     const [structure,setStucture]=useState([]);
-    const [sum,setSum]=useState(0);
+    const [fitness,setFitness]=useState(0);
     const [data,setData]=useState({
         datasets: [{
             label: 'Scatter Dataset',
             data: []
         }]
     })
+
+    useEffect(()=>{
+        let fitnessPercentage=calculateFitness(globalRoundScore);
+        if(isNaN(fitnessPercentage)) fitnessPercentage=0
+        setFitness(fitnessPercentage)
+        if(fitnessPercentage>100)fitnessPercentage=100
+    },[globalRoundScore])
+
+
+    const calculateFitness=(data)=>{
+        let sum=0;
+        for(var i=0;i<data.length;i++){
+            sum+=data[i];
+        }
+        return (((sum/data.length)/10000)*100).toFixed(2);
+    }
 
     useEffect(()=>{
         let seq=['A','C','T','G'];
@@ -24,17 +42,36 @@ export default function DNA() {
         setStucture(structure);
     },[])
 
+    
+
     useEffect(()=>{
-        let sum=0;
+        // let sum=0;
         if(globalDNA.length!==0){
             let newData={
                 labels: [],
                 datasets: [{
-                    // fill:false,
-                    // backgroundColor: 'rgba(13, 72, 92,0.2)',
-                    // borderColor: "rgba(179,181,198,0)",
-                    // pointBorderColor: "#fff",
-                    // pointBackgroundColor: "rgba(179,181,198,1)",
+                    label: '1',
+                    borderColor: "rgba(53, 53, 53, 0.438)",
+                    borderWidth:2,
+                    data: []
+                },
+                {
+                    label: '2',
+                    backgroundColor: 'rgba(13, 72, 92,0)',
+                    borderColor: "rgba(53, 53, 53, 0)",
+                    borderWidth:2,
+                    pointBorderColor: "rgba(13, 72, 92,1)'",
+                    data: []
+                },
+                {
+                    label: '3',
+                    backgroundColor: "rgba(53, 53, 53, 0.5)",
+                    borderColor: "rgba(53, 53, 53, 1)",
+                    borderWidth:2,
+                    pointWidth:0,
+                    pointRadius: 0,
+                    pointBorderColor: "rgba(13, 72, 92,0.1)",
+                    pointBackgroundColor: "rgba(179,181,198,0)",
                     data: []
                 }
             ]
@@ -48,7 +85,8 @@ export default function DNA() {
                 for(var a=0;a<globalDNA[i].length;a++){
                     newData.labels.push(`${structure[count]}${a}`)
                     newData.datasets[0].data.push(globalDNA[i][a]) 
-                    sum+=globalDNA[i][a];
+                    newData.datasets[1].data.push(1) 
+                    newData.datasets[2].data.push(-1) 
                     count++;
                     if(count>=80){
                         count=0;
@@ -56,7 +94,7 @@ export default function DNA() {
                 }
             }
             setData(newData)   
-            setSum(sum); 
+            // setSum(sum); 
         }
     },[globalDNA,structure])
 
@@ -64,7 +102,10 @@ export default function DNA() {
         <div className='DNA'>
             <VisualHeader header={'DNA'}/>
             <div className='dnaChart'>
-            <div className='centerDot'></div>
+            <div className='centerDot'>
+                <p>Fitness:</p>
+                <h3 className='fitnessPercentage'>{fitness}%</h3>
+            </div>
                 <Radar
                     data={data}
                     width={50}

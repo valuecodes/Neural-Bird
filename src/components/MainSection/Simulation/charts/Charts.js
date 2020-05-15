@@ -21,7 +21,6 @@ export default function Charts() {
                 },
                 scales: {
                     xAxes: [{
-                        maxBarThickness: 20,
                         gridLines: {
                             drawOnChartArea: false
                         }
@@ -51,7 +50,8 @@ export default function Charts() {
                 data: globalRoundScore,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor:'rgba(255, 99, 132, 1)',
-                borderWidth: 1
+                borderWidth: 1,
+                maxBarThickness:20
             }]
         }
         const dataTotal= {
@@ -61,7 +61,8 @@ export default function Charts() {
                 data: globalRoundTotalScore,
                 backgroundColor: 'rgba(33, 105, 194, 0.2)',
                 borderColor:'rgba(33, 105, 194, 1)',
-                borderWidth: 1
+                borderWidth: 1,
+                maxBarThickness:20
             }]
         }
 

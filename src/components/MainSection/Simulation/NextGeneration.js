@@ -9,7 +9,6 @@ export function nextGeneration(birds,population,mutateRate,nnForm,generationData
 
     let oldGen=generationData.currentGeneration;
     let newGen=[];
-    let familyTree=[];
 
     if(birds[0].fitness>=0.098){
       mutateRate=0.99;

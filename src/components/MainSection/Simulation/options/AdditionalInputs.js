@@ -1,8 +1,7 @@
 import React from 'react'
-import svgs from '../../../../utils/Utils'
 
 export default function AdditionalInputs(props) {
-    const {gapWidth,initialPopulation,closingRate,mutateRate,state}=props
+    const {closingRate,mutateRate}=props
 
     return (
         <div className='inputContainer'>

@@ -1,11 +1,7 @@
-import React,{useRef,useEffect,useState} from 'react'
-import ReactDOM from 'react-dom';
+import React,{useEffect,useState} from 'react'
 import Neuron from './Neuron'
-// import AddNeular from './AddNeular'
-import NeuralSvg from './NeuralSvg'
 
 export default function Layer( props) {
-    const inputRef = useRef()
     const {layer}=props
     const [currentLayer,setCurrentLayer]=useState({
         type:'',
@@ -14,7 +10,7 @@ export default function Layer( props) {
         neurals:[]
     });    
     
-    const [coordinates,setCordinates]=useState([]);
+    const [coordinates]=useState([]);
 
     useEffect(()=>{
         if(coordinates.length===currentLayer.neurals.length){
@@ -29,10 +25,8 @@ export default function Layer( props) {
             <div className='layerHeader'>            
                 <h3>{currentLayer.type}</h3>
             </div>
-            {/* <NeuralSvg /> */}
-            
-            {currentLayer.neurals.map(neuron=>
-                <div className='neuron' ref={el => {
+            {currentLayer.neurals.map((neuron,index)=>
+                <div key={index} className='neuron' ref={el => {
                         if (!el) return;
                         if(layer.neurals.length===currentLayer.neurals.length){
                             props.updateCoordinates(el.getBoundingClientRect(),layer.id,neuron.id)

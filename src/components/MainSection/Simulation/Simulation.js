@@ -1,10 +1,8 @@
 import React,{useState,useEffect,useContext} from 'react'
 import Bird from './animation/bird'
 import Pipe from './animation/pipe'
-import NeuralNetwork from './NeuralNetwork'
 import Options from './options/Options'
 import SpeedInput from './options/SpeedInput'
-import SimulationStats from './options/SimulationStats'
 import {GlobalContext} from '../../../context/GlobalState'
 import {nextGeneration} from './NextGeneration'
 
@@ -104,20 +102,16 @@ export default function Simulation() {
         let currentRound=reset?0:savedCurrentRound;
         let generation=reset?0:savedGeneration;
         let copy=reset?null:savedCopy;
-        let generationTop10=[];
         let inputData=null;
         let deadBirds=savedDeadBirds;
         async function newDraw(){
             for(var q=0;q<speed;q++){
-
                 let difficulty=currentRound/20;
-                let padding=0;
-                
                 if(difficulty>400){
                     difficulty=400;
                 }             
 
-                if(scoreCount%closingRate==0){
+                if(scoreCount%closingRate===0){
                     if(gapWidth>10){
                         gapWidth--
                     }   
@@ -196,7 +190,6 @@ export default function Simulation() {
                     currentRound=0;
                     scoreCount=0;
                     generation++;
-                    generationTop10=[]
                     gapWidth=initialGapWidth
                 }
                 currentRound++;
@@ -280,7 +273,6 @@ export default function Simulation() {
         let birds=createBirds();
         ctx.beginPath(0,0);
         ctx.clearRect(0, 0, 800, 800);
-
         for(var b=0;b<birds.length;b++){
             ctx.rect(...birds[b].getPosition());
         }
@@ -289,10 +281,6 @@ export default function Simulation() {
             ctx.rect(...pipes[i].getBotPipe(gapWidth));
         }
         ctx.stroke();  
-    }
-
-    function stop(){
-        cancelAnimationFrame(draw);
     }
 
     function changeSpeed(e){

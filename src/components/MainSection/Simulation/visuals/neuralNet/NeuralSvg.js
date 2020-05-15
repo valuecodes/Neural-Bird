@@ -1,4 +1,3 @@
-import ReactDOM from 'react-dom'
 import React,{useState,useContext,useEffect} from 'react'
 import {GlobalContext} from '../../../../../context/GlobalState'
 
@@ -44,8 +43,8 @@ export default function NeuralSvg(props) {
 
     return (
         <svg className='neuralSvg'>
-            {coordinates.map(elem=>
-                <line className='neuralLine' x1={elem.x1} y1={elem.y1} x2={elem.x2} y2={elem.y2} strokeWidth="1" 
+            {coordinates.map((elem,index)=>
+                <line key={index} className='neuralLine' x1={elem.x1} y1={elem.y1} x2={elem.x2} y2={elem.y2} strokeWidth="1" 
                 style={{
                     stroke:'black',
                     strokeWidth:0.5,
