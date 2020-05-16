@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useContext} from 'react'
+import React,{useState,useEffect,useContext,useRef} from 'react'
 import Bird from './animation/bird'
 import Pipe from './animation/pipe'
 import Options from './options/Options'
@@ -8,6 +8,7 @@ import {GlobalContext} from '../../../context/GlobalState'
 import {GlobalOptions} from '../../../context/GlobalOptions'
 import {GlobalGenerational} from '../../../context/GlobalGenerational'
 import {GlobalInOut} from '../../../context/GlobalInOut'
+import { func } from '@tensorflow/tfjs-data';
 
 export default function Simulation() {
     
@@ -15,23 +16,23 @@ export default function Simulation() {
         setGlobalState,
         setGlobalSimulationState,
         visual,
-        globalNeuralNetwork,
-        generationData,
-
     }=useContext(GlobalContext);
 
     const {options}=useContext(GlobalOptions);
-    const {setGenerationalData}=useContext(GlobalGenerational)
+    const {setGenerationalData,generationalData,resetGenerationalData}=useContext(GlobalGenerational)
     const {setGlobalInOutData}=useContext(GlobalInOut)
 
+    const inputOutput=React.useRef(useContext(GlobalInOut))
+
     const canvasRef = React.useRef(null)
+    let canimation=React.useRef(null)
+
     const [draw,setDraw]=useState([]);
     const [speed,setSpeed]=useState(1);
     const [pause,setPause]=useState(true);
     const [state,setState]=useState('Offline')
-    let sdata={};
 
-    const [savedData,setSavedData]=useState({
+    let savedData=React.useRef({
         gapWidth:100,
         pipes:[],
         birds:[],
@@ -41,8 +42,7 @@ export default function Simulation() {
         roundScore:[],
         totalRoundScore:[],
         deadBirds:[],
-    })
-
+    });
 
     useEffect(()=>{
         if(state!=='Offline'&&state!=='Paused') simulation(speed,false)
@@ -51,22 +51,32 @@ export default function Simulation() {
     useEffect(() => {
         let updatedSavedData={...savedData};
         updatedSavedData.gapWidth=options.gapWidth;
-        setSavedData(updatedSavedData)
+        // savedData.current={updatedSavedData};
         setupAnimation();
     }, [options.gapWidth,options.population])
 
-    function simulation(speed,reset){
-        
+    function simulation(speed,reset){   
+        let {
+            birds,
+            pipes,
+            gapWidth,
+            scoreCount,
+            currentRound,
+            generation,
+            deadBirds,
+            roundScore,
+            totalRoundScore
+        }=savedData.current
+
         setPause(false);
         if(!reset){
             setState('Online')
             setGlobalSimulationState('Online')
         }
-        
-        cancelAnimationFrame(draw);
+
+        cancelAnimationFrame(canimation.current);
 
         // Create first Pipe
-        let pipes=savedData.pipes;
        
         if(pipes.length===0||reset){
             pipes=[];
@@ -84,21 +94,13 @@ export default function Simulation() {
             }      
             return createdBirds  
         }        
-        
-        let birds=savedData.birds;
 
         if(birds.length===0||reset){
             birds=[];
             birds=createBirds();
         }
-        let gapWidth=savedData.gapWidth;
-        let scoreCount=reset?0:savedData.scoreCount;
-        let currentRound=reset?0:savedData.currentRound;
-        let generation=reset?0:savedData.generation;
+
         let inputData=null;
-        let deadBirds=savedData.deadBirds;
-        let roundScore=savedData.roundScore
-        let totalRoundScore=savedData.totalRoundScore
         async function newDraw(){
             for(var q=0;q<speed;q++){
                 let difficulty=currentRound/20;
@@ -117,7 +119,6 @@ export default function Simulation() {
                     pipes.push(new Pipe(
                         Math.floor(Math.random()*difficulty+(300-difficulty/2))
                         // Math.floor(Math.random()*difficulty+(200-difficulty/2)+300)
-                    
                     ))
                 }
                 for(var i=0;i<pipes.length;i++){
@@ -141,9 +142,11 @@ export default function Simulation() {
 
                     if(b===0&&speed<5){
                         inputData=nndata.inputData;
-                        inputData.push(choice[0]);
-                        // setGlobalInputData(inputData)     
-                        setGlobalInOutData(inputData)      
+                        inputData.push(choice[0]); 
+                        if(visual==='bird'){
+                            setGlobalInOutData(inputData)                             
+                        }
+  
                     }
 
                     if(choice[0]<0.55){
@@ -167,9 +170,8 @@ export default function Simulation() {
                     }
                 };
                 birds=newBirds;
-
                 if(birds.length<1){
-                    let data=nextGeneration(deadBirds,options,generationData,currentRound)
+                    let data=nextGeneration(deadBirds,options,generationalData,currentRound)
                     birds=data.birds;
                     pipes=[];
                     deadBirds=[];
@@ -182,34 +184,34 @@ export default function Simulation() {
                     scoreCount=0;
                     generation++;
                     gapWidth=options.gapWidth
-                    setGenerationalData(roundScore,totalRoundScore,data.dna,data.generationData)
+                    setGenerationalData(roundScore,totalRoundScore,data.dna,data.generationData.generationData)
                 }
                 currentRound++;
                 scoreCount++;
             }
 
-            animation(birds,pipes,generation,currentRound,scoreCount,gapWidth,inputData)
-            
-            setSavedData({
-                birds,
-                pipes,
-                generation,
-                currentRound,
-                scoreCount,
-                gapWidth,
-                deadBirds,
-                roundScore,
-                totalRoundScore
-            })        
+            animation(birds,pipes,gapWidth,inputData)
+            savedData.current={
+                    birds,
+                    pipes,
+                    generation,
+                    currentRound,
+                    scoreCount,
+                    gapWidth,
+                    deadBirds,
+                    roundScore,
+                    totalRoundScore
+                }    
 
             if(speed>0){
-                setDraw(requestAnimationFrame(newDraw))
+                canimation.current=requestAnimationFrame(newDraw)
+                // setDraw()
             }
         }
         newDraw();
     }
     
-    function animation(birds,pipes,generation,currentRound,scoreCount,gapWidth,inputData,deadBirds){   
+    function animation(birds,pipes,gapWidth,inputData){   
         const canvas=canvasRef.current
         const ctx=canvas.getContext('2d')
         ctx.beginPath(0,0);
@@ -244,9 +246,9 @@ export default function Simulation() {
 
     const setupAnimation=()=>{
 
+        let sData=savedData.current
         const canvas=canvasRef.current
         const ctx=canvas.getContext('2d')
-
         let pipes=[];
         pipes.push(new Pipe(300))
 
@@ -294,14 +296,30 @@ export default function Simulation() {
     }
 
     const resetSimulation=()=>{
+        savedData.current={
+            gapWidth:100,
+            pipes:[],
+            birds:[],
+            generation:[1],
+            currentRound:0,
+            scoreCount:0,
+            roundScore:[],
+            totalRoundScore:[],
+            deadBirds:[],
+        };
+        resetGenerationalData();
         setPause(false);
         setState('Offline')
         setGlobalSimulationState('Offline')
         simulation(0,true);
     }
 
+    function test(){
+        // console.log(1)
+    }
+
     return (
-        <div className='neuralNetwork'>
+        <div className='neuralNetwork' onChange={test()}>
             <Options
                 speed={speed}
                 startSimulation={startSimulation}
@@ -309,10 +327,10 @@ export default function Simulation() {
                 resetSimulation={resetSimulation}
                 changeSpeed={changeSpeed}
                 state={state}    
-                generation={savedData.generation}
-                count={savedData.birds.length}
-                scoreCount={savedData.scoreCount}
-                currentGapWidth={savedData.gapWidth}  
+                generation={savedData.current.generation}
+                count={savedData.current.birds.length}
+                scoreCount={savedData.current.scoreCount}
+                currentGapWidth={savedData.current.gapWidth}  
                 population={options.population}
             />            
             <SpeedInput

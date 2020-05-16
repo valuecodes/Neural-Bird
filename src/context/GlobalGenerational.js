@@ -6,6 +6,10 @@ const initialState={
         roundScores:[],
         totalRoundScores:[],
         dna:[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0]],
+        generationData:{
+            oldGenerations:[],
+            currentGeneration:[],
+        },
     }
 }
 
@@ -15,7 +19,7 @@ export const GlobalGenerationalProvider=({children})=>{
 
     const [state,dispatch]= useReducer(AppReducer,initialState);
 
-    const setGenerationalData=(roundScores,totalRoundScores,dna,generation)=>{
+    const setGenerationalData=(roundScores,totalRoundScores,dna,generation,reset)=>{
         dispatch({
             type:'SET_GENERATIONAL_DATA',
             payload:{
@@ -24,10 +28,32 @@ export const GlobalGenerationalProvider=({children})=>{
         })  
     }
 
+    const resetGenerationalData=()=>{
+        let resetedData={
+            generationalData:{
+                roundScores:[],
+                totalRoundScores:[],
+                dna:[[0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],[0],[0,0,0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0,0]],
+                generationData:{
+                    oldGenerations:[],
+                    currentGeneration:[],
+                },
+            }
+        }
+        dispatch({
+            type:'RESET_GENERATIONAL_DATA',
+            payload:{
+                resetedData
+            },
+        }) 
+
+    }
+
     return (<GlobalGenerational.Provider
         value={{
             generationalData:state.generationalData,
-            setGenerationalData
+            setGenerationalData,
+            resetGenerationalData
         }}
        >
            {children}

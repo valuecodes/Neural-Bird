@@ -53,6 +53,7 @@ body{
   grid-template-columns: 40px 1fr ;
   font-size: 14px;
   margin-top: -12px;
+
 }
 
 .optionHeader h2{
@@ -123,6 +124,10 @@ body{
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   background-color: rgb(194, 206, 202);
+}
+
+.aOptionHeader{
+  font-size: 25px;
 }
 
 .inputContainer{

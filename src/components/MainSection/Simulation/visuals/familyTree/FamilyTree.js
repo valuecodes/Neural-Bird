@@ -1,20 +1,20 @@
 import React,{useContext} from 'react'
 import VisualHeader from '../VisualHeader'
-import {GlobalContext} from '../../../../../context/GlobalState'
+import {GlobalGenerational} from '../../../../../context/GlobalGenerational'
 import Generation from './Generation'
 
 export default function GenerationData() {
-    const {generationData}=useContext(GlobalContext);
+    const {generationalData} = useContext(GlobalGenerational)
     return (
         <div className='familyTree'>
             <VisualHeader header={'Family Tree'}/>
             <div className='generationContainer'>
-                {generationData.oldGenerations.map((oldGen,index)=>
+                {generationalData.generationData.oldGenerations.map((oldGen,index)=>
                     <Generation key={index} oldGen={oldGen}/>
                 )}
             </div>                
             <div className='currentGen'>
-                {generationData.currentGeneration.map((gen,index)=>
+                {generationalData.generationData.currentGeneration.map((gen,index)=>
                     <div key={index}>
                         <p >{gen[0]}{gen[1]}</p>
                     </div> 

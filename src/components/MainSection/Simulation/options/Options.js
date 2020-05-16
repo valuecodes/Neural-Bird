@@ -1,13 +1,12 @@
 import React,{useState} from 'react'
 import SimulationControl from './SimulationControl'
-import AdditionalInputs from './AdditionalInputs'
-import SetupInput from './SetupInput'
-import SimulationButtons from './SimulationButtons'
+import AdditionalOptions from './AdditionalOptions'
+import SetupOptions from './SetupOptions'
+import {SimulationButtons} from './SimulationButtons'
 import SimulationStats from './SimulationStats'
 import svgs from '../../../../utils/Utils'
 
 export default function Options(props) {
-
 
     const {speed,population,count,generation,scoreCount,state,currentGapWidth}=props
 
@@ -27,9 +26,6 @@ export default function Options(props) {
                     resetSimulation={props.resetSimulation}
                 />
                 <SimulationControl
-                    generation={generation}
-                    count={count}
-                    scoreCount={scoreCount}
                     state={state}
                 />
             </div>
@@ -41,7 +37,7 @@ export default function Options(props) {
                 state={state} 
                 currentGapWidth={currentGapWidth}
             />
-            <SetupInput
+            <SetupOptions
                 openOptions={openOptions}
                 state={state}
             />
@@ -50,8 +46,8 @@ export default function Options(props) {
                 marginLeft:optionsOpen?1:0,
                 display:state==='Offline'?'':'none'
                 }}>
-                <AdditionalInputs
-                    state={state}
+                <AdditionalOptions
+
                 />  
             </div>
         </div>

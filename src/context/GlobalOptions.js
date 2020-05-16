@@ -4,8 +4,9 @@ import AppReducer from './AppReducer'
 const initialOptions={
     options:{
         closingRate:5000,
-        mutateRate:0.1,
+        mutateRate:10,
         gapWidth:100,
+        hardness:20,
         population:10,
         speed:1,
         neuralNetwork:[
@@ -40,7 +41,8 @@ export const GlobalOptionsProvider=({children})=>{
 
     const [state,dispatch]= useReducer(AppReducer,initialOptions);
 
-    const modifyOptions=(newValue,optionName)=>{
+    const modifyOptions=(value,optionName,adj=[0,0])=>{
+        let newValue=value;
         if(!isNaN(newValue))newValue=Number(newValue)
         let modifiedOptions={...state.options};
         modifiedOptions[optionName]=newValue;

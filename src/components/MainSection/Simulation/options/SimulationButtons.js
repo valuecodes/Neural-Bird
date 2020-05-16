@@ -1,6 +1,6 @@
-import React,{useEffect} from 'react'
+import React,{useEffect,useState} from 'react'
 
-export default function SimulationButtons(props) {
+export const SimulationButtons=(props)=> {
     const {state}=props
     return (
         <div className='simulationButtons'>

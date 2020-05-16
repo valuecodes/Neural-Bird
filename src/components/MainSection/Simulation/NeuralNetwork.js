@@ -91,6 +91,7 @@ class NeuralNetwork{
     }
 
     mutate(rate=0.1,alpha){
+        rate=rate/100;
         tf.tidy(() => {
             const weights = this.model.getWeights();
             const mutatedWeights = [];

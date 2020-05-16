@@ -1,7 +1,5 @@
 import React from 'react'
-
 export default function Generation(props) {
-
     return (
         <div className='generation'>
             {props.oldGen.map((gen,index)=>

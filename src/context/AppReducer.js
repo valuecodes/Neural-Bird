@@ -23,11 +23,6 @@ export default (state,action)=>{
                 ...state,
                 nnCoordinates:action.payload.data
             }
-        case 'UPDATE_GENERATION_DATA':
-            return{
-                ...state,
-                generationData:action.payload.data
-            }
         case 'MODIFY_OPTIONS':
             return{
                 ...state,
@@ -39,8 +34,15 @@ export default (state,action)=>{
                 generationalData:{
                     roundScores:action.payload.roundScores,
                     totalRoundScores:action.payload.totalRoundScores,
-                    dna:action.payload.dna
+                    dna:action.payload.dna,
+                    generationData:action.payload.generation
                 }
+            }
+
+        case 'RESET_GENERATIONAL_DATA':
+            return{
+                ...state,
+                generationalData:action.payload.resetedData.generationalData
             }
         case 'SET_IN_OUT_DATA':
             let ioData=[...state.inOutData]

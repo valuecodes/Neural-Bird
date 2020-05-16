@@ -1,5 +1,4 @@
 import React,{useContext,useEffect,useState} from 'react'
-import {GlobalContext} from '../../../../../context/GlobalState'
 import {GlobalGenerational} from '../../../../../context/GlobalGenerational'
 import { Radar } from 'react-chartjs-2';
 import VisualHeader from '../VisualHeader'
@@ -8,7 +7,6 @@ import VisualHeader from '../VisualHeader'
 export default function DNA() {
     const chartRef = React.useRef(null)
     const {generationalData} = useContext(GlobalGenerational)
-    console.log(generationalData)
     const [structure,setStucture]=useState([]);
     const [fitness,setFitness]=useState(0);
     const [data,setData]=useState({
@@ -37,7 +35,6 @@ export default function DNA() {
 
     useEffect(()=>{
         const {roundScores,dna}=generationalData
-        console.log(structure);
         let fitnessPercentage=calculateFitness(roundScores);
         if(isNaN(fitnessPercentage)) fitnessPercentage=0
         setFitness(fitnessPercentage)

@@ -2,14 +2,11 @@ import Bird from '../Simulation/animation/bird'
 
 let alfa={score:0};
 
-export function nextGeneration(birds,options,generationData,currentRound) {
+export function nextGeneration(birds,options,generationalData,currentRound) {
     let {mutateRate,neuralNetwork}=options;
-    console.log(mutateRate)
-
     let totalFitness=calculateFitness(birds);
     let createdBirds=[];
-
-    let oldGen=generationData.currentGeneration;
+    let oldGen=generationalData.generationData.currentGeneration;
     let newGen=[];
 
     if(birds[0].fitness>=0.098){
@@ -26,7 +23,7 @@ export function nextGeneration(birds,options,generationData,currentRound) {
       let parent2=selectParentTwo(birds,parent1);
       createdBirds[w].brain.shuffleGenes(parent2.bird);
       createdBirds[w].brain.mutate(mutateRate,alfa);
-      if(generationData.currentGeneration.length!==0){
+      if(generationalData.generationData.currentGeneration.length!==0){
         oldGen[w]=[
           ...oldGen[w],        
           w,
@@ -36,20 +33,19 @@ export function nextGeneration(birds,options,generationData,currentRound) {
       }
       newGen.push([
         parent1.data[0],
-        parent2.data[0]
+        parent2.data[0],
       ])
     } 
 
-    generationData.oldGenerations.unshift(oldGen);
-    generationData.currentGeneration=newGen;
+    generationalData.generationData.oldGenerations.unshift(oldGen);
+    generationalData.generationData.currentGeneration=newGen;
 
     let dna=birds[birds.length-1].brain.getDNA()
-
     return {
       birds:createdBirds,
       fitness:totalFitness,
       dna:dna,
-      generationData:generationData
+      generationData:generationalData
     }
   }
 

@@ -2,7 +2,7 @@ import React,{useContext} from 'react'
 import svgs from '../../../../utils/Utils'
 import {GlobalOptions} from '../../../../context/GlobalOptions'
 
-export default function SetupInput(props) {
+export default function SetupOptions(props) {
     const {state}=props
     const {options,modifyOptions}=useContext(GlobalOptions);
 
