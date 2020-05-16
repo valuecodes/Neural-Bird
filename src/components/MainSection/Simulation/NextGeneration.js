@@ -2,7 +2,9 @@ import Bird from '../Simulation/animation/bird'
 
 let alfa={score:0};
 
-export function nextGeneration(birds,population,mutateRate,nnForm,generationData,currentRound) {
+export function nextGeneration(birds,options,generationData,currentRound) {
+    let {mutateRate,neuralNetwork}=options;
+    console.log(mutateRate)
 
     let totalFitness=calculateFitness(birds);
     let createdBirds=[];
@@ -20,7 +22,7 @@ export function nextGeneration(birds,population,mutateRate,nnForm,generationData
       if(currentRound>100){
         brain=parent1.bird.brain.copy();
       }
-      createdBirds.push(new Bird(nnForm,brain))
+      createdBirds.push(new Bird(neuralNetwork,brain))
       let parent2=selectParentTwo(birds,parent1);
       createdBirds[w].brain.shuffleGenes(parent2.bird);
       createdBirds[w].brain.mutate(mutateRate,alfa);

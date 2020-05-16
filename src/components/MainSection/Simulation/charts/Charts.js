@@ -1,97 +1,88 @@
 import React,{useContext,useState,useEffect} from 'react'
-import {GlobalContext} from '../../../../context/GlobalState'
+import {GlobalGenerational} from '../../../../context/GlobalGenerational'
 import { Bar } from 'react-chartjs-2';
 
 export default function Charts() {
 
-    const { globalRoundScore,globalRoundTotalScore,globalSimulationState } = useContext(GlobalContext)
+    const {generationalData} = useContext(GlobalGenerational)
 
-    const [chartData,setChartData]=useState({});
-    const [chartDataTotal,setChartDataTotal]=useState({});
-    const [chartOptions,setChartOptions]=useState({
-                maintainAspectRatio: true,
-                responsive: true,
-                legend: {
-                    display: true,
-                    
-                    labels: {
-                        boxWidth: 0,
-                        "fontSize": 20,
-                    }
-                },
-                scales: {
-                    xAxes: [{
-                        gridLines: {
-                            drawOnChartArea: false
-                        }
-                    }],
-                    yAxes: [{
-                        position: 'right',
-                        gridLines: {
-                            drawOnChartArea: false
-                        }
-                    }]
-                },
-            })
-    
+    const [chartData,setChartData]=useState({
+        max:[],
+        total:[]
+    });
+
+    const [chartOptions,setChartOptions]=useState({});
+
     useEffect(()=>{
-        let labels=globalRoundScore.map((score,index)=>
-             'Gen:'+index
-        )
-        let labelsTotal=globalRoundTotalScore.map((score,index)=>
-        'Gen:'+index
-         )
-        // console.log(labels)
+        setChartOptions({
+            maintainAspectRatio: true,
+            responsive: true,
+            legend: {
+                display: true,
+                
+                labels: {
+                    boxWidth: 0,
+                    "fontSize": 20,
+                }
+            },
+            scales: {
+                xAxes: [{
+                    gridLines: {
+                        drawOnChartArea: false
+                    }
+                }],
+                yAxes: [{
+                    position: 'right',
+                    gridLines: {
+                        drawOnChartArea: false
+                    }
+                }]
+            },
+        })
+    },[])
 
-        const data= {
+    useEffect(()=>{
+
+        const {roundScores,totalRoundScores}=generationalData;
+        let labels=[];
+        let labelsTotal=[];
+
+        for(var i=1;i<=roundScores.length;i++){
+            labels.push('Gen:'+i)
+            labelsTotal.push('Gen:'+i)
+        }
+
+        const max= {
             labels: labels,
             datasets: [{
                 label: 'Points per generation',    
-                data: globalRoundScore,
+                data: roundScores,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor:'rgba(255, 99, 132, 1)',
                 borderWidth: 1,
                 maxBarThickness:20
             }]
         }
-        const dataTotal= {
+
+        const total= {
             labels: labelsTotal,
             datasets: [{
                 label: 'Total points per generation',    
-                data: globalRoundTotalScore,
+                data: totalRoundScores,
                 backgroundColor: 'rgba(33, 105, 194, 0.2)',
                 borderColor:'rgba(33, 105, 194, 1)',
                 borderWidth: 1,
                 maxBarThickness:20
             }]
         }
-
-        setChartData(data);
-        setChartDataTotal(dataTotal)
-        // return set
-
-    },[globalRoundScore])
-
-
-
-
-    // for (var x = 0; x < cDataTotal.length; x++) {
-    //     chartData.datasets.push({
-    //         label: tickerLabels[x],
-    //         data: cDataTotal[x],
-    //         backgroundColor: 'rgba(255, 99, 132, 0.1)',
-    //         borderColor: color[x],
-    //         borderWidth: 5
-    //     })
-    //         }
-
-    // console.log(globalRoundScore)
+        setChartData({max,total});
+    },[generationalData])
 
     return (
-        <div className='charts'>
+        <div className='charts' >
             <div className='chart'>
                 <Bar
-                    data={chartData}
+                    data={chartData.max}
                     // width={60}
                     // height={40}
                     options={chartOptions}
@@ -100,7 +91,7 @@ export default function Charts() {
             </div>
             <div className='chart'>
                 <Bar
-                    data={chartDataTotal}
+                    data={chartData.total}
                     // width={60}
                     // height={40}
                     options={chartOptions}

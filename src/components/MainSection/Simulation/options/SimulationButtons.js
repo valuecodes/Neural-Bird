@@ -1,14 +1,14 @@
-import React from 'react'
+import React,{useEffect} from 'react'
 
 export default function SimulationButtons(props) {
-    const {speed,gapWidth,state}=props
+    const {state}=props
     return (
         <div className='simulationButtons'>
             <button 
                 style={{
                     display:state!=='Offline'?'none':''
                 }} 
-                onClick={()=>props.startSimulation(speed,gapWidth)}
+                onClick={()=>props.startSimulation()}
                 >Start Simulation</button>
             
             <button 

@@ -4,18 +4,22 @@ import VisualHeader from '../VisualHeader'
 import LayerHeader from './LayerHeader'
 import NeuralSvg from './NeuralSvg'
 import {GlobalContext} from '../../../../../context/GlobalState'
+import {GlobalOptions} from '../../../../../context/GlobalOptions'
 
 let coordi=[];
 
 export default function NeuralNet() {
 
     const { globalNeuralNetwork,setGlobalNeuralNetwork,updateNNCoordinates } =useContext(GlobalContext);
+
+    const {options,modifyOptions}=useContext(GlobalOptions);
+
     const [neuralNet,setNeuralNet]=useState([])
     let [coordinates,setCoordinates]=useState([]);
 
     useEffect(()=>{
-        setNeuralNet(globalNeuralNetwork)
-    },[globalNeuralNetwork])
+        setNeuralNet(options.neuralNetwork)
+    },[options.neuralNetwork])
     
     const addNeular=(id)=>{
         const nn=[...neuralNet];
@@ -23,7 +27,7 @@ export default function NeuralNet() {
         layer[0].neurals.push({id:layer[0].neurals.length,name:layer[0].neurals.length});
         nn[id]=layer[0];
         layer[0].neuralsCount++;
-        setGlobalNeuralNetwork(nn)
+        modifyOptions(nn,'neuralNetwork')
         setCoordinates([]);
     }
     const deleteNeular=(id)=>{
@@ -33,7 +37,7 @@ export default function NeuralNet() {
             layer[0].neurals.pop();
             nn[id]=layer[0];
             layer[0].neuralsCount--;
-            setNeuralNet(nn)            
+            modifyOptions(nn,'neuralNetwork')           
         }
         setCoordinates([]);
     }
@@ -53,7 +57,6 @@ export default function NeuralNet() {
             updateNNCoordinates(coordinates)
         }
     }
-
     return (
         <div className='neuralNet'>
             <VisualHeader header={'Neural Network'}/>

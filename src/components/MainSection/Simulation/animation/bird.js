@@ -14,7 +14,11 @@ class Bird{
         if(brain){
             this.brain=brain.copy();
         }else{
-            this.brain=new NeuralNetwork(nnForm[0],nnForm[1],nnForm[2]);
+            this.brain=new NeuralNetwork(
+                nnForm[0].neuralsCount,
+                nnForm[1].neuralsCount,
+                nnForm[2].neuralsCount
+            );
         }
         this.update=()=>{
             this.velocity+=this.gravity;

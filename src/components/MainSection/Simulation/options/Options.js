@@ -8,8 +8,8 @@ import svgs from '../../../../utils/Utils'
 
 export default function Options(props) {
 
-    // console.log(props);
-    const {speed,gapWidth,initialPopulation,population,count,generation,scoreCount,state,closingRate,mutateRate}=props
+
+    const {speed,population,count,generation,scoreCount,state,currentGapWidth}=props
 
     const [optionsOpen,setOptions]=useState(false)
 
@@ -21,8 +21,6 @@ export default function Options(props) {
         <div className='options'>
             <div className='simulationControl' >
                 <SimulationButtons
-                    speed={props.speed}
-                    gapWidth={props.gapWidth}
                     state={state}
                     startSimulation={props.startSimulation}
                     pauseSimulation={props.pauseSimulation}
@@ -39,15 +37,12 @@ export default function Options(props) {
                 generation={generation}
                 count={count}
                 scoreCount={scoreCount}
-                initialPopulation={initialPopulation} 
+                population={population} 
                 state={state} 
+                currentGapWidth={currentGapWidth}
             />
             <SetupInput
                 openOptions={openOptions}
-                changeGapWidth={props.changeGapWidth}
-                gapWidth={props.gapWidth}
-                changePopulationSize={props.changePopulationSize}
-                initialPopulation={props.initialPopulation}
                 state={state}
             />
             <div className='additionalnputs' style={{
@@ -56,10 +51,6 @@ export default function Options(props) {
                 display:state==='Offline'?'':'none'
                 }}>
                 <AdditionalInputs
-                    changeClosingRate={props.changeClosingRate}
-                    closingRate={closingRate}
-                    mutateRate={mutateRate}
-                    changeMutateRate={props.changeMutateRate}
                     state={state}
                 />  
             </div>

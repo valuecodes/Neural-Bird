@@ -1,8 +1,8 @@
-import React from 'react'
+import React,{useContext} from 'react'
+import {GlobalOptions} from '../../../../context/GlobalOptions'
 
 export default function AdditionalInputs(props) {
-    const {closingRate,mutateRate}=props
-
+    const {options,modifyOptions}=useContext(GlobalOptions);
     return (
         <div className='inputContainer'>
             <div className='optionHeader'>                
@@ -11,16 +11,16 @@ export default function AdditionalInputs(props) {
             <div className='input'>
                     <div>
                     <p>Closing Rate</p>
-                    <input type='range' defaultValue={5000} step={10} min={100} max={9999}onChange={(e)=>props.changeClosingRate(e)} />                           
+                    <input type='range' defaultValue={5000} step={10} min={100} max={9999} onChange={(e)=>modifyOptions(Number(e.target.value),'closingRate')} />                           
                 </div>
-                <h3 className='inputValue'>{closingRate}</h3> 
+                <h3 className='inputValue'>{options.closingRate}</h3> 
             </div>  
             <div className='input'>
                     <div>
                     <p>Mutate rate</p>
-                    <input type='range'min={0} max={50} defaultValue={10} onChange={(e)=>props.changeMutateRate(e)} />
+                    <input type='range'min={0} max={50} defaultValue={10} onChange={(e)=>modifyOptions(Number( e.target.value/100),'mutateRate')} />
                 </div>
-                <h3 className='inputValue'>{(mutateRate*100).toFixed(0)+'%'}</h3> 
+                <h3 className='inputValue'>{(options.mutateRate*100).toFixed(0)+'%'}</h3> 
             </div>    
       </div>
     )

@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function SpeedInput(props) {
+export default React.memo(function SpeedInput(props) {
     const {speed}=props;
     return (
         <div className='speedInput'>
@@ -9,4 +9,4 @@ export default function SpeedInput(props) {
             </div>           
     </div>
     )
-}
+})

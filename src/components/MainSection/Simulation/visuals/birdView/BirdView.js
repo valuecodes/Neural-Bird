@@ -1,14 +1,13 @@
-import React,{useContext} from 'react'
-import {GlobalContext} from '../../../../../context/GlobalState'
+import React,{useContext,useEffect} from 'react'
+import {GlobalInOut} from '../../../../../context/GlobalInOut'
 import VisualHeader from '../VisualHeader'
 
 export default function BirdView() {
-
-    const { globalInputData} = useContext(GlobalContext)
+    const { inOutData} = useContext(GlobalInOut)
     return (
         <div className='birdView'>
             <VisualHeader header={'Bird View'}/>
-            {globalInputData.map((input,index)=>
+            {inOutData.map((input,index)=>
                 <div key={index} className='birdInput'>
                     <p>{`Bird y:${input[0].toFixed(2)}`}</p>
                     <p>{`Pipe top:${input[1].toFixed(2)}`}</p>
