@@ -269,6 +269,13 @@ body{
   border-top: 2px solid var(--line-color);
 }
 
+.statCanvas{
+  position: relative;
+  margin-left: auto;
+  margin-top: -150px;
+  background-color: rgba(173, 41, 41, 0.247);
+}
+
 .charts{
   margin:auto;
   margin-top: 165px;

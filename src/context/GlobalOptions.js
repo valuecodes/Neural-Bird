@@ -4,11 +4,16 @@ import AppReducer from './AppReducer'
 const initialOptions={
     options:{
         closingRate:5000,
-        mutateRate:10,
         gapWidth:100,
         hardness:20,
         population:10,
         speed:1,
+        pipeRate:140,
+        choiceRate:55,
+        poolSize:10,
+        mutateRate:10,
+        selectionPower:1,
+        recreateRate:100,
         neuralNetwork:[
             {type:'Input',neuralsCount:5,id:0,neurals:[
                 {id:1,name:'1'},
