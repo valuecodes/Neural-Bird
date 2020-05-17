@@ -31,7 +31,6 @@ export default function NeuralSvg(props) {
                         y2:nnc[eCount].y+nnc[sCount].height/2-offSet.y,
                     })
                     eCount++;
-                    
                 }     
                 eCount=layers[thisLayer].length+totalCount;
                 sCount++;
@@ -48,8 +47,6 @@ export default function NeuralSvg(props) {
                 style={{
                     stroke:'black',
                     strokeWidth:0.5,
-                    // strokeDasharray: 100,
-                    // strokeDashoffset:150
                 }}  /> 
             )}
         </svg>

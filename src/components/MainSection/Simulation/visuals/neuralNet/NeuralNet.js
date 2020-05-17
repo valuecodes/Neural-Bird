@@ -6,14 +6,10 @@ import NeuralSvg from './NeuralSvg'
 import {GlobalContext} from '../../../../../context/GlobalState'
 import {GlobalOptions} from '../../../../../context/GlobalOptions'
 
-let coordi=[];
-
 export default function NeuralNet() {
 
-    const { globalNeuralNetwork,setGlobalNeuralNetwork,updateNNCoordinates } =useContext(GlobalContext);
-
+    const { updateNNCoordinates }=useContext(GlobalContext);
     const {options,modifyOptions}=useContext(GlobalOptions);
-
     const [neuralNet,setNeuralNet]=useState([])
     let [coordinates,setCoordinates]=useState([]);
 
@@ -42,20 +38,14 @@ export default function NeuralNet() {
         setCoordinates([]);
     }
 
-    
-
     const updateCoordinates=(cor,lID,NID)=>{
-        if(lID===0&&NID===1){
-            coordinates=[]
-        }
+        if(lID===0&&NID===1) coordinates=[]
 
         let sum = neuralNet.reduce((accumulator, neural)=> 
         accumulator + neural.neurals.length
       , 0)
         coordinates.push(cor);
-        if(coordinates.length===sum){
-            updateNNCoordinates(coordinates)
-        }
+        if(coordinates.length===sum) updateNNCoordinates(coordinates)
     }
     return (
         <div className='neuralNet'>
@@ -71,7 +61,6 @@ export default function NeuralNet() {
                     <Layer key={index} updateCoordinates={updateCoordinates} layer={layer}/>
                 )}                
             </div>
-            
         </div>
     )
 }

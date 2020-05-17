@@ -6,7 +6,6 @@ export function nextGeneration(birds,options,generationalData,currentRound) {
     let {
       mutateRate,
       neuralNetwork,
-      poolSize,
       recreateRate,
       population
     }=options;
@@ -59,7 +58,6 @@ export function nextGeneration(birds,options,generationalData,currentRound) {
       for(var i=0;i<birds.length;i++){
         if(Math.random()<birds[i].fitness){
             found=true;
-            // return birds[i].brain.copy()
             return {
               bird:birds[i],
               data:[i,birds[i].score,birds[i].fitness]
@@ -88,7 +86,6 @@ export function nextGeneration(birds,options,generationalData,currentRound) {
   function calculateFitness(birds,options) {
     const {selectionPower,poolSize}=options
     let pool=birds.slice(birds.length-poolSize,birds.length);
-    console.log(pool,birds);
     let sum = 0;
     for (let z=0;z<pool.length;z++) {
       let birdScore=pool[z].score

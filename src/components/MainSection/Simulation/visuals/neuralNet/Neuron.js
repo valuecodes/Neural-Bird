@@ -1,11 +1,11 @@
 import React from 'react'
 
-export default function Neuron({neuron}) {
+export default function Neuron({neuron,type}) {
     return (
         <>
-            <p>
-            {/* {neuron.id} */}
-            </p>
+            <div className='neuronInfo'>
+                {type} {neuron.name}
+            </div>
         </>
     )
 }

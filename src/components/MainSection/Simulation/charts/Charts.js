@@ -1,14 +1,16 @@
 import React,{useContext,useState,useEffect} from 'react'
 import {GlobalGenerational} from '../../../../context/GlobalGenerational'
+import { GlobalContext } from './../../../../context/GlobalState'
 import { Bar } from 'react-chartjs-2';
 
 export default function Charts() {
 
-    const {generationalData} = useContext(GlobalGenerational)
+    const { generationalData } = useContext(GlobalGenerational)
+    const { globalSimulationState } = useContext(GlobalContext)
 
     const [chartData,setChartData]=useState({
-        max:[],
-        total:[]
+        max:{},
+        total:{}
     });
 
     const [chartOptions,setChartOptions]=useState({});
@@ -19,7 +21,6 @@ export default function Charts() {
             responsive: true,
             legend: {
                 display: true,
-                
                 labels: {
                     boxWidth: 0,
                     "fontSize": 20,
@@ -42,16 +43,13 @@ export default function Charts() {
     },[])
 
     useEffect(()=>{
-
         const {roundScores,totalRoundScores}=generationalData;
         let labels=[];
         let labelsTotal=[];
-
         for(var i=1;i<=roundScores.length;i++){
             labels.push('Gen:'+i)
             labelsTotal.push('Gen:'+i)
         }
-
         const max= {
             labels: labels,
             datasets: [{
@@ -63,7 +61,6 @@ export default function Charts() {
                 maxBarThickness:20
             }]
         }
-
         const total= {
             labels: labelsTotal,
             datasets: [{
@@ -77,26 +74,28 @@ export default function Charts() {
         }
         setChartData({max,total});
     },[generationalData])
-
+    console.log(globalSimulationState)
     return (
-        <div className='charts' >
-            <div className='chart'>
-                <Bar
-                    data={chartData.max}
-                    // width={60}
-                    // height={40}
-                    options={chartOptions}
-                    // datasetKeyProvider={globalRoundScore}
-                />                
-            </div>
-            <div className='chart'>
-                <Bar
-                    data={chartData.total}
-                    // width={60}
-                    // height={40}
-                    options={chartOptions}
-                    // datasetKeyProvider={globalRoundScore}
-                />    
+        <div className='chartContainer'
+            style={{marginLeft:globalSimulationState}}
+        >
+            <div className='charts'
+                style={{
+                    marginLeft:globalSimulationState==='Offline'?600:40
+                }}
+            >
+                <div className='chart'>
+                    <Bar
+                        data={chartData.max}
+                        options={chartOptions}
+                    />                
+                </div>
+                <div className='chart'>
+                    <Bar
+                        data={chartData.total}
+                        options={chartOptions}
+                    />    
+                </div>                
             </div>
         </div>
     )

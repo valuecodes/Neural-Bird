@@ -1,4 +1,4 @@
-import React,{useEffect,useState} from 'react'
+import React from 'react'
 
 export const SimulationButtons=(props)=> {
     const {state}=props
@@ -9,18 +9,21 @@ export const SimulationButtons=(props)=> {
                     display:state!=='Offline'?'none':''
                 }} 
                 onClick={()=>props.startSimulation()}
-                >Start Simulation</button>
-            
+                >Start Simulation
+            </button>
             <button 
                 style={{
                     display:state==='Offline'?'none':''
                 }} 
                 onClick={()=>props.pauseSimulation()}
-                >{state==='Paused'?'Continue':'Pause'}</button> 
+                >{state==='Paused'?'Continue':'Pause'}
+            </button> 
             <button 
                 style={{
                     display:state==='Offline'?'none':''
-            }} onClick={()=>props.resetSimulation()}>Reset</button>
+                }} onClick={()=>props.resetSimulation()}
+                >Reset
+            </button>
         </div>
     )
 }

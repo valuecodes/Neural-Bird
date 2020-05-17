@@ -1,6 +1,6 @@
 
 body{
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 :root{
@@ -111,34 +111,41 @@ body{
   padding:0px;
 }
 
-.additionalnputs{
-  width: 400px;
+.additionaOptions{
+  transition: 250ms width;
+  transition-timing-function: ease-out;
   position: relative;
   margin-top: 5px;
   height: 750px;
   display: grid;
   grid-template-rows: 40px repeat(10,50px);
   overflow: hidden;
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(178, 192, 185);
   border: 1px solid var(--line-color);
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  background-color: rgb(194, 206, 202);
+  box-shadow: 0px 0px 1px 1px #d3d3d3;
 }
 
 .aOptionHeader{
-  font-size: 25px;
+  font-size: 20px;
+}
+
+.aOptionContainer  h2{
+  margin-top: 0px;
+  padding: 0px;
 }
 
 .inputContainer{
   width: 400px;
-  margin: auto;
+  margin-left:40px; 
 }
 
 .input{
-  width: 150px;
+  /* width: 250px; */
   display: grid;
-  grid-template-columns: 140px 50px;
+  grid-template-columns: 270px 70px 40px;
+  grid-template-rows: 25px 30px;
 }
 
 .input p{
@@ -148,8 +155,43 @@ body{
 
 .inputValue{
   margin: 0px;
-  margin-top: 20px;
+  margin-top: 12px;
   text-align: left;
+}
+
+.description{
+  margin-top: 0x;
+  width: 40px;
+  height: 40px;
+
+}
+
+.description:hover .descriptionText{ 
+  width: 360px;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.descriptionText{  
+  transition: 200ms width;
+  position: relative;
+  left: -400px;
+  width: 0px;
+  height: 50px;
+  overflow: hidden; 
+  background-color: rgb(104, 104, 104);
+  color: rgb(223, 223, 223);
+  z-index: 10;
+  background: linear-gradient(90deg, rgb(129, 129, 129) 80%, rgba(255, 255, 255, 0) 100%);
+}
+
+.infosvg{
+  fill: rgb(150, 71, 71);
+}
+
+.inputSlider{
+  height: 2px;
+  width: 250px;
 }
 
 /* Simulation control */
@@ -273,18 +315,27 @@ body{
   position: relative;
   margin-left: auto;
   margin-top: -150px;
-  background-color: rgba(173, 41, 41, 0.247);
+  background-color: rgba(255, 255, 255, 0);
+}
+
+.chartContainer{
+  overflow: hidden;
+  height: 800px;
+  width: 600px; 
 }
 
 .charts{
+  width: 500px; 
   margin:auto;
   margin-top: 165px;
-  height: 300px;
-  width: 500px;
   display: grid;
   grid-row-gap: 100px;
+  transition: 600ms margin-left;
 }
 
+.chart{
+    /* margin-left: 500px; */
+}
 .visuals{
   height: 300px;
   width: 500px;
@@ -298,17 +349,22 @@ body{
   display: grid;
   grid-template-columns: repeat(4,1fr);
   border-radius: 5px;
+  box-shadow: 0px 0px 2px 2px #d3d3d3;
 }
 
 .visualNavigation button{
   background-color: rgba(255, 255, 255, 0);
+  border-radius: 5px;
   height: 50px;
   border: none;
   padding: 0px;
+  transition: 200ms background-color;
+  font-size: 15px;
 }
 
 
 .visualNavigation button:hover{
+  background-color: #919191;
   cursor: pointer;
 }
 
@@ -439,7 +495,7 @@ body{
   grid-template-rows: 200px repeat(auto-fit,minmax(30,1fr)); 
   justify-self: center;
   grid-row-gap: 10px;
-  /* margin-left: 15px; */
+  color: #7c7c7c;
 }
 
 
@@ -475,19 +531,44 @@ body{
   background-color: rgb(255, 255, 255);
   border-radius: 50%;
   justify-self: center;
-  display: flex;
+  /* display: flex; */
   box-shadow: inset 0 0 3px rgb(97, 97, 97);
+  transition: 200ms transform;
 }
 
 .neuron:hover{
-
+  /* opacity: 0.8; */
+  transform: scale(0.95)
 }
 
-.neuron p{
+.neuronInfo{
+  position: relative;
+  top: 0px;
+  left: 22px;
+  height: 0px;
+  width: 0px;
+  background-color: #979797;
+  color: rgb(230, 230, 230);
+  opacity: 0;
+  transition: opacity 200ms, height 200ms, width 200ms, top 200ms,opacity 200ms;  
+  border: 2px solid rgb(194, 194, 194);
+  border-radius: 5px 5px 5px 0px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.neuron:hover .neuronInfo{
+  opacity: 1;
+  width: 70px;
+  top: -25px;
+  height: 25px;
+}
+
+/* .neuron p{
   width: 30px;
   align-self: center;
   text-align: center;
-}
+} */
 
 
 .DNA{
@@ -594,7 +675,7 @@ body{
   }
   
   input[type='range']::-webkit-slider-runnable-track {
-    width: 20px;
+    width: 30px;
     height: 2px;
     border: none;
     border-radius: 3px
@@ -615,5 +696,25 @@ body{
   input[type=range]:focus {
     outline: none
   }
+}
 
+@media only screen and (max-width: 1050px) {
+  body{
+    /* zoom: 50%; */
+  }
+  .mainSection{
+    grid-template-columns: 1vw;
+    grid-template-rows: repeat(3,700px)
+  }
+  .neuralNetwork{
+    margin: auto;
+  }
+
+  .visuals{
+    width: 100vw;
+  }
+
+  .neuralSvg{
+    width: 100vw;
+  }
 }

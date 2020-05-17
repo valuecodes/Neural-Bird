@@ -16,7 +16,7 @@ export default function GenerationData() {
             <div className='currentGen'>
                 {generationalData.generationData.currentGeneration.map((gen,index)=>
                     <div key={index}>
-                        <p >{gen[0]}{gen[1]}</p>
+                        <p>{gen[0]}{gen[1]}</p>
                     </div> 
                 )}
             </div>

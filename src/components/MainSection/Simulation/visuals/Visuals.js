@@ -9,11 +9,9 @@ import {GlobalContext} from '../../../../context/GlobalState'
 export default function Visuals() {
 
     const { setVisual } =useContext(GlobalContext);
-
     const [currentPage,setCurrentPage]=useState('nn')
-
+    
     const changePage=(page)=>{
-        console.log(page)
         setCurrentPage(page);
         setVisual(page)
     }
@@ -25,34 +23,24 @@ export default function Visuals() {
             />
             <div className='visualPages'>
                 <div
-                    style={{
-                        display:currentPage==='nn'?'':'none'
-                    }}
-                className='visualPage'>
+                    style={{display:currentPage==='nn'?'':'none'}}
+                    className='visualPage'>
                     <NeuralNet/>
                 </div>
-
                 <div
-                    style={{
-                        display:currentPage==='bird'?'':'none'
-                    }}
+                    style={{display:currentPage==='bird'?'':'none'}}
                     className='visualPage'>
                     <BirdView/>
                 </div>
-
                 <div
-                    style={{
-                        display:currentPage==='family'?'':'none'
-                    }}
+                    style={{display:currentPage==='family'?'':'none'}}
                     className='visualPage'>
                     <FamilyTree/>
                 </div>
                 <div
-                    style={{
-                        display:currentPage==='dna'?'':'none'
-                    }}
+                    style={{display:currentPage==='dna'?'':'none'}}
                     className='visualPage'>
-                        <DNA/>
+                    <DNA/>
                 </div>
             </div>
         </div>

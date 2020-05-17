@@ -9,7 +9,6 @@ export default function Layer( props) {
         id:0,
         neurals:[]
     });    
-    
     const [coordinates]=useState([]);
 
     useEffect(()=>{
@@ -18,10 +17,8 @@ export default function Layer( props) {
         }
     },[layer])
 
-
     return (
         <div className='layer'>
-        
             <div className='layerHeader'>            
                 <h3>{currentLayer.type}</h3>
             </div>
@@ -31,12 +28,10 @@ export default function Layer( props) {
                         if(layer.neurals.length===currentLayer.neurals.length){
                             props.updateCoordinates(el.getBoundingClientRect(),layer.id,neuron.id)
                         }
-                        
                     }}>
-                <Neuron neuron={neuron}/>
+                <Neuron neuron={neuron} type={currentLayer.type}/>
                 </div>
             )}
-            
         </div>
     )
 }

@@ -1,4 +1,4 @@
-import React,{useState,useEffect,useContext,useRef} from 'react'
+import React,{useState,useEffect,useContext} from 'react'
 import Bird from './animation/bird'
 import Pipe from './animation/pipe'
 import Options from './options/Options'
@@ -15,30 +15,15 @@ export default function Simulation() {
     const {
         setGenerationalData,
         generationalData,
-        resetGenerationalData}=useContext(GlobalGenerational)
-    const { 
-        setGlobalState,
-        setGlobalSimulationState,
-        visual,
-    }=useContext(GlobalContext);
+        resetGenerationalData
+    }=useContext(GlobalGenerational)
+    const { setGlobalSimulationState,visual }=useContext(GlobalContext);
 
     let currentAnimation=React.useRef(null)
-
     const canvasRef = React.useRef(null)
     const statCanvasRef = React.useRef(null)
     const [mainCanvas,setMainCanvas]=useState(null);
     const [statCanvas,setStatCanvas]=useState(null);
-    
-    useEffect(()=>{
-        const canvas=canvasRef.current;
-        const ctx=canvas.getContext('2d');
-        const statCanvas = statCanvasRef.current;
-        const statctx=statCanvas.getContext('2d');
-        setStatCanvas(statctx)
-
-    },[])
-
-
     const [speed,setSpeed]=useState(1);
     const [pause,setPause]=useState(true);
     const [state,setState]=useState('Offline')
@@ -53,7 +38,16 @@ export default function Simulation() {
         roundScore:[],
         totalRoundScore:[],
         deadBirds:[],
-    });
+    });    
+
+    useEffect(()=>{
+        const canvas=canvasRef.current;
+        const ctx=canvas.getContext('2d');
+        const statCanvas = statCanvasRef.current;
+        const statctx=statCanvas.getContext('2d');
+        setStatCanvas(statctx)
+        setMainCanvas(ctx);
+    },[])
 
     useEffect(()=>{
         if(state!=='Offline'&&state!=='Paused') simulation(speed,false)
@@ -75,6 +69,7 @@ export default function Simulation() {
             roundScore,
             totalRoundScore
         }=savedData.current
+
         let {
             closingRate,
             population,
@@ -82,6 +77,7 @@ export default function Simulation() {
             pipeRate,
             choiceRate,
         }=options
+
         let inputData=null;
         
         setPause(false);
@@ -119,7 +115,7 @@ export default function Simulation() {
                     if(gapWidth>10) gapWidth--;
                 }
                 
-                if(currentRound%pipeRate==0){
+                if(currentRound%pipeRate===0){
                     pipes.push(new Pipe(Math.floor(Math.random()*difficulty+(300-difficulty/2))))
                 }
 
@@ -166,8 +162,13 @@ export default function Simulation() {
                     currentRound=0;
                     scoreCount=0;
                     generation++;
-                    gapWidth=gapWidth
-                    setGenerationalData(roundScore,totalRoundScore,data.dna,data.generationData.generationData)
+                    gapWidth=options.gapWidth
+                    setGenerationalData(
+                        roundScore,
+                        totalRoundScore,
+                        data.dna,
+                        data.generationData.generationData
+                    )
                 }
                 currentRound++;
                 scoreCount++;
@@ -193,59 +194,58 @@ export default function Simulation() {
         simulationLoop();
     }
     
-    function mainAnimation(birds,pipes,gapWidth,inputData){   
-        const canvas=canvasRef.current;
-        const ctx=canvas.getContext('2d');
-        ctx.beginPath(0,0);
-        ctx.clearRect(0, 0, 800, 800);
-        ctx.strokeStyle = "#000000";
+    function mainAnimation(birds,pipes,gapWidth,inputData){
+        resetCanvas(mainCanvas)
+        mainCanvas.strokeStyle = "#000000";
         for(var b=0;b<birds.length;b++){
-            ctx.rect(...birds[b].getPosition());
+            mainCanvas.rect(...birds[b].getPosition());
         }
         for(var i=0;i<pipes.length;i++){
-            ctx.rect(...pipes[i].getTopPipe(gapWidth));
-            ctx.rect(...pipes[i].getBotPipe(gapWidth));
+            mainCanvas.rect(...pipes[i].getTopPipe(gapWidth));
+            mainCanvas.rect(...pipes[i].getBotPipe(gapWidth));
         }
-        ctx.stroke();
+        mainCanvas.stroke();
         if(visual==='bird'&&speed<5&&inputData!==null){
-            displayBirdView(canvas,ctx,inputData);
+            displayBirdView(inputData);
         }
     }
 
     const displayRoundStats=(data,population)=>{
-        const {generation,birds,deadBirds,scoreCount,gapWidth}=data.current
+        const {generation,birds,scoreCount,gapWidth}=data.current
 
         resetCanvas(statCanvas);
-        statCanvas.font = "20px Arial";
-        statCanvas.fillText('Generation:', 10, 40);  
-        statCanvas.fillText('Bird Count:', 10, 70); 
-        statCanvas.fillText('Score:', 10, 100); 
-        statCanvas.fillText('Gap Width:', 10, 130); 
+        statCanvas.font = "20px Arial ";
+        statCanvas.fontColor = "20px Arial";
+        statCanvas.fillStyle = 'rgb(114, 114, 114)';
+        statCanvas.fillText('Generation:', 10, 35);  
+        statCanvas.fillText('Bird Count:', 10, 65); 
+        statCanvas.fillText('Score:', 10, 95); 
+        statCanvas.fillText('Gap Width:', 10, 125); 
 
-        statCanvas.font = "26px Arial";
-        statCanvas.fillText(generation, 130, 40);
-        statCanvas.fillText(`${birds.length}/${population}`, 130, 70);
-        statCanvas.fillText(scoreCount, 130, 100);
-        statCanvas.fillText(gapWidth, 130, 130);  
+        statCanvas.font = "700 26px Arial";
+        statCanvas.fillStyle = 'rgb(55, 61, 80)';
+        statCanvas.fillText(generation, 130, 35);
+        statCanvas.fillText(`${birds.length}/${population}`, 130, 65);
+        statCanvas.fillText(scoreCount, 130, 95);
+        statCanvas.fillText(gapWidth, 130, 125);  
     }
 
     const resetCanvas=(ctx)=>{
         ctx.beginPath(0,0);
-        ctx.clearRect(0, 0, 200, 200);
+        ctx.clearRect(0, 0, 800, 800);
     }
 
-    const displayBirdView=(canvas,ctx,inputData)=>{   
-        ctx.beginPath(0,0);
-        ctx.strokeStyle = "#FF0000";
-        ctx.rect(inputData[3]*600-5,inputData[2]*600-15,30,30)
-        ctx.rect(inputData[3]*600-5,inputData[1]*600-15,30,30)
-        ctx.rect(20-5,inputData[0]*600-5,20,20)
-        ctx.rect(20+30,inputData[0]*600+5,0,-20+inputData[4]*120)
-        ctx.stroke();
+    const displayBirdView=(inputData)=>{  
+        mainCanvas.beginPath(0,0);
+        mainCanvas.strokeStyle = "#FF0000";
+        mainCanvas.rect(inputData[3]*600-5,inputData[2]*600-15,30,30)
+        mainCanvas.rect(inputData[3]*600-5,inputData[1]*600-15,30,30)
+        mainCanvas.rect(20-5,inputData[0]*600-5,20,20)
+        mainCanvas.rect(20+30,inputData[0]*600+5,0,-20+inputData[4]*120)
+        mainCanvas.stroke();
     }
 
     const setupAnimation=()=>{
-        let sData=savedData.current
         const canvas=canvasRef.current
         const ctx=canvas.getContext('2d')
         let pipes=[];
@@ -334,19 +334,13 @@ export default function Simulation() {
                 className='canvas'
                 width={600}
                 height={600}
-                style={{
-                    fill:'black',
-                }}
             >
             </canvas>
             <canvas
                 ref={statCanvasRef}
                 className='statCanvas'
                 width={200}
-                height={150}
-                style={{
-                    fill:'black',
-                }}
+                height={state==='Offline'?0:150}
             >
             </canvas>
         </div>

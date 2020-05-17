@@ -17,24 +17,24 @@ const initialOptions={
         neuralNetwork:[
             {type:'Input',neuralsCount:5,id:0,neurals:[
                 {id:1,name:'1'},
-                {id:2,name:'1'},
-                {id:3,name:'1'},
-                {id:4,name:'1'},
-                {id:5,name:'1'},
+                {id:2,name:'2'},
+                {id:3,name:'3'},
+                {id:4,name:'4'},
+                {id:5,name:'5'},
             ]},
             {type:'Hidden',neuralsCount:8,id:1,neurals:[
                 {id:1,name:'1'},
-                {id:2,name:'1'},
-                {id:3,name:'1'},
-                {id:4,name:'1'},
-                {id:5,name:'1'},
-                {id:6,name:'1'},
-                {id:7,name:'1'},
-                {id:8,name:'1'},
+                {id:2,name:'2'},
+                {id:3,name:'3'},
+                {id:4,name:'4'},
+                {id:5,name:'5'},
+                {id:6,name:'6'},
+                {id:7,name:'7'},
+                {id:8,name:'8'},
             ]},
             {type:'Output',neuralsCount:2,id:2,neurals:[
                 {id:1,name:'1'},
-                {id:2,name:'1'},
+                {id:2,name:'2'},
             ]},
         ]
     }
@@ -46,7 +46,7 @@ export const GlobalOptionsProvider=({children})=>{
 
     const [state,dispatch]= useReducer(AppReducer,initialOptions);
 
-    const modifyOptions=(value,optionName,adj=[0,0])=>{
+    const modifyOptions=(value,optionName)=>{
         let newValue=value;
         if(!isNaN(newValue))newValue=Number(newValue)
         let modifiedOptions={...state.options};

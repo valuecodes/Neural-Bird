@@ -3,7 +3,6 @@ import {GlobalGenerational} from '../../../../../context/GlobalGenerational'
 import { Radar } from 'react-chartjs-2';
 import VisualHeader from '../VisualHeader'
 
-
 export default function DNA() {
     const chartRef = React.useRef(null)
     const {generationalData} = useContext(GlobalGenerational)
@@ -38,9 +37,8 @@ export default function DNA() {
         let fitnessPercentage=calculateFitness(roundScores);
         if(isNaN(fitnessPercentage)) fitnessPercentage=0
         setFitness(fitnessPercentage)
-        if(fitnessPercentage>100)fitnessPercentage=100
+        if(fitnessPercentage>100) fitnessPercentage=100
 
-                // let sum=0;
         if(dna.length!==0){
             let newData={
                 labels: [],
@@ -91,65 +89,6 @@ export default function DNA() {
             setData(newData)   
         }
     },[generationalData,structure])
-
-    // useEffect(()=>{
-    //     // let sum=0;
-    //     if(globalDNA.length!==0){
-    //         let newData={
-    //             labels: [],
-    //             datasets: [{
-    //                 label: '1',
-    //                 borderColor: "rgba(53, 53, 53, 0.438)",
-    //                 borderWidth:2,
-    //                 data: []
-    //             },
-    //             {
-    //                 label: '2',
-    //                 backgroundColor: 'rgba(13, 72, 92,0)',
-    //                 borderColor: "rgba(53, 53, 53, 0)",
-    //                 borderWidth:2,
-    //                 pointBorderColor: "rgba(13, 72, 92,1)'",
-    //                 data: []
-    //             },
-    //             {
-    //                 label: '3',
-    //                 backgroundColor: "rgba(53, 53, 53, 0.5)",
-    //                 borderColor: "rgba(53, 53, 53, 1)",
-    //                 borderWidth:2,
-    //                 pointWidth:0,
-    //                 pointRadius: 0,
-    //                 pointBorderColor: "rgba(13, 72, 92,0.1)",
-    //                 pointBackgroundColor: "rgba(179,181,198,0)",
-    //                 data: []
-    //             }
-    //         ]
-    //         }
-
-    //         let count=0;
-    //         for(var i=0;i<globalDNA.length-1;i++){
-    //             if(i===1){
-    //                 continue;
-    //             }
-    //             for(var a=0;a<globalDNA[i].length;a++){
-    //                 newData.labels.push(`${structure[count]}${a}`)
-    //                 newData.datasets[0].data.push(globalDNA[i][a]) 
-    //                 newData.datasets[1].data.push(1) 
-    //                 newData.datasets[2].data.push(-1) 
-    //                 count++;
-    //                 if(count>=80){
-    //                     count=0;
-    //                 }
-    //             }
-    //         }
-    //         setData(newData)   
-    //         // setSum(sum); 
-    //     }
-    // },[globalDNA,structure])
-
-
-    
-
-
 
     return (
         <div className='DNA'>
