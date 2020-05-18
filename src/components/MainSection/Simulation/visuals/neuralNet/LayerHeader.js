@@ -25,7 +25,7 @@ export default function LayerHeader(props) {
             </div>
                 <img
                     alt='optionImage'
-                    style={{marginTop:optionOpen?-30:+20}}
+                    style={{marginTop:optionOpen?-40:+20}}
                     onClick={()=>openOptions()} 
                     className='optionImage layerOpen' 
                     src={svgs.options}

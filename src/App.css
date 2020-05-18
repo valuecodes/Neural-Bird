@@ -1,42 +1,89 @@
-
+@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
 body{
+  /* font-family: 'Roboto', Tahoma, Geneva, Verdana, sans-serif; */
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  /* background-color: rgba(54, 67, 90, 0.39); */
+  background-color: rgba(109, 119, 138, 0.39);
+  overflow: hidden;
 }
 
 :root{
-  --line-color:rgb(182, 182, 182)
+  /* --line-color:rgb(182, 182, 82) */
+  /* --ba */
+  --border-color:rgba(97, 97, 97, 0.568);
 }
 
-/* Navigation */
-.navbar{
+.backGround{
+  position: absolute;
   width: 100vw;
-  height: 30px;
-  margin-top: 10px;
-  background-color: rgb(255, 255, 255);
-  text-align: center;
+  height: 100vh;
+}
+
+/* BackGround */
+.backGroundCircle1{
+  /* position: absolute; */
+  height: 50vw;
+  width: 50vw;
+  border-radius: 50%;
+  /* background: rgba(247, 247, 248, 0.726); */
+  background: rgba(176, 181, 187, 0.726);
+  bottom: -5vw;
+  right: -10vw;
+  z-index: -1;
+}
+
+/* BackGround */
+.backGroundCircle2{
+  /* position: absolute; */
+  height: 30vw;
+  width: 30vw;
+  border-radius: 50%;
+  /* background: rgba(247, 247, 248, 0.726); */
+  background: rgba(176, 181, 187, 0.726);
+  top: -20vw;
+  left: -10vw;
+  z-index: -1;
+}
+
+/* BackGround */
+.backGroundCircle3{
+  /* position: absolute; */
+  height: 15vw;
+  width: 15vw;
+  border-radius: 50%;
+  /* background: rgba(247, 247, 248, 0.726); */
+  background: rgba(176, 181, 187, 0.726);
+  bottom: 0vw;
+  left: 15vw;
+  z-index: -1;
 }
 
 
 /* Main Section */
 .mainSection{
+  /* max-width: 99vw; */
   margin: auto; 
-  margin-top: 20px;
-  height: 800px;
+  margin-top: 80px;
+  height: 804px;
   display: grid;
   grid-template-columns: 1fr 600px 1fr;
+  overflow: hidden;
 }
 
 /* Neural Network */
 .neuralNetwork{
   position: relative;
-  background-color: rgb(211, 212, 212);  
   height: 800px;
   width: 600px;
   display: grid;
   grid-template-rows: 150px 0px 0px 600px 50px;
-  border: 2px solid rgb(163, 163, 163);
+  border: 2px solid var(--border-color);
   border-radius: 10px;
-  box-shadow: 0px 0px 2px 2px #d3d3d3;
+  box-shadow: 0px 0px 1px 1px rgba(97, 97, 97, 0.425);
+  /* background-color: rgba(103, 108, 117, 0.521); */
+  /* border-top: 0px; */
+  /* border-bottom: 0px; */
+  background-color: rgb(190, 199, 206);
 }
 
 /* Options */
@@ -45,7 +92,7 @@ body{
   width: 600px;
   display: grid;
   grid-template-columns: 1fr 200px 0px;
-  border-radius: 10px 10px 0px 0px;
+  border-radius: 10px 10px 10px 10px;
 }
 
 .optionHeader{
@@ -108,7 +155,7 @@ body{
 }
 
 .additionaOptions{
-  transition: 250ms width;
+  transition: 300ms width;
   transition-timing-function: ease-out;
   position: relative;
   margin-top: 5px;
@@ -117,10 +164,11 @@ body{
   grid-template-rows: 40px repeat(10,50px);
   overflow: hidden;
   background-color: rgb(178, 192, 185);
-  border: 1px solid var(--line-color);
+  background-color: rgb(190, 199, 206);
+  border: 2px solid var(--border-color);
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
-  box-shadow: 0px 0px 1px 1px #d3d3d3;
+  /* box-shadow: 0px 0px 1px 1px #d3d3d3; */
   max-width: 425px;
 }
 
@@ -196,7 +244,6 @@ body{
   height: 140px;
   display: grid;
   grid-template-rows: 40px 1fr;
-  /* background-color: antiquewhite; */
 }
 
 .simulationButtons{
@@ -210,22 +257,23 @@ body{
 .simulationButtons button{
   border: none;
   font-size: 15px;
-  background-color: rgb(134, 134, 134);;
-  color: rgba(255, 255, 255, 0.856);
+  background-color: rgb(155, 155, 155);
+  color: #141414;
   border-radius: 0px 0px 5px 5px;
+  border-bottom: 2px solid rgb(77, 77, 77);
 }
 
 
 .simulationButtons button:hover{
   background-color: rgb(100, 100, 100);
-  color: white;
+  color: rgba(255, 255, 255, 0.705);
   cursor: pointer;
 }
 
 .simulationState{
   padding-left: 10px;
   height: 80px;
-  background: linear-gradient(90deg, rgba(255, 255, 255, 0.5) 39%, rgba(0,0,0,0) 100%);
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.795) 39%, rgba(0,0,0,0) 100%);
 }
 
 .simulationState h3{
@@ -285,6 +333,7 @@ body{
 }
 
 .speed{
+  height: 4px;
   position: relative;
   width: 594px;
   border: 30px;
@@ -304,7 +353,7 @@ body{
 }
 
 .canvas{
-  background-color: rgb(255, 255, 255);
+  background-color: rgba(255, 255, 255, 0.658);
   border-bottom: 2px solid var(--line-color);
   border-top: 2px solid var(--line-color);
 }
@@ -314,8 +363,10 @@ body{
   margin-left: auto;
   margin-top: -150px;
   background-color: rgba(255, 255, 255, 0);
-  background-color: #bbbbbb;
+  /* border-left: 2px solid black; */
+  background-color: #fcfcfc;
   border-top-right-radius: 7px;
+
 }
 
 .chartContainer{
@@ -343,7 +394,7 @@ body{
 
 .visualNavigation{
   height: 50px;
-  background-color: rgb(233, 233, 233);
+  background-color: rgb(155, 155, 155);
   display: grid;
   grid-template-columns: repeat(4,1fr);
   border-radius: 5px;
@@ -351,18 +402,21 @@ body{
 }
 
 .visualNavigation button{
-  background-color: rgba(255, 255, 255, 0);
+  background-color: rgba(141, 32, 32, 0);
+  color: #141414;
   border-radius: 5px;
   height: 50px;
   border: none;
   padding: 0px;
   transition: 200ms background-color;
   font-size: 15px;
+  border-left: 2px solid rgb(77, 77, 77);
 }
 
 
 .visualNavigation button:hover{
-  background-color: #919191;
+  background-color: rgb(100, 100, 100);
+  color: rgba(255, 255, 255, 0.705);
   cursor: pointer;
 }
 
@@ -371,9 +425,11 @@ body{
 .visualHeader{
   width: 100%;
   height: 50px;
-  background-color: rgb(233, 233, 233);
+  background-color: rgb(255, 255, 255);
   border-radius: 5px;
+  border-left: 2px solid rgb(77, 77, 77);
 }
+
 .visualHeader h1{
   margin: 0px;
   padding: 0px;
@@ -398,7 +454,7 @@ body{
 }
 
 .fade{
-  background: rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%, rgba(255, 255, 255, .1) 30%, rgba(255, 255, 255, .5) 55%, rgba(255, 255, 255, 1) 100%) repeat scroll 0 0;
+  /* background: rgba(255, 255, 255, 0) linear-gradient(to bottom, rgba(0, 0, 0, 0) 10%,rgba(255, 255, 255, .1) 30%, rgba(255, 255, 255, .5) 55%, rgba(255, 255, 255, 1) 100%) repeat scroll 0 0; */
   position: relative;
   margin-top: -200px;
   height: 200px;
@@ -727,9 +783,11 @@ body{
     
   }
   .neuralNetwork{
-    width: 99vw;
+    width: 100vw;
     height: 99vh;
     grid-template-rows: 150px 0px 0px 600px 50px;
+    border-radius: 0px;
+    border: 0px;
   }
 
   /* Options */
@@ -768,14 +826,13 @@ body{
   }
 
   .additionaOptions{
-    max-width: 99vw;
+    max-width: 100vw;
     position: absolute;
     top: 136px;
-    z-index: 1;
     border: 0px;
     box-shadow: 0px 0px 1px 1px #d3d3d300;
     min-height: 100vh;
-    z-index: 2;
+    z-index: 3;
     overflow: scroll;
   }
 
@@ -820,7 +877,7 @@ body{
   }
 
   .canvas{
-    width: 98vw;
+    width: 100vw;
     height:75vh;
   }
   
@@ -838,16 +895,19 @@ body{
     z-index: 10;
     bottom: 0px;
     width: 100vw;
+    border-radius: 0px;
   }
 
   .visualNavigation{
-    grid-template-columns: repeat(5,1fr);
+    grid-template-columns: repeat(auto-fit,minmax(40px,1fr));
     height: 30px;
   }
   
   .visualNavigation button{
     height: 30px;
     font-size: 13px;
+    border-left: 2px solid rgb(77, 77, 77);
+    /* border-left: 0px; */
   }
 
   .visuals{
@@ -857,7 +917,6 @@ body{
   }
 
   .visualPages{
-    /* background-color: rgba(255, 255, 255, 0.377); */
     margin-top: -40px;
     padding-top: 80px;
     height: 110vh;
@@ -865,9 +924,9 @@ body{
 
   .visualShade{
     position: absolute;
-    height: 165px;
+    height: 150px;
     width: 100vw;
-    background-color: rgb(255, 255, 255);
+    background-color: rgb(190, 199, 206);
     z-index:-1;
   }
 

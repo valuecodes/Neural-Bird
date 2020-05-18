@@ -73,7 +73,8 @@ export default function AdditionalOptions({optionsOpen,state}) {
         style={{
             width:optionsOpen?"100vw":0,
             // height:optionsOpen?"100vh":0,
-            display:state==='Offline'?'':'none'
+            display:state==='Offline'?'':'none',
+            borderWidth:optionsOpen?2:0,
         }}>
             <div className='inputContainer'>
                 <div className='aOptionHeader'>                
