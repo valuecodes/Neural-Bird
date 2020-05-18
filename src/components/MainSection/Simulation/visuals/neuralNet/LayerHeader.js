@@ -14,7 +14,7 @@ export default function LayerHeader(props) {
       , 0)
     return (
         <div className='layerOptions' style={{
-            marginTop:optionOpen?-10:-60
+            marginTop:optionOpen?-0:-60
         }}>
             <div className='lOptions' style={{
                 opacity:optionOpen?1:0,
@@ -32,7 +32,7 @@ export default function LayerHeader(props) {
                 /> 
             <div
             style={{
-                marginTop:optionOpen?20:-120
+                marginTop:optionOpen?10:-120
             }}
             className='neuralOptions'>
                 {neuralNet.map((layer,index)=>

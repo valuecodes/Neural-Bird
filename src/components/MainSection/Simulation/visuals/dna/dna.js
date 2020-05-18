@@ -94,36 +94,39 @@ export default function DNA() {
     return (
         <div className='DNA'>
             <VisualHeader header={'DNA'}/>
-            <div className='dnaChart'>
-                <div className='centerDot'>
-                    <p>Fitness:</p>
-                    <h3 className='fitnessPercentage'>{fitness}%</h3>
+            <div className='dnaPage'>
+                <div className='centerAlign'>
+                    <div className='centerDot'>
+                        <p>Fitness:</p>
+                        <h3 className='fitnessPercentage'>{fitness}%</h3>                        
+                    </div>                    
                 </div>
-                    <Radar
-                        data={data}
-                        className='dnaC'
-                        width={50}
-                        height={50}
-                        options={ {
-                            legend: {
-                                display: false
+
+                <Radar
+                    data={data}
+                    className='dnaChart'
+                    width={50}
+                    height={50}
+                    options={ {
+                        legend: {
+                            display: false
+                        },
+                        scale: {
+                            angleLines: {
+                                // display: false,
+                                // color: 'rgba(13, 72, 92,0.8)',
                             },
-                            scale: {
-                                angleLines: {
-                                    // display: false,
-                                    // color: 'rgba(13, 72, 92,0.8)',
-                                },
-                                gridLines: {
-                                    display: false,
-                                    circular: true 
-                                },
-                                ticks: {
-                                    display:false
-                                }
+                            gridLines: {
+                                display: false,
+                                circular: true 
+                            },
+                            ticks: {
+                                display:false
                             }
-                        }}
-                        ref={chartRef}
-                    />            
+                        }
+                    }}
+                    ref={chartRef}
+                />            
             </div>
         </div>
     )

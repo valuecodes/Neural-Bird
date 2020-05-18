@@ -285,11 +285,13 @@ body{
 }
 
 .speed{
+  position: relative;
   width: 594px;
   border: 30px;
   margin: 0px;
   padding: 0px;
   font-size: 25px;
+  z-index: 1;
 }
 
 .speedTag{
@@ -364,9 +366,7 @@ body{
   cursor: pointer;
 }
 
-.visualPages{
-  /* margin-top: 100px; */
-}
+
 
 .visualHeader{
   width: 100%;
@@ -426,12 +426,14 @@ body{
 }
 
 .lOptions{
+  margin: 0px 5px;
   background-color: rgba(152, 153, 155, 0.363);
   position: relative;
   z-index: -1;
   height: 40px;
-  border: 2px solid black;
-  border-radius: 5px;
+  border: 2px solid rgb(63, 63, 63);
+  border-top: 0px;
+  border-radius: 0px 0px 5px 5px;
   display: grid;
   grid-template-columns: repeat(3,1fr)
 }
@@ -571,16 +573,26 @@ body{
   margin-top: 50px;
 }
 
-.dnaChart{
+.dnaPage{
+  width: 500px;
+  height: 500px;
   margin-top: 50px;
   height: auto;
   display: grid;
   grid-template-rows: 0px 1fr;
 }
 
+.centerAlign{
+  height: 1px;
+  width: 1px;
+  justify-self: center;
+  margin-top: 50%;
+}
+
 .centerDot{
-  margin-left: 230px;
-  margin-top: 234px;
+  position: relative;
+  top: -15px;
+  left: -15px;
   height: 30px;
   width: 120px;
   border: 2px solid rgba(53, 53, 53, 0.638);
@@ -701,34 +713,46 @@ body{
     width: 20px;
     margin-top: -8px;
   }
-  body{
-    /* zoom: 50%; */
+
+  .navbar{
+    display: none;
   }
+
   .mainSection{
+    max-height: 100vh;
+    margin-top: 0px;
     grid-template-columns: 1vw;
-    grid-template-rows: repeat(3,700px)
+    grid-template-rows: repeat(3,0px);
+    overflow: hidden;
+    
   }
   .neuralNetwork{
     width: 99vw;
-    height: 100vh;
+    height: 99vh;
+    grid-template-rows: 150px 0px 0px 600px 50px;
   }
 
   /* Options */
   .options{
     width: 98vw;
-    grid-template-columns: 1fr 220px;
+    grid-template-columns: minmax(120px,1fr) 1fr;
   }
 
   .setupInputs{
-    width: 210px;
+    width: auto;
   }
 
   .setupInput{
-    width: 210px;
+    width: auto;
   }
 
+ .setupInputSlider{
+   width: 100%;
+ }
   .isetup{
-    width: 210px;
+    width: auto;
+    grid-template-columns: 40px 1fr 40px;
+    text-align: center;
   }
 
   .simulationControl{
@@ -739,7 +763,7 @@ body{
   }
   .simulationButtons{
     position: absolute;
-    grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+    grid-template-columns: repeat(auto-fill,minmax(100px,1fr));
     grid-auto-rows: minmax(25px,50px);
   }
 
@@ -748,8 +772,11 @@ body{
     position: absolute;
     top: 136px;
     z-index: 1;
-    /* border: 0px; */
+    border: 0px;
     box-shadow: 0px 0px 1px 1px #d3d3d300;
+    min-height: 100vh;
+    z-index: 2;
+    overflow: scroll;
   }
 
   .inputContainer{
@@ -768,11 +795,6 @@ body{
   }
   .input p{
     padding-left: 10px;
-    /* justify-self: center; */
-  }
-
-  .description p{
-    /* padding-left: 80px; */
   }
 
   .descriptionText{  
@@ -802,32 +824,96 @@ body{
     height:75vh;
   }
   
-
   .simulationStats{
     background-color: #bbbbbb;
   }
   
   .speed{
     width: 98vw;
+    z-index: 2;
+  }
+
+  .visualNavigation{
+    position: fixed;
+    z-index: 10;
+    bottom: 0px;
+    width: 100vw;
+  }
+
+  .visualNavigation{
+    grid-template-columns: repeat(5,1fr);
+    height: 30px;
+  }
+  
+  .visualNavigation button{
+    height: 30px;
+    font-size: 13px;
   }
 
   .visuals{
+    z-index: 2;
     width: 100vw;
+    height: 100vh;
+  }
+
+  .visualPages{
+    /* background-color: rgba(255, 255, 255, 0.377); */
+    margin-top: -40px;
+    padding-top: 80px;
+    height: 110vh;
+  }
+
+  .visualShade{
+    position: absolute;
+    height: 165px;
+    width: 100vw;
+    background-color: rgb(255, 255, 255);
+    z-index:-1;
+  }
+
+  .optionImage{
+    z-index: 2;
+  }
+
+  .lOptions h3{
+    font-size: 15px;
+  }
+
+  .layerOptions{
+    z-index: 1;
   }
 
   .neuralSvg{
-    width: 100vw;
+    z-index: 0;
+    width: 99vw;
   }
 
+  .addLayer{
+    margin-top: 20px;
+  }
   .chartContainer{
-    overflow: hidden;
-    /* height: 700px; */
-    width: 98vw; 
-    margin-left: -20px;
+    overflow-y: scroll;
+    width: 99vw; 
+    margin-left: -10px;
+    height: 150px;
+  }
+  .charts{
+    margin-top: 0px;
+    width: 90vw;
+    height: 200px;
+    grid-row-gap: 0px;
+  }  
+  .chart{
+    height:150px;
+    width: 85vw;
+  }
+
+  .dnaPage{
+    width: 99vw;
+    height: 99vw;
   }
   
-  .charts{
-    width: 90vw;
-    /* height: 500px; */
+  .birdInput p{
+    z-index: -1;
   }
 }
