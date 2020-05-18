@@ -71,7 +71,7 @@ export default function AdditionalOptions({optionsOpen,state}) {
         <div 
         className='additionaOptions' 
         style={{
-            width:optionsOpen?450:0,
+            width:optionsOpen?"100vw":0,
             display:state==='Offline'?'':'none'
         }}>
             <div className='inputContainer'>

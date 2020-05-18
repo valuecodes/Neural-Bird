@@ -35,10 +35,11 @@ export default function DNA() {
     useEffect(()=>{
         const {roundScores,dna}=generationalData
         let fitnessPercentage=calculateFitness(roundScores);
-        if(isNaN(fitnessPercentage)) fitnessPercentage=0
-        setFitness(fitnessPercentage)
-        if(fitnessPercentage>100) fitnessPercentage=100
 
+        if(isNaN(fitnessPercentage)) fitnessPercentage=0
+        if(fitnessPercentage>100) fitnessPercentage=100
+        setFitness(fitnessPercentage)
+        
         if(dna.length!==0){
             let newData={
                 labels: [],
@@ -94,34 +95,35 @@ export default function DNA() {
         <div className='DNA'>
             <VisualHeader header={'DNA'}/>
             <div className='dnaChart'>
-            <div className='centerDot'>
-                <p>Fitness:</p>
-                <h3 className='fitnessPercentage'>{fitness}%</h3>
-            </div>
-                <Radar
-                    data={data}
-                    width={50}
-                    height={50}
-                    options={ {
-                        legend: {
-                            display: false
-                        },
-                        scale: {
-                            angleLines: {
-                                // display: false,
-                                // color: 'rgba(13, 72, 92,0.8)',
+                <div className='centerDot'>
+                    <p>Fitness:</p>
+                    <h3 className='fitnessPercentage'>{fitness}%</h3>
+                </div>
+                    <Radar
+                        data={data}
+                        className='dnaC'
+                        width={50}
+                        height={50}
+                        options={ {
+                            legend: {
+                                display: false
                             },
-                            gridLines: {
-                                display: false,
-                                circular: true 
-                            },
-                            ticks: {
-                                display:false
+                            scale: {
+                                angleLines: {
+                                    // display: false,
+                                    // color: 'rgba(13, 72, 92,0.8)',
+                                },
+                                gridLines: {
+                                    display: false,
+                                    circular: true 
+                                },
+                                ticks: {
+                                    display:false
+                                }
                             }
-                        }
-                    }}
-                    ref={chartRef}
-                />            
+                        }}
+                        ref={chartRef}
+                    />            
             </div>
         </div>
     )

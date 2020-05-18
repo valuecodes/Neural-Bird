@@ -138,7 +138,6 @@ class NeuralNetwork{
 }
 export default NeuralNetwork;
 
-
 function randomGaussian() {
     var rand = 0;
     for (var i=0;i<6;i++) {

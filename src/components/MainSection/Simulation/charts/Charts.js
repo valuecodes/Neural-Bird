@@ -17,7 +17,7 @@ export default function Charts() {
 
     useEffect(()=>{
         setChartOptions({
-            maintainAspectRatio: true,
+            maintainAspectRatio: false,
             responsive: true,
             legend: {
                 display: true,
@@ -81,7 +81,7 @@ export default function Charts() {
         >
             <div className='charts'
                 style={{
-                    marginLeft:globalSimulationState==='Offline'?600:40
+                    marginLeft:globalSimulationState==='Offline'?800:40
                 }}
             >
                 <div className='chart'>

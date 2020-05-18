@@ -31,9 +31,9 @@ export default function Options(props) {
                     state={state}
                 />
             </div>
-            <SimulationStats
+            {/* <SimulationStats
                 state={state} 
-            />
+            /> */}
             <SetupOptions
                 openOptions={openOptions}
                 state={state}

@@ -56,10 +56,6 @@ body{
 
 }
 
-.optionHeader h2{
-  /* margin-top: 2px; */
-}
-
 .optionsButton{
   height:50px;
   background-color: rgba(255, 255, 255, 0);
@@ -125,6 +121,7 @@ body{
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
   box-shadow: 0px 0px 1px 1px #d3d3d3;
+  max-width: 425px;
 }
 
 .aOptionHeader{
@@ -208,7 +205,6 @@ body{
   grid-template-columns: repeat(3,120px);
   grid-gap: 5px;
   margin: 0px 5px;
-  
 }
 
 .simulationButtons button{
@@ -316,6 +312,8 @@ body{
   margin-left: auto;
   margin-top: -150px;
   background-color: rgba(255, 255, 255, 0);
+  background-color: #bbbbbb;
+  border-top-right-radius: 7px;
 }
 
 .chartContainer{
@@ -326,6 +324,7 @@ body{
 
 .charts{
   width: 500px; 
+  height: 500px;
   margin:auto;
   margin-top: 165px;
   display: grid;
@@ -333,9 +332,6 @@ body{
   transition: 600ms margin-left;
 }
 
-.chart{
-    /* margin-left: 500px; */
-}
 .visuals{
   height: 300px;
   width: 500px;
@@ -699,6 +695,12 @@ body{
 }
 
 @media only screen and (max-width: 1050px) {
+
+  input[type='range']::-webkit-slider-thumb {
+    height: 20px;
+    width: 20px;
+    margin-top: -8px;
+  }
   body{
     /* zoom: 50%; */
   }
@@ -707,7 +709,106 @@ body{
     grid-template-rows: repeat(3,700px)
   }
   .neuralNetwork{
-    margin: auto;
+    width: 99vw;
+    height: 100vh;
+  }
+
+  /* Options */
+  .options{
+    width: 98vw;
+    grid-template-columns: 1fr 220px;
+  }
+
+  .setupInputs{
+    width: 210px;
+  }
+
+  .setupInput{
+    width: 210px;
+  }
+
+  .isetup{
+    width: 210px;
+  }
+
+  .simulationControl{
+    margin-top: 60px;
+    height: 140px;
+    display: grid;
+    grid-template-rows: 40px 1fr;
+  }
+  .simulationButtons{
+    position: absolute;
+    grid-template-columns: repeat(auto-fill,minmax(120px,1fr));
+    grid-auto-rows: minmax(25px,50px);
+  }
+
+  .additionaOptions{
+    max-width: 99vw;
+    position: absolute;
+    top: 136px;
+    z-index: 1;
+    /* border: 0px; */
+    box-shadow: 0px 0px 1px 1px #d3d3d300;
+  }
+
+  .inputContainer{
+    position: absolute;
+    width: 100vw;
+    margin-left:0px; 
+  }
+  .input{
+    grid-template-columns: 1fr 70px 50px;
+    grid-template-rows: 25px 30px;
+  }
+  .inputSlider{
+    width: 90%;
+    justify-self: center;
+    padding-left: 10px;
+  }
+  .input p{
+    padding-left: 10px;
+    /* justify-self: center; */
+  }
+
+  .description p{
+    /* padding-left: 80px; */
+  }
+
+  .descriptionText{  
+    left: -100vw;
+    max-width: 70vw;
+    padding-left: 80px;
+    height: auto;
+    min-height: 50px;
+  }
+
+  .description:hover .descriptionText{ 
+    padding-left: 60px;
+    padding-right: 60px;
+  }
+
+  .speedInput{
+    width: 0px;
+    transition: 0ms width;
+  }
+
+  .description:hover .descriptionText{ 
+    width: 98vw;
+  }
+
+  .canvas{
+    width: 98vw;
+    height:75vh;
+  }
+  
+
+  .simulationStats{
+    background-color: #bbbbbb;
+  }
+  
+  .speed{
+    width: 98vw;
   }
 
   .visuals{
@@ -716,5 +817,17 @@ body{
 
   .neuralSvg{
     width: 100vw;
+  }
+
+  .chartContainer{
+    overflow: hidden;
+    /* height: 700px; */
+    width: 98vw; 
+    margin-left: -20px;
+  }
+  
+  .charts{
+    width: 90vw;
+    /* height: 500px; */
   }
 }

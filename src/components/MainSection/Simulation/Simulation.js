@@ -146,7 +146,7 @@ export default function Simulation() {
                 }
                 let newBirds=[];
                 for(var x=0;x<birds.length;x++){                        
-                    if(birds[x].alive)newBirds.push(birds[x]);
+                    if(birds[x].alive) newBirds.push(birds[x]);
                     else deadBirds.push(birds[x])
                 };
                 birds=newBirds;
@@ -172,8 +172,7 @@ export default function Simulation() {
                 }
                 currentRound++;
                 scoreCount++;
-            }
-            savedData.current={
+                savedData.current={
                     birds,
                     pipes,
                     generation,
@@ -184,7 +183,7 @@ export default function Simulation() {
                     roundScore,
                     totalRoundScore
                 }
-
+            }
             mainAnimation(birds,pipes,gapWidth,inputData)
             displayRoundStats(savedData,population);    
             if(speed>0){
