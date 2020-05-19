@@ -42,7 +42,7 @@ export default function Simulation() {
         roundScore:[],
         totalRoundScore:[],
         deadBirds:[],
-        background:new BackGround(-60),
+        background:new BackGround(-80),
     });    
 
     useEffect(()=>{
@@ -185,7 +185,7 @@ export default function Simulation() {
                     scoreCount=0;
                     generation++;
                     gapWidth=options.gapWidth
-                    background.pos=-60;
+                    background.pos=-80;
                     setGenerationalData(
                         roundScore,
                         totalRoundScore,
@@ -324,7 +324,7 @@ export default function Simulation() {
             roundScore:[],
             totalRoundScore:[],
             deadBirds:[],
-            background:new BackGround(-60),
+            background:new BackGround(-80),
         };
         resetGenerationalData();
         setPause(false);
