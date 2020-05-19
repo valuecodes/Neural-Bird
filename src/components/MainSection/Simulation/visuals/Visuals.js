@@ -9,7 +9,7 @@ import {GlobalContext} from '../../../../context/GlobalState'
 export default function Visuals() {
 
     const { setVisual,globalSimulationState } =useContext(GlobalContext);
-    const [currentPage,setCurrentPage]=useState('nn')
+    const [currentPage,setCurrentPage]=useState('')
     
     const changePage=(page)=>{
         setCurrentPage(page);
@@ -20,7 +20,7 @@ export default function Visuals() {
             className='visuals'
             style={{
                 height:currentPage===''?0:'100vh',
-                backgroundColor:globalSimulationState==='Offline'?'white':'rgba(255,255, 255, 0.0)',
+                // backgroundColor:globalSimulationState==='Offline'?'rgb(211, 211, 212)':'rgba(255,255, 255, 0.0)',
                 zIndex:globalSimulationState==='Offline'?3:2
             }}>   
             <VisualNavigation

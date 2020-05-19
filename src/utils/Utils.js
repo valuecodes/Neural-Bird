@@ -1,12 +1,11 @@
-import option from './simulation.svg'
 import options from './interface.svg'
 import info from './info.svg'
-// import bird from './'
+import bird from './bird.svg'
 
 let svgs={
-    option:option,
     options:options,
-    info:info
+    info:info,
+    bird:bird,
 }
 
 export default svgs

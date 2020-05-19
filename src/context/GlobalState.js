@@ -3,7 +3,7 @@ import AppReducer from './AppReducer'
 
 const initialState={
     globalSimulationState:'Offline',
-    visual:'nn',
+    visual:'',
     nnCoordinates:[],
 }
 
