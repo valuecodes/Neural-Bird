@@ -1,4 +1,5 @@
 import NeuralNetwork from '../NeuralNetwork';
+import svgs from './../../../../utils/Utils'
 
 class Bird{
     constructor(nnForm,brain){
@@ -11,6 +12,7 @@ class Bird{
         this.alive=true;
         this.score=0;
         this.fitness=0;
+        this.pic=svgs.bird
         if(brain){
             this.brain=brain.copy();
         }else{
@@ -31,9 +33,6 @@ class Bird{
                 this.alive=false
             }
         }
-        this.getPosition=()=>{
-            return [this.x,this.y,this.size,this.size]
-        }
         this.up=()=>{
             this.velocity=+this.lift
         }
@@ -53,6 +52,16 @@ class Bird{
                 outputData:output,
                 inputData:inputs
             };
+        }
+        this.draw=(canvas,bird)=>{
+            canvas.save();
+            canvas.translate(this.x,this.y)
+            let radianAngle=(this.velocity+10)
+            canvas.rotate((radianAngle/15)-0.3)
+            canvas.translate(-this.x-15,-this.y-15)
+            canvas.drawImage(bird,this.x,this.y)
+            canvas.restore()
+            return 
         }
 
     }

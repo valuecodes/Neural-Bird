@@ -8,6 +8,8 @@ import {GlobalContext} from '../../../context/GlobalState'
 import {GlobalOptions} from '../../../context/GlobalOptions'
 import {GlobalGenerational} from '../../../context/GlobalGenerational'
 import {GlobalInOut} from '../../../context/GlobalInOut'
+import svgs from './../../../utils/Utils'
+import BackGround from './animation/background';
 
 export default function Simulation() {
     const {options}=useContext(GlobalOptions);
@@ -27,6 +29,8 @@ export default function Simulation() {
     const [speed,setSpeed]=useState(1);
     const [pause,setPause]=useState(true);
     const [state,setState]=useState('Offline')
+    const [icon,setIcon]=useState(null)
+    const [background,setBackground]=useState(null)
 
     let savedData=React.useRef({
         gapWidth:100,
@@ -38,6 +42,7 @@ export default function Simulation() {
         roundScore:[],
         totalRoundScore:[],
         deadBirds:[],
+        background:new BackGround(-60),
     });    
 
     useEffect(()=>{
@@ -45,17 +50,32 @@ export default function Simulation() {
         const ctx=canvas.getContext('2d');
         const statCanvas = statCanvasRef.current;
         const statctx=statCanvas.getContext('2d');
+
         setStatCanvas(statctx)
         setMainCanvas(ctx);
     },[])
+    
+    useEffect(()=>{
+            
+    let icon=svgs.bird;
+    let background=new Image();
+    background.src= svgs.bg;
+    background.onload=()=>{
+        setIcon(svgs.bird);
+        setBackground(background)    
+    }
+
+    },[svgs])
 
     useEffect(()=>{
         if(state!=='Offline'&&state!=='Paused') simulation(speed,false)
     },[visual])
 
     useEffect(() => {
-        setupAnimation();
-    }, [options.gapWidth,options.population])
+        if(icon!==null&&background!==null){
+           setupAnimation(); 
+        }
+    }, [options.gapWidth,options.population,background])
 
     function simulation(speed,reset){   
         let {
@@ -67,7 +87,8 @@ export default function Simulation() {
             generation,
             deadBirds,
             roundScore,
-            totalRoundScore
+            totalRoundScore,
+            background
         }=savedData.current
 
         let {
@@ -99,6 +120,7 @@ export default function Simulation() {
             }      
             return createdBirds  
         }        
+        // if(background===null) background=new BackGround(-60);
 
         if(birds.length===0||reset){
             birds=[];
@@ -107,7 +129,7 @@ export default function Simulation() {
 
         async function simulationLoop(){
             for(var q=0;q<speed;q++){
-
+                background.update();
                 let difficulty=currentRound/hardness;
                 if(difficulty>400) difficulty=400;
 
@@ -163,6 +185,7 @@ export default function Simulation() {
                     scoreCount=0;
                     generation++;
                     gapWidth=options.gapWidth
+                    background.pos=-60;
                     setGenerationalData(
                         roundScore,
                         totalRoundScore,
@@ -181,10 +204,11 @@ export default function Simulation() {
                     gapWidth,
                     deadBirds,
                     roundScore,
-                    totalRoundScore
+                    totalRoundScore,
+                    background
                 }
             }
-            mainAnimation(birds,pipes,gapWidth,inputData)
+            mainAnimation(birds,pipes,gapWidth,inputData,background)
             displayRoundStats(savedData,population);    
             if(speed>0){
                 currentAnimation.current=requestAnimationFrame(simulationLoop)
@@ -193,15 +217,15 @@ export default function Simulation() {
         simulationLoop();
     }
     
-    function mainAnimation(birds,pipes,gapWidth,inputData){
+    function mainAnimation(birds,pipes,gapWidth,inputData,bg){
         resetCanvas(mainCanvas)
         mainCanvas.strokeStyle = "#000000";
+        bg.draw(mainCanvas,background)
         for(var b=0;b<birds.length;b++){
-            mainCanvas.rect(...birds[b].getPosition());
+            birds[b].draw(mainCanvas,icon)
         }
         for(var i=0;i<pipes.length;i++){
-            mainCanvas.rect(...pipes[i].getTopPipe(gapWidth));
-            mainCanvas.rect(...pipes[i].getBotPipe(gapWidth));
+            pipes[i].draw(mainCanvas,gapWidth)
         }
         mainCanvas.stroke();
         if(visual==='bird'&&speed<5&&inputData!==null){
@@ -239,7 +263,7 @@ export default function Simulation() {
         mainCanvas.strokeStyle = "#FF0000";
         mainCanvas.rect(inputData[3]*600-5,inputData[2]*600-15,30,30)
         mainCanvas.rect(inputData[3]*600-5,inputData[1]*600-15,30,30)
-        mainCanvas.rect(20-5,inputData[0]*600-5,20,20)
+        mainCanvas.rect(20-15,inputData[0]*600-15,30,30)
         mainCanvas.rect(20+30,inputData[0]*600+5,0,-20+inputData[4]*120)
         mainCanvas.stroke();
     }
@@ -261,13 +285,13 @@ export default function Simulation() {
         let birds=createBirds();
         ctx.beginPath(0,0);
         ctx.clearRect(0, 0, 800, 800);
+        savedData.current.background.draw(ctx,background)
         for(var b=0;b<birds.length;b++){
-            ctx.rect(...birds[b].getPosition());
+            birds[b].draw(ctx,icon)
         }
         for(var i=0;i<pipes.length;i++){
-            ctx.rect(...pipes[i].getTopPipe(options.gapWidth));
-            ctx.rect(...pipes[i].getBotPipe(options.gapWidth));
-        }
+            pipes[i].draw(mainCanvas,options.gapWidth)
+        }        
         ctx.stroke();  
     }
 
@@ -300,6 +324,7 @@ export default function Simulation() {
             roundScore:[],
             totalRoundScore:[],
             deadBirds:[],
+            background:new BackGround(-60),
         };
         resetGenerationalData();
         setPause(false);

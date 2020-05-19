@@ -9,7 +9,7 @@ import {GlobalContext} from '../../../../context/GlobalState'
 export default function Visuals() {
 
     const { setVisual,globalSimulationState } =useContext(GlobalContext);
-    const [currentPage,setCurrentPage]=useState('')
+    const [currentPage,setCurrentPage]=useState('nn')
     
     const changePage=(page)=>{
         setCurrentPage(page);

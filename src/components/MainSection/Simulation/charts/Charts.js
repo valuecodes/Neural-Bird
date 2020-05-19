@@ -53,7 +53,7 @@ export default function Charts() {
         const max= {
             labels: labels,
             datasets: [{
-                label: 'Points per generation',    
+                label: 'Highest Points',    
                 data: roundScores,
                 backgroundColor: 'rgba(255, 99, 132, 0.2)',
                 borderColor:'rgba(255, 99, 132, 1)',
@@ -64,7 +64,7 @@ export default function Charts() {
         const total= {
             labels: labelsTotal,
             datasets: [{
-                label: 'Total points per generation',    
+                label: 'Total points',    
                 data: totalRoundScores,
                 backgroundColor: 'rgba(33, 105, 194, 0.2)',
                 borderColor:'rgba(33, 105, 194, 1)',

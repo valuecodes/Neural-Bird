@@ -3,7 +3,7 @@ import AppReducer from './AppReducer'
 
 const initialState={
     globalSimulationState:'Offline',
-    visual:'',
+    visual:'nn',
     nnCoordinates:[],
 }
 
@@ -34,6 +34,7 @@ export const GlobalProvider=({children})=>{
 
     function updateNNCoordinates(cor){
         if(cor.length!==state.nnCoordinates.length){
+            console.log(cor)
             dispatch({
                 type:'UPDATE_NN_COORDINATES',
                 payload:{

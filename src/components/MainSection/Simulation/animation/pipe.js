@@ -12,7 +12,13 @@ class Pipe {
       }
       this.update=()=>{
           this.x-=this.speed
-      };
+      }
+      this.draw=(canvas,gapWidth)=>{
+        canvas.fillStyle = "rgba(69, 81, 94,0.9)";
+        canvas.fillRect(this.x,0,this.w,this.gap-gapWidth)
+        canvas.fillRect(this.x,this.gap+gapWidth,this.w,600)
+        return
+      }
     }
   }
 

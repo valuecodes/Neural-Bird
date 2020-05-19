@@ -100,11 +100,9 @@ class NeuralNetwork{
               let tensor = weights[i];
               let shape = weights[i].shape;
               let values = tensor.dataSync().slice();
-              
               let aTensor=aWeights[i]
               let aValues=aTensor.dataSync().slice();
               for (let j=0;j<values.length;j++) {
-                
                 let w = values[j];
                 let av = aValues[j]
                 values[j] = (w + av)/2;
