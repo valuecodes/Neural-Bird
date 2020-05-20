@@ -38,7 +38,6 @@ export default (state,action)=>{
                     generationData:action.payload.generation
                 }
             }
-
         case 'RESET_GENERATIONAL_DATA':
             return{
                 ...state,
@@ -50,6 +49,11 @@ export default (state,action)=>{
             return{
                 ...state,
                 inOutData:[action.payload.data,...ioData]
+            }
+        case 'SET_ACTIVE_PAGE':
+            return{
+                ...state,
+                activePage:action.payload.data
             }
         default:
             return state

@@ -8,7 +8,7 @@ import {GlobalOptions} from '../../../../../context/GlobalOptions'
 
 export default function NeuralNet() {
 
-    const { updateNNCoordinates }=useContext(GlobalContext);
+    const { updateNNCoordinates,activePage }=useContext(GlobalContext);
     const {options,modifyOptions}=useContext(GlobalOptions);
     const [neuralNet,setNeuralNet]=useState([])
     let [coordinates,setCoordinates]=useState([]);
@@ -48,7 +48,11 @@ export default function NeuralNet() {
         if(coordinates.length===sum) updateNNCoordinates(coordinates)
     }
     return (
-        <div className='neuralNet'>
+        <div className='neuralNet'
+            style={{
+                visibility:activePage==='landing'||activePage==='simulation'?'visible':'hidden'
+            }}
+        >
             <VisualHeader header={'Neural Network'}/>
             <LayerHeader 
                 neuralNet={neuralNet}

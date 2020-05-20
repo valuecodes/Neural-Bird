@@ -1,4 +1,4 @@
-import React,{useState,useContext} from 'react'
+import React,{useState,useContext,useEffect} from 'react'
 import BirdView from './birdView/BirdView'
 import VisualNavigation from './VisualNavigation'
 import NeuralNet from './neuralNet/NeuralNet'
@@ -8,9 +8,13 @@ import {GlobalContext} from '../../../../context/GlobalState'
 
 export default function Visuals() {
 
-    const { setVisual,globalSimulationState } =useContext(GlobalContext);
+    const { setVisual,globalSimulationState,activePage,visual } =useContext(GlobalContext);
     const [currentPage,setCurrentPage]=useState('nn')
     
+    useEffect(()=>{
+        setCurrentPage(visual)
+    },[visual])
+
     const changePage=(page)=>{
         setCurrentPage(page);
         setVisual(page)
@@ -20,6 +24,8 @@ export default function Visuals() {
             className='visuals'
             style={{
                 height:currentPage===''?0:'100vh',
+                visibility:activePage==='simulation'?'visible':'hidden',
+                // marginTop:activePage==='landing'?50:0,
                 // backgroundColor:globalSimulationState==='Offline'?'rgb(211, 211, 212)':'rgba(255,255, 255, 0.0)',
                 zIndex:globalSimulationState==='Offline'?3:2
             }}>   

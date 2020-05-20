@@ -1,10 +1,9 @@
 import React,{useState,useContext,useEffect} from 'react'
 import {GlobalContext} from '../../../../../context/GlobalState'
-
 export default function NeuralSvg(props) {
 
     const [coordinates,setCoordinates]=useState([]);
-    const { nnCoordinates} =useContext(GlobalContext);
+    const { nnCoordinates,activePage} =useContext(GlobalContext);
 
     useEffect(()=>{
         var offsets = document.getElementById('layers').getBoundingClientRect();
@@ -41,7 +40,11 @@ export default function NeuralSvg(props) {
     }
 
     return (
-        <svg className='neuralSvg'>
+        <svg className='neuralSvg'
+        style={{
+            visibility:activePage==='landing'||activePage==='simulation'?'visible':'hidden'
+        }}
+        >
             {coordinates.map((elem,index)=>
                 <line key={index} className='neuralLine' x1={elem.x1} y1={elem.y1} x2={elem.x2} y2={elem.y2} strokeWidth="1" 
                 style={{

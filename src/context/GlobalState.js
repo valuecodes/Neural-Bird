@@ -5,6 +5,7 @@ const initialState={
     globalSimulationState:'Offline',
     visual:'nn',
     nnCoordinates:[],
+    activePage:'landing'
 }
 
 export const GlobalContext = createContext(initialState);
@@ -23,6 +24,7 @@ export const GlobalProvider=({children})=>{
     }
 
     function setVisual(page){
+        console.log(page)
         dispatch({
             type:'SET_VISUAL',
             payload:{
@@ -44,6 +46,15 @@ export const GlobalProvider=({children})=>{
         }
     }
 
+    function setActivePage(page){
+        dispatch({
+            type:'SET_ACTIVE_PAGE',
+            payload:{
+                data:page
+            }
+        })
+    }
+
     return (<GlobalContext.Provider
         value={{
             setGlobalSimulationState,
@@ -52,6 +63,8 @@ export const GlobalProvider=({children})=>{
             setVisual,
             nnCoordinates:state.nnCoordinates,
             updateNNCoordinates,
+            activePage:state.activePage,
+            setActivePage
         }}
        >
            {children}

@@ -1,7 +1,8 @@
 import React from 'react';
 import './App.css';
-import BackGround from './components/backGround/BackGround'
+import BackGround from './components/BackGround/BackGround'
 import Main from './components/MainSection/Main'
+import NavBar from './components/NavBar/NavBar'
 import { GlobalProvider } from './context/GlobalState'
 import { GlobalOptionsProvider } from './context/GlobalOptions'
 import {GlobalGenerationalProvider} from './context/GlobalGenerational'
@@ -14,6 +15,7 @@ function App() {
         <GlobalGenerationalProvider>
           <GlobalInOutProvider>
           <div className="App">
+              <NavBar/>
               <BackGround/>
               <Main/>
           </div>

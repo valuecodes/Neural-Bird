@@ -1,11 +1,16 @@
-import React,{useEffect} from 'react'
-
+import React,{useEffect,useContext} from 'react'
+import {GlobalContext} from '../../../../context/GlobalState'
 export default function VisualNavigation(props) {
+    const { activePage }=useContext(GlobalContext);
     useEffect(()=>{
         console.log(window.innerHeight)
     },[window])
     return (
-        <div className='visualNavigation'>            
+        <div className='visualNavigation'
+            style={{
+                marginTop:activePage==='simulation'?50:0
+            }}
+        >            
             <button onClick={()=>props.changePage('')}
                 style={{display:window.innerWidth<1100?'':'none'}}
             >Simulation</button>

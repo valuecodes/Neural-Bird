@@ -10,6 +10,7 @@ import {GlobalGenerational} from '../../../context/GlobalGenerational'
 import {GlobalInOut} from '../../../context/GlobalInOut'
 import svgs from './../../../utils/Utils'
 import BackGround from './animation/background';
+import alpha from './animation/alfaSettings.json' 
 
 export default function Simulation() {
     const {options}=useContext(GlobalOptions);
@@ -17,9 +18,15 @@ export default function Simulation() {
     const {
         setGenerationalData,
         generationalData,
-        resetGenerationalData
+        resetGenerationalData,
+        saveDataToServer
     }=useContext(GlobalGenerational)
-    const { setGlobalSimulationState,visual }=useContext(GlobalContext);
+    const { 
+        setGlobalSimulationState,
+        visual,
+        setVisual,
+        activePage 
+    }=useContext(GlobalContext);
 
     let currentAnimation=React.useRef(null)
     const canvasRef = React.useRef(null)
@@ -44,38 +51,39 @@ export default function Simulation() {
         deadBirds:[],
         background:new BackGround(-80),
     });    
-
-    useEffect(()=>{
+    
+    useEffect(()=>{        
         const canvas=canvasRef.current;
         const ctx=canvas.getContext('2d');
         const statCanvas = statCanvasRef.current;
         const statctx=statCanvas.getContext('2d');
-
         setStatCanvas(statctx)
         setMainCanvas(ctx);
-    },[])
-    
-    useEffect(()=>{
-            
-    let icon=svgs.bird;
-    let background=new Image();
-    background.src= svgs.bg;
-    background.onload=()=>{
-        setIcon(svgs.bird);
-        setBackground(background)    
-    }
-
+        let icon=svgs.bird;
+        let background=new Image();
+        background.src= svgs.bg;
+        background.onload=()=>{
+            setIcon(svgs.bird);
+            setBackground(background)
+        } 
     },[svgs])
+
+    useEffect(()=>{
+        if(activePage!=='landing') resetSimulation();     
+        if(activePage==='playMode') playSimulation();   
+    },[activePage])
 
     useEffect(()=>{
         if(state!=='Offline'&&state!=='Paused') simulation(speed,false)
     },[visual])
 
     useEffect(() => {
-        if(icon!==null&&background!==null){
-           setupAnimation(); 
-        }
-    }, [options.gapWidth,options.population,background])
+        if(icon!==null&&background!==null) setupAnimation(); 
+    }, [options.gapWidth,options.population])
+
+    useEffect(() => {
+        if(mainCanvas!==null&&background!==null) landingAnimation(); 
+    }, [mainCanvas,background])
 
     function simulation(speed,reset){   
         let {
@@ -120,7 +128,6 @@ export default function Simulation() {
             }      
             return createdBirds  
         }        
-        // if(background===null) background=new BackGround(-60);
 
         if(birds.length===0||reset){
             birds=[];
@@ -186,6 +193,7 @@ export default function Simulation() {
                     generation++;
                     gapWidth=options.gapWidth
                     background.pos=-80;
+                    if(data.alfa!==null) saveDataToServer(data.alfa)
                     setGenerationalData(
                         roundScore,
                         totalRoundScore,
@@ -268,6 +276,112 @@ export default function Simulation() {
         mainCanvas.stroke();
     }
 
+    const landingAnimation=async()=>{
+
+        let {
+            background
+        }=savedData.current
+
+        let birds=[],pipes=[],currentRound=0
+
+        let {
+            closingRate,
+            pipeRate,
+            choiceRate,
+            gapWidth
+        }=options
+
+        let inputData=null;
+        birds.push(new Bird(options.neuralNetwork,''))
+        await birds[0].brain.createAlpha(alpha.alfa.weights)
+        async function simulationLoop(){
+            background.update();
+            birds[0].update();
+            if(currentRound%pipeRate===0){
+                pipes.push(new Pipe(Math.floor(Math.random()*400+(300-400/2))))
+            }
+            for(var i=0;i<pipes.length;i++){
+                pipes[i].update();
+                if(pipes[0].x<-10) pipes.shift();
+            }
+            let currentPipe=pipes[0].x>10?pipes[0]:pipes[1];
+            let nndata=await birds[0].think(currentPipe,gapWidth);inputData=nndata.inputData;
+            let choice=nndata.outputData
+            if(choice[0]<choiceRate/100) birds[0].up();
+            
+            if(birds[0].x>pipes[0].x){
+                if(birds[0].y<pipes[0].gap-gapWidth||birds[0].y>pipes[0].gap+gapWidth){
+                    birds[0].alive=false;
+                }
+            }
+
+            if(birds[0].alive===false){
+                birds=[];
+                birds.push(new Bird(options.neuralNetwork,''))
+                await birds[0].brain.createAlpha(alpha.alfa.weights)
+                pipes=[];
+                pipes.push(new Pipe(300))
+                currentRound=0;
+                background.pos=-80;
+            }
+
+            currentRound++;
+            mainAnimation(birds,pipes,gapWidth,inputData,background)
+            // displayBirdView(inputData);
+            currentAnimation.current=requestAnimationFrame(simulationLoop)
+        }
+        simulationLoop();
+    }
+
+    const playSimulation=()=>{
+
+        let { birds,background }=savedData.current
+        let pipes=[],currentRound=0
+        let inputData=null;
+        let {
+            closingRate,
+            pipeRate,
+            choiceRate,
+            gapWidth
+        }=options
+
+        birds.push(new Bird(options.neuralNetwork,''))
+
+        function simulationLoop(){
+            background.update();
+            birds[0].update();
+            if(currentRound%pipeRate===0){
+                pipes.push(new Pipe(Math.floor(Math.random()*400+(300-400/2))))
+            }
+            for(var i=0;i<pipes.length;i++){
+                pipes[i].update();
+                if(pipes[0].x<-10) pipes.shift();
+            }
+            let currentPipe=pipes[0].x>10?pipes[0]:pipes[1];
+
+            if(birds[0].x>pipes[0].x){
+                if(birds[0].y<pipes[0].gap-gapWidth||birds[0].y>pipes[0].gap+gapWidth){
+                    birds[0].alive=false;
+                }
+            }
+
+            if(birds[0].alive===false){
+                birds=[]; 
+                pipes=[];
+                birds.push(new Bird(options.neuralNetwork,''))
+                pipes.push(new Pipe(300))
+                currentRound=0;
+                background.pos=-80;
+            }
+
+            currentRound++;
+            mainAnimation(birds,pipes,gapWidth,inputData,background)
+            currentAnimation.current=requestAnimationFrame(simulationLoop)
+            savedData.current={birds}
+        }
+        simulationLoop();
+    }
+
     const setupAnimation=()=>{
         const canvas=canvasRef.current
         const ctx=canvas.getContext('2d')
@@ -333,9 +447,18 @@ export default function Simulation() {
         simulation(0,true);
         resetCanvas(statCanvas);
     }
-
+    const jump=()=>{
+        if(activePage==='playMode'){
+            savedData.current.birds[0].up()
+        }
+    }
     return (
-        <div className='neuralNetwork'>
+        <div className='neuralNetwork'
+            style={{ 
+                visibility:activePage==='simulation'?'visible':'hidden',
+                // opacity=activePage==='simulation'?1:2
+            }}onClick={(e)=>jump()}
+        >
             <Options
                 speed={speed}
                 startSimulation={startSimulation}

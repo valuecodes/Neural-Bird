@@ -93,9 +93,7 @@ class NeuralNetwork{
         tf.tidy(() => {
             const weights = this.model.getWeights();
             const mutatedWeights = [];
-
             let aWeights=alpha.brain.model.getWeights();
-
             for (let i=0;i<weights.length;i++) {
               let tensor = weights[i];
               let shape = weights[i].shape;
@@ -132,6 +130,29 @@ class NeuralNetwork{
         })
         model.add(output);
         return model
+    }
+    async saveModel(){
+        
+        console.log(await this.model)
+    }
+    createAlpha(alpha){
+        let alphaValues=alpha;
+        tf.tidy(() => {
+            const weights = this.model.getWeights();
+            const alphaWeights = [];
+            for (let i=0;i<weights.length;i++) {
+              let tensor = weights[i];
+              let shape = weights[i].shape;
+              let values = tensor.dataSync().slice();
+              let aValues=alphaValues[i];
+              for (let j=0;j<values.length;j++) {
+                values[j] = aValues[j]
+              }
+              let newTensor = tf.tensor(values, shape);
+              alphaWeights[i] = newTensor;
+            }
+            this.model.setWeights(alphaWeights);
+          });
     }
 }
 export default NeuralNetwork;

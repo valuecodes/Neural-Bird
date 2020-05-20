@@ -1,10 +1,12 @@
-import React,{useState} from 'react'
+import React,{useState,useContext} from 'react'
 import svgs from '../../../../../utils/Utils'
 import AddNeular from './AddNeular'
+import {GlobalContext} from '../../../../../context/GlobalState'
 
 export default function LayerHeader(props) {
     const {neuralNet}=props
     const [optionOpen,setOptionOpen]=useState(false);
+    const { activePage }=useContext(GlobalContext);
 
     const openOptions=()=>{
         setOptionOpen(!optionOpen)
@@ -25,7 +27,10 @@ export default function LayerHeader(props) {
             </div>
                 <img
                     alt='optionImage'
-                    style={{marginTop:optionOpen?-40:+20}}
+                    style={{
+                        marginTop:optionOpen?-40:+20,
+                        visibility:activePage==='simulation'?'visible':'hidden'
+                    }}
                     onClick={()=>openOptions()} 
                     className='optionImage layerOpen' 
                     src={svgs.options}

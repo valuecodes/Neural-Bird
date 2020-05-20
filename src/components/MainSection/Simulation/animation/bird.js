@@ -63,7 +63,9 @@ class Bird{
             canvas.restore()
             return 
         }
-
+        this.createAlpha=(alpha)=>{
+            this.brain.createAlpha(alpha)
+        }
     }
 }
 

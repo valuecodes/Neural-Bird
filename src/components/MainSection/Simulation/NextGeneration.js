@@ -10,6 +10,7 @@ export function nextGeneration(birds,options,generationalData,currentRound) {
       population
     }=options;
 
+    let aScore=alfa.score;
     let pool=calculateFitness(birds,options); 
     let createdBirds=[],newGen=[];
     let oldGen=generationalData.generationData.currentGeneration;
@@ -43,14 +44,18 @@ export function nextGeneration(birds,options,generationalData,currentRound) {
     generationalData.generationData.currentGeneration=newGen;
 
     let dna=birds[birds.length-1].brain.getDNA()
+    let alfaDNA=alfa.brain.getDNA()
+    alfa.weights=alfaDNA;
 
     return {
       birds:createdBirds,
       fitness:pool.sum,
       dna:dna,
-      generationData:generationalData
+      generationData:generationalData,
+      alfa:aScore<alfa.score?alfa:null
     }
   }
+
 
   function selectParentOne(birds){
     let found=false;

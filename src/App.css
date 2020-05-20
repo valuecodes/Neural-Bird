@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css?family=Roboto:400,500,700');
+@import url('https://fonts.googleapis.com/css?family=raleway:400,500,700');
+
+/* logo raleway */
 
 body{
   /* font-family: 'Roboto', Tahoma, Geneva, Verdana, sans-serif; */
@@ -12,21 +14,65 @@ body{
 
 :root{
   --border-color:rgba(97, 97, 97, 0.568);
+  --button-color:rgb(255, 255, 255);
 }
 
-.gene{
-  transform: rotate(40deg);
+/* Navigation */
+.navbar{
   position: absolute;
-  right: 0px;
+  top: 20px;
+  width: 380px;
+  margin-left: auto;
+  margin-right: 100px;
+  left: 0;
+  right: 0;
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  background-color: var(--button-color);
+  border-radius: 5px;
+  box-shadow: 0px 0px 2px 2px #d3d3d3;
 }
+
+.navbar button{
+  background-color: rgba(155, 155, 155, 0);
+  color: #141414;
+  border-radius: 5px;
+  height: 50px;
+  border: none;
+  padding: 0px;
+  transition: 200ms background-color;
+  font-size: 15px;
+  border-left: 2px solid rgb(77, 77, 77);
+}
+
+.navbar button:hover{
+  background-color: rgb(100, 100, 100);
+  color: rgba(255, 255, 255, 0.705);
+  cursor: pointer;
+}
+
+/* BackGround */
 .backGround{
   position: absolute;
   width: 100vw;
   height: 100vh;
-  /* filter: blur(1px); */
 }
 
-/* BackGround */
+.logo{
+  position: fixed;
+  width: 300px;
+  left: 10px;
+  top: -40px;
+  font-size: 50px;
+  font-weight: 900;
+  color: #8b8b8b
+}
+
+.mainLogo{
+  /* width: 150px; */
+  /* margin-top: -30px; */
+}
+
 .backGroundCircle1{
   position: absolute;
   height: 50vw;
@@ -69,7 +115,7 @@ body{
 .mainSection{
   /* max-width: 99vw; */
   margin: auto; 
-  margin-top: 80px;
+  margin-top: 70px;
   height: 804px;
   display: grid;
   grid-template-columns: 1fr 600px 1fr;
@@ -100,6 +146,7 @@ body{
   display: grid;
   grid-template-columns: 1fr 200px 0px;
   border-radius: 10px 10px 10px 10px;
+  transition: 500ms margin-top;
 }
 
 .optionHeader{
@@ -265,7 +312,7 @@ body{
 .simulationButtons button{
   border: none;
   font-size: 15px;
-  background-color: rgb(155, 155, 155);
+  background-color:  var(--button-color);
   color: #141414;
   border-radius: 0px 0px 5px 5px;
   border-bottom: 2px solid rgb(77, 77, 77);
@@ -367,6 +414,8 @@ body{
   border-radius: 5px;
   border: 2px solid rgb(43, 43, 43);
   width: 599px;
+  visibility: visible;
+  
 }
 
 .statCanvas{
@@ -397,19 +446,23 @@ body{
 }
 
 .visuals{
+  
   height: 300px;
   width: 500px;
   margin:auto;
   margin-top: 0px;
+  transition: 500ms margin-top;
 }
 
 .visualNavigation{
+  margin-top: 50px;
   height: 50px;
-  background-color: rgb(155, 155, 155);
+  background-color:  var(--button-color);
   display: grid;
   grid-template-columns: repeat(4,1fr);
   border-radius: 5px;
   box-shadow: 0px 0px 2px 2px #d3d3d3;
+  transition: 500ms margin-top;
 }
 
 .visualNavigation button{
@@ -431,14 +484,19 @@ body{
   cursor: pointer;
 }
 
+.visualPages{
+  /* visibility: visible; */
+}
 
 
 .visualHeader{
+  /* visibility: hidden; */
   width: 100%;
   height: 50px;
   background-color: rgb(255, 255, 255);
   border-radius: 5px;
   border-left: 2px solid rgb(77, 77, 77);
+  
 }
 
 .visualHeader h1{
@@ -473,6 +531,7 @@ body{
 }
 
 .neuralNet{
+  /* visibility: visible; */
   margin-top: 50px;
   display: grid;
   grid-template-rows: 50px 50px 0px 1fr;
@@ -795,10 +854,6 @@ body{
     height: 20px;
     width: 20px;
     margin-top: -8px;
-  }
-
-  .navbar{
-    display: none;
   }
 
   .mainSection{

@@ -6,7 +6,7 @@ import { Bar } from 'react-chartjs-2';
 export default function Charts() {
 
     const { generationalData } = useContext(GlobalGenerational)
-    const { globalSimulationState,visual } = useContext(GlobalContext)
+    const { globalSimulationState,visual,activePage } = useContext(GlobalContext)
 
     const [chartData,setChartData]=useState({
         max:{},
@@ -78,7 +78,8 @@ export default function Charts() {
         <div className='chartContainer'
             style={{
                 marginLeft:globalSimulationState,
-                zIndex:visual==='charts'?2:-1
+                zIndex:visual==='charts'?2:-1,
+                visibility:activePage==='simulation'?'visible':'hidden',
             }}
 
         >

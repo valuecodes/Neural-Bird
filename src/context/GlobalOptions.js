@@ -4,7 +4,7 @@ import AppReducer from './AppReducer'
 const initialOptions={
     options:{
         closingRate:5000,
-        gapWidth:100,
+        gapWidth:120,
         hardness:20,
         population:10,
         speed:1,
