@@ -8,14 +8,16 @@ body{
   /* background-color: rgba(54, 67, 90, 0.39); */
   /* background-color: rgba(222, 225, 231, 0.39); */
   /* background-image: linear-gradient(to left, rgb(231, 230, 230) , rgb(145, 145, 151)); */
-  background-image: linear-gradient(to left, rgb(245, 245, 245) , rgb(211, 211, 212));
+  background-image: linear-gradient(to left, rgb(154, 160, 172) , rgb(211, 211, 212));
   overflow: hidden;
 }
 
 :root{
   --border-color:rgba(97, 97, 97, 0.568);
   --button-color:rgb(255, 255, 255);
+  --background-circle:rgba(160, 160, 160, 0.37);
 }
+
 
 /* Navigation */
 .navbar{
@@ -78,7 +80,8 @@ body{
   height: 50vw;
   width: 50vw;
   border-radius: 50%;
-  background:  rgba(194, 205, 216, 0.59);
+  background:  var(--background-circle);
+  /* background: rgba(211, 211, 212, 0.384); */
   bottom: -5vw;
   right: -10vw;
   z-index: -1;
@@ -87,12 +90,12 @@ body{
 /* BackGround */
 .backGroundCircle2{
   position: absolute;
-  height: 30vw;
-  width: 30vw;
+  height:600px;
+  width: 600px;
   border-radius: 50%;
-  background:  rgba(194, 205, 216, 0.59);
-  top: -20vw;
-  left: -10vw;
+  background:  var(--background-circle);
+  top: -500px;
+  left: -260px;
   z-index: -1;
 }
 
@@ -102,7 +105,7 @@ body{
   height: 15vw;
   width: 15vw;
   border-radius: 50%;
-  background: rgba(194, 205, 216, 0.59);
+  background: var(--background-circle);
   bottom: 0vw;
   left: 15vw;
   z-index: -1;
@@ -436,17 +439,21 @@ body{
 }
 
 .charts{
+  
   width: 500px; 
-  height: 500px;
   margin:auto;
-  margin-top: 165px;
+  margin-top: 170px;
   display: grid;
-  grid-row-gap: 100px;
+  grid-row-gap: 50px;
   transition: 600ms margin-left;
 }
 
-.visuals{
-  
+.chart{
+  background-color: rgba(255, 255, 255, 0.555);
+  border-radius: 5px;
+}
+
+.visuals{  
   height: 300px;
   width: 500px;
   margin:auto;
@@ -770,7 +777,7 @@ body{
 }
 
 .oldgen{
-  background-color: rgb(206, 228, 216);
+  background-color: rgb(186, 202, 187);
   border-radius: 40%;
   height: 30px;
   width: 40px;
@@ -791,7 +798,7 @@ body{
 }
 
 .currentGen p{
-  background-color: rgb(206, 228, 216); 
+  background-color: rgb(144, 163, 154); 
   border-radius: 40%; 
   height: 30px; 
   width: 40px;

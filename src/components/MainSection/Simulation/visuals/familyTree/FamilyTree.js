@@ -5,6 +5,7 @@ import Generation from './Generation'
 
 export default function GenerationData() {
     const {generationalData} = useContext(GlobalGenerational)
+    console.log(generationalData.generationData.oldGenerations)
     return (
         <div className='familyTree'>
             <VisualHeader header={'Family Tree'}/>
