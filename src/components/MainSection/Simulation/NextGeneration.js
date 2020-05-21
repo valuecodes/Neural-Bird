@@ -2,17 +2,19 @@ import Bird from '../Simulation/animation/bird'
 
 let alfa={score:0};
 
-export function nextGeneration(birds,options,generationalData,currentRound) {
+export function nextGeneration(birds,options,generationalData,currentRound,generation) {
     let {
       mutateRate,
       neuralNetwork,
       recreateRate,
       population
     }=options;
+    console.log(currentRound);
 
     let aScore=alfa.score;
     let pool=calculateFitness(birds,options); 
     let createdBirds=[],newGen=[];
+
     let oldGen=generationalData.generationData.currentGeneration;
     if(birds[0].fitness>=0.098) mutateRate=0.99;
 
@@ -20,29 +22,27 @@ export function nextGeneration(birds,options,generationalData,currentRound) {
       let parentOne=selectParentOne(pool.birds);
       let brain='';
       if(currentRound>recreateRate) brain=parentOne.bird.brain.copy();
-      createdBirds.push(new Bird(neuralNetwork,brain))
-
+      createdBirds.push(new Bird(neuralNetwork,brain,w))
       let parentTwo=selectParentTwo(pool.birds,parentOne);
       createdBirds[w].brain.shuffleGenes(parentTwo.bird);
       createdBirds[w].brain.mutate(mutateRate,alfa);
-
       if(generationalData.generationData.currentGeneration.length!==0){
-        oldGen[w]=[
-          ...oldGen[w],        
-          w,
-          birds[w].fitness,
-          birds[w].score
-        ]        
+          // oldGen[w].birdID=`${birds[w].id}.${generation}`;
+          oldGen[w].fitness=birds[w].fitness;
+          oldGen[w].score=birds[w].score;
+          oldGen[w].currentRound=currentRound;
+          oldGen[w].generation=generation;
       }
-      newGen.push([
-        parentOne.data[0],
-        parentTwo.data[0],
-      ])
+      newGen.push({
+        birdID:`${birds[w].id}.${generation}`,
+        parent1:`${parentOne.data[0]}.${generation-1}`,
+        parent2:`${parentTwo.data[0]}.${generation-1}`,
+      })
     } 
 
     generationalData.generationData.oldGenerations.unshift(oldGen);
     generationalData.generationData.currentGeneration=newGen;
-
+  
     let dna=birds[birds.length-1].brain.getDNA()
     let alfaDNA=alfa.brain.getDNA()
     alfa.weights=alfaDNA;

@@ -1,88 +1,47 @@
 import React,{useState,useEffect} from 'react'
-import { Bar } from 'react-chartjs-2';
-export default function Generation(props) {
 
-    const [chartOptions,setChartOptions]=useState({});
-    const [data,setData]=useState([]);
+export default function Generation({oldGenData,selectedParents1,selectedParents2}) {
 
-    useEffect(()=>{
-        setChartOptions({
-            maintainAspectRatio: false,
-            responsive: true,
-            legend: {
-                display: true,
-                labels: {
-                    boxWidth: 0,
-                    "fontSize": 20,
-                }
-            },
-            scales: {
-                xAxes: [{
-                    gridLines: {
-                        drawOnChartArea: false
-                    }
-                }],
-                yAxes: [{
-                    position: 'right',
-                    gridLines: {
-                        drawOnChartArea: false
-                    }
-                }]
-            },
-        })
-    },[])
-
-    useEffect(()=>{
-        const {oldGen}=props;
-        console.log(oldGen)
-        if(oldGen.length>1){
-            let labels=[];
-            let labelsTotal=[];
-            let data=[];
-            for(var i=1;i<=oldGen.length-1;i++){
-                console.log(oldGen[i][2])
-                labels.push('Bird:'+oldGen[i][2])
-                data.push(oldGen[i][3])
-                // labelsTotal.push('Gen:'+i)
-            }
-            const data1= {
-                labels: labels,
-                datasets: [{
-                    label: 'Highest Points',    
-                    data: data,
-                    backgroundColor: 'rgba(255, 99, 132, 0.2)',
-                    borderColor:'rgba(255, 99, 132, 1)',
-                    borderWidth: 1,
-                    maxBarThickness:20
-                }]
-            }
-            // const total= {
-            //     labels: labelsTotal,
-            //     datasets: [{
-            //         label: 'Total points',    
-            //         data: totalRoundScores,
-            //         backgroundColor: 'rgba(33, 105, 194, 0.2)',
-            //         borderColor:'rgba(33, 105, 194, 1)',
-            //         borderWidth: 1,
-            //         maxBarThickness:20
-            //     }]
-            // }
-            setData(data1);
+    const getBackGoundColor=(id)=>{
+        if(selectedParents1.includes(id)){
+            return 'white'
+        }else if(selectedParents2.includes(id)){
+            return 'gray'
+        }else{
+            return 'rgba(134, 180, 137,0.0)'
         }
-    },[props])
+    }
 
-    // console.log(props);
+    const getDisplay=(id)=>{
+        if(selectedParents1.includes(id)){
+            return ''
+        }else if(selectedParents2.includes(id)){
+            return ''
+        }else{
+            return 'none'
+        }
+    }
+    if(oldGenData.length!==0){}
     return (
         <div className='generation'>
-            {/* {props.oldGen.map((gen,index)=>
-                <div key={index} className='oldgen'>
-                    <p>{(gen[3]*100).toFixed(2)}%</p>
+            <h3 className='genHeader'>Gen:{oldGenData.length!==0?oldGenData[0].generation:0}</h3>
+            {oldGenData.map((gen,index)=>
+                <div key={index} className='oldgen'
+                    id={gen.birdID}
+                    style={{
+                        backgroundColor:getBackGoundColor(gen.birdID),
+                        // display:getDisplay(gen.birdID)
+                    }}
+                >
+                    <div>
+                        {/* <p>{(gen.fitness*100).toFixed(1)}%</p> */}
+                        <p>{gen.birdID}</p>
+                    </div>
+                    
+                    
                 </div>
-            )} */}
-            <Bar
-                data={data}
-                options={chartOptions}
-            />   
+            )}
+
         </div>
     )
 }

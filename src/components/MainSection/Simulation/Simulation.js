@@ -96,7 +96,7 @@ export default function Simulation() {
             deadBirds,
             roundScore,
             totalRoundScore,
-            background
+            background,
         }=savedData.current
 
         let {
@@ -123,7 +123,7 @@ export default function Simulation() {
         function createBirds(nn){
             let createdBirds=[]
             for(var w=0;w<population;w++){
-                createdBirds.push(new Bird(options.neuralNetwork,''))
+                createdBirds.push(new Bird(options.neuralNetwork,'',w))
                 createdBirds[w].y=Math.random()*400+ 100;
             }      
             return createdBirds  
@@ -181,7 +181,8 @@ export default function Simulation() {
                 birds=newBirds;
 
                 if(birds.length<1){
-                    let data=nextGeneration(deadBirds,options,generationalData,currentRound)
+                    deadBirds.sort((a,b)=>a.id-b.id);
+                    let data=nextGeneration(deadBirds,options,generationalData,currentRound,generation)
                     birds=data.birds;
                     pipes=[];
                     deadBirds=[];
@@ -213,7 +214,7 @@ export default function Simulation() {
                     deadBirds,
                     roundScore,
                     totalRoundScore,
-                    background
+                    background,
                 }
             }
             mainAnimation(birds,pipes,gapWidth,inputData,background)

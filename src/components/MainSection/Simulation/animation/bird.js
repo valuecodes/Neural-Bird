@@ -2,7 +2,8 @@ import NeuralNetwork from '../NeuralNetwork';
 import svgs from './../../../../utils/Utils'
 
 class Bird{
-    constructor(nnForm,brain){
+    constructor(nnForm,brain,id){
+        this.id=id;
         this.y=(250);
         this.x=20;
         this.size=10;

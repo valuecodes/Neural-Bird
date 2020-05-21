@@ -51,7 +51,6 @@ export const GlobalGenerationalProvider=({children})=>{
     }
 
     const saveDataToServer=async(alfa)=>{
-        console.log(alfa);
         try{
             const config={
                 headers:{
@@ -61,8 +60,7 @@ export const GlobalGenerationalProvider=({children})=>{
             let data={
                 alfa
             }
-            const res=await axios.post('/saveData',data,config)
-            console.log(res)        
+            const res=await axios.post('/saveData',data,config)      
         }catch(err){
             console.log('Error')
         }

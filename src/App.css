@@ -750,7 +750,6 @@ body{
 }
 
 /* Family Tree */
-
 .familyTree{
   margin-top: 50px;
   height: 500px;
@@ -758,54 +757,71 @@ body{
 }
 
 .generationContainer{
-  height: auto;
-  max-height: 600px;
+  /* height: auto; */
+  max-height: 500px;
   overflow-y: scroll;
   display: flex; 
   flex-direction: column-reverse;
+
+
 }
 
 .generationContainer::-webkit-scrollbar {
   display: none;
 }
 
+.genHeader{
+  padding: 0px;
+  margin: 0px;
+  font-size: 13px;
+  align-content: center;
+  color: #1a1a1a;
+  background-color: rgb(134, 134, 134);
+  border-right: 2px solid rgb(102, 102, 102);
+}
+
 .generation{
   display: grid;
-  grid-template-columns: repeat(10,1fr);
-  grid-column-gap: 5px;
-  margin-top: 5px;
+  grid-template-columns: repeat(auto-fill,minmax(45px,1fr));
+  /* grid-template-rows: repeat(20,10px) */
+  
 }
 
 .oldgen{
-  background-color: rgb(186, 202, 187);
-  border-radius: 40%;
-  height: 30px;
-  width: 40px;
+  background-color: rgb(134, 180, 137);
+  height: 1fr;
+  padding-top: 2px;
 }
 
 .oldgen p{
   text-align: center;
   margin: 0px;
-  padding-top: 5px;
   font-size: 12px;
+  padding-bottom: 3px;
 }
 
 .currentGen{
   display: grid;
-  grid-template-columns: repeat(10,1fr);
+  grid-template-columns: repeat(12,1fr);
   border-top: 2px solid black;
-  margin-top: 15px;
+  grid-gap: 2px;
+}
+
+.currentGenHeader{
+  grid-column: 1/3;
+  border:0px;
+  padding-top: 5px;
 }
 
 .currentGen p{
-  background-color: rgb(144, 163, 154); 
-  border-radius: 40%; 
-  height: 30px; 
-  width: 40px;
+  background-color: rgb(134, 134, 134); 
+  color: #ffffff;
   text-align: center;
   font-size: 15px;
-  padding-top: 7px;
-  margin-top: 5px;
+  margin: 0px;
+  padding: 0px;
+  padding-top: 5px;
+  height: 30px;
 }
 
 /* Chrome */
