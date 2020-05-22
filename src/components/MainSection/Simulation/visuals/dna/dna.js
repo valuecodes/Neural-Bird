@@ -2,6 +2,7 @@ import React,{useContext,useEffect,useState} from 'react'
 import {GlobalGenerational} from '../../../../../context/GlobalGenerational'
 import { Radar } from 'react-chartjs-2';
 import VisualHeader from '../VisualHeader'
+import VisualInfo from './../VisualInfo'
 
 export default function DNA() {
     const chartRef = React.useRef(null)
@@ -93,7 +94,8 @@ export default function DNA() {
 
     return (
         <div className='DNA'>
-            <VisualHeader header={'DNA'}/>
+            <VisualHeader header={'DNA'} option={null}/>
+            <VisualInfo text={'DNA updates every time new Generation is created'}/>
             <div className='dnaPage'>
                 <div className='centerAlign'>
                     <div className='centerDot'>
@@ -101,7 +103,6 @@ export default function DNA() {
                         <h3 className='fitnessPercentage'>{fitness}%</h3>                        
                     </div>                    
                 </div>
-
                 <Radar
                     data={data}
                     className='dnaChart'

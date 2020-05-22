@@ -3,7 +3,7 @@ import AppReducer from './AppReducer'
 
 const initialState={
     globalSimulationState:'Offline',
-    visual:'family',
+    visual:'nn',
     nnCoordinates:[],
     activePage:'landing'
 }
@@ -24,7 +24,6 @@ export const GlobalProvider=({children})=>{
     }
 
     function setVisual(page){
-        console.log(page)
         dispatch({
             type:'SET_VISUAL',
             payload:{
@@ -36,7 +35,6 @@ export const GlobalProvider=({children})=>{
 
     function updateNNCoordinates(cor){
         if(cor.length!==state.nnCoordinates.length){
-            console.log(cor)
             dispatch({
                 type:'UPDATE_NN_COORDINATES',
                 payload:{

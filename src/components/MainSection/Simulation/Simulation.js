@@ -13,18 +13,17 @@ import BackGround from './animation/background';
 import alpha from './animation/alfaSettings.json' 
 
 export default function Simulation() {
-    const {options}=useContext(GlobalOptions);
+    const {options,modifyOptions}=useContext(GlobalOptions);
     const {setGlobalInOutData}=useContext(GlobalInOut)    
     const {
         setGenerationalData,
         generationalData,
         resetGenerationalData,
-        saveDataToServer
+        // saveDataToServer
     }=useContext(GlobalGenerational)
     const { 
         setGlobalSimulationState,
         visual,
-        setVisual,
         activePage 
     }=useContext(GlobalContext);
 
@@ -59,14 +58,13 @@ export default function Simulation() {
         const statctx=statCanvas.getContext('2d');
         setStatCanvas(statctx)
         setMainCanvas(ctx);
-        let icon=svgs.bird;
         let background=new Image();
         background.src= svgs.bg;
         background.onload=()=>{
             setIcon(svgs.bird);
             setBackground(background)
         } 
-    },[svgs])
+    },[])
 
     useEffect(()=>{
         if(activePage!=='landing') resetSimulation();     
@@ -79,7 +77,7 @@ export default function Simulation() {
 
     useEffect(() => {
         if(icon!==null&&background!==null) setupAnimation(); 
-    }, [options.gapWidth,options.population])
+    }, [options.gapWidth,options.population,icon,background])
 
     useEffect(() => {
         if(mainCanvas!==null&&background!==null) landingAnimation(); 
@@ -150,7 +148,7 @@ export default function Simulation() {
 
                 for(var i=0;i<pipes.length;i++){
                     pipes[i].update();
-                    if(pipes[0].x<-10) pipes.shift();
+                    if(pipes[0].x<-20) pipes.shift();
                 }
                 
                 for(var b=0;b<birds.length;b++){
@@ -194,7 +192,7 @@ export default function Simulation() {
                     generation++;
                     gapWidth=options.gapWidth
                     background.pos=-80;
-                    if(data.alfa!==null) saveDataToServer(data.alfa)
+                    // if(data.alfa!==null) saveDataToServer(data.alfa)
                     setGenerationalData(
                         roundScore,
                         totalRoundScore,
@@ -279,20 +277,11 @@ export default function Simulation() {
 
     const landingAnimation=async()=>{
 
-        let {
-            background
-        }=savedData.current
-
+        let { background }=savedData.current
         let birds=[],pipes=[],currentRound=0
-
-        let {
-            closingRate,
-            pipeRate,
-            choiceRate,
-            gapWidth
-        }=options
-
+        let { pipeRate,choiceRate,gapWidth }=options
         let inputData=null;
+
         birds.push(new Bird(options.neuralNetwork,''))
         await birds[0].brain.createAlpha(alpha.alfa.weights)
         async function simulationLoop(){
@@ -303,7 +292,7 @@ export default function Simulation() {
             }
             for(var i=0;i<pipes.length;i++){
                 pipes[i].update();
-                if(pipes[0].x<-10) pipes.shift();
+                if(pipes[0].x<-20) pipes.shift();
             }
             let currentPipe=pipes[0].x>10?pipes[0]:pipes[1];
             let nndata=await birds[0].think(currentPipe,gapWidth);inputData=nndata.inputData;
@@ -328,7 +317,7 @@ export default function Simulation() {
 
             currentRound++;
             mainAnimation(birds,pipes,gapWidth,inputData,background)
-            // displayBirdView(inputData);
+            displayBirdView(inputData);
             currentAnimation.current=requestAnimationFrame(simulationLoop)
         }
         simulationLoop();
@@ -340,9 +329,7 @@ export default function Simulation() {
         let pipes=[],currentRound=0
         let inputData=null;
         let {
-            closingRate,
             pipeRate,
-            choiceRate,
             gapWidth
         }=options
 
@@ -358,7 +345,6 @@ export default function Simulation() {
                 pipes[i].update();
                 if(pipes[0].x<-10) pipes.shift();
             }
-            let currentPipe=pipes[0].x>10?pipes[0]:pipes[1];
 
             if(birds[0].x>pipes[0].x){
                 if(birds[0].y<pipes[0].gap-gapWidth||birds[0].y>pipes[0].gap+gapWidth){
@@ -412,6 +398,7 @@ export default function Simulation() {
 
     function changeSpeed(e){
         setSpeed(e.target.value)
+        modifyOptions(e.target.value,'speed')
         if(state!=='Offline') simulation(e.target.value,false)
         else setupAnimation();
     }

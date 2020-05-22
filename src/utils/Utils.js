@@ -1,8 +1,8 @@
-import options from './interface.svg'
-import info from './info.svg'
-import bird from './bird.svg'
-import bg from './background/bg1.svg'
-import mainLogo from './../utils/mainLogo.png'
+import options from './pictures/interface.svg'
+import info from './pictures/info.svg'
+import bird from './pictures/bird.svg'
+import bg from './pictures/bg1.svg'
+import mainLogo from './pictures/mainLogo.png'
 
 // let bird1=new Image();
 // bird1.src=bird;

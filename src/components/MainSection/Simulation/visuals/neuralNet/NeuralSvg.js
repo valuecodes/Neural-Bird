@@ -4,12 +4,14 @@ export default function NeuralSvg(props) {
 
     const [coordinates,setCoordinates]=useState([]);
     const { nnCoordinates,activePage} =useContext(GlobalContext);
-
+    const {neuralNet}=props
     useEffect(()=>{
-        var offsets = document.getElementById('layers').getBoundingClientRect();
-        let newCoordinates=calculateConnections(nnCoordinates,props.neuralNet,offsets);
-        setCoordinates(newCoordinates);
-    },[nnCoordinates]);
+        if(nnCoordinates.length!==0){
+            var offsets = document.getElementById('layers').getBoundingClientRect();
+            let newCoordinates=calculateConnections(nnCoordinates,neuralNet,offsets);
+            setCoordinates(newCoordinates);            
+        }
+    },[nnCoordinates,neuralNet]);
     
     const calculateConnections=(nnc,nn,offSet)=>{
         let layers=nn.map(layer=>layer.neurals)

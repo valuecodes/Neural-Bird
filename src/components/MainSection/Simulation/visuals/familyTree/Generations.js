@@ -14,7 +14,9 @@ export default function Generation({genData,selectedParents1,selectedParents2}) 
     return (
         <div className='generation generationContainer'>
             {genData.map((gen,index)=>
-                <div key={index} className='oldgen'id={gen.birdID}
+                <div 
+                    key={index} 
+                    className='oldgen'id={gen.birdID}
                     style={{
                         backgroundColor:getBackGoundColor(gen.birdID)
                     }}
@@ -22,7 +24,6 @@ export default function Generation({genData,selectedParents1,selectedParents2}) 
                     <div>
                         <p >{(gen.fitness*100).toFixed(1)}%</p>
                     </div>
-                    
                     
                 </div>
             )}

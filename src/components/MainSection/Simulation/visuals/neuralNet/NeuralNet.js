@@ -5,6 +5,7 @@ import LayerHeader from './LayerHeader'
 import NeuralSvg from './NeuralSvg'
 import {GlobalContext} from '../../../../../context/GlobalState'
 import {GlobalOptions} from '../../../../../context/GlobalOptions'
+import VisualInfo from './../VisualInfo'
 
 export default function NeuralNet() {
 
@@ -12,6 +13,7 @@ export default function NeuralNet() {
     const {options,modifyOptions}=useContext(GlobalOptions);
     const [neuralNet,setNeuralNet]=useState([])
     let [coordinates,setCoordinates]=useState([]);
+    const [optionsOpen,setOptionsOpen]=useState(false)
 
     useEffect(()=>{
         setNeuralNet(options.neuralNetwork)
@@ -47,20 +49,31 @@ export default function NeuralNet() {
         coordinates.push(cor);
         if(coordinates.length===sum) updateNNCoordinates(coordinates)
     }
+
+    const changeSettings=()=>{  
+        setOptionsOpen(!optionsOpen)
+    }
+    
     return (
         <div className='neuralNet'
             style={{
-                visibility:activePage==='landing'||activePage==='simulation'?'visible':'hidden'
+                // visibility:activePage==='landing'||activePage==='simulation'?'visible':'hidden'
             }}
         >
-            <VisualHeader header={'Neural Network'}/>
+            <VisualHeader header={'Neural Network'} changeSettings={changeSettings} option={'optionsOpen'}/>
             <LayerHeader 
                 neuralNet={neuralNet}
                 addNeular={addNeular} 
                 deleteNeular={deleteNeular}
+                optionsOpen={optionsOpen}
             />
+            <VisualInfo text={'Current neural network layout'}/>
             <NeuralSvg neuralNet={neuralNet} />
-            <div id='layers'>
+            <div id='layers'
+                        style={{
+                            visibility:activePage==='landing'||activePage==='simulation'?'visible':'hidden'
+                        }}
+            >
                 {neuralNet.map((layer,index)=>
                     <Layer key={index} updateCoordinates={updateCoordinates} layer={layer}/>
                 )}                

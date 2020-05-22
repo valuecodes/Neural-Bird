@@ -9,7 +9,6 @@ export function nextGeneration(birds,options,generationalData,currentRound,gener
       recreateRate,
       population
     }=options;
-    console.log(currentRound);
 
     let aScore=alfa.score;
     let pool=calculateFitness(birds,options); 

@@ -1,10 +1,10 @@
-import React,{useEffect,useContext} from 'react'
+import React,{useContext} from 'react'
 import {GlobalContext} from '../../../../context/GlobalState'
 export default function VisualNavigation(props) {
     const { activePage }=useContext(GlobalContext);
-    useEffect(()=>{
-        console.log(window.innerHeight)
-    },[window])
+    // useEffect(()=>{
+    //     console.log(window.innerHeight)
+    // },[window])
     return (
         <div className='visualNavigation'
             style={{

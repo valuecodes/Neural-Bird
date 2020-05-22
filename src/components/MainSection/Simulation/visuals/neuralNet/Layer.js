@@ -3,19 +3,19 @@ import Neuron from './Neuron'
 
 export default function Layer( props) {
     const {layer}=props
+    const [coordinates]=useState([]);
     const [currentLayer,setCurrentLayer]=useState({
         type:'',
         neuralsCount:0,
         id:0,
         neurals:[]
     });    
-    const [coordinates]=useState([]);
 
     useEffect(()=>{
         if(coordinates.length===currentLayer.neurals.length){
             setCurrentLayer(layer)
         }
-    },[layer])
+    },[layer,coordinates,currentLayer])
 
     return (
         <div className='layer'>

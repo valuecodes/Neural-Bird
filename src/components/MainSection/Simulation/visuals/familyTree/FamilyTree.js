@@ -2,15 +2,26 @@ import React,{useContext,useEffect,useState} from 'react'
 import VisualHeader from '../VisualHeader'
 import {GlobalGenerational} from '../../../../../context/GlobalGenerational'
 import Generation from './Generation'
-import Generations from './Generations'
+import GenerationOptions from './GenerationOptions'
+import CurrentGeneration from './CurrentGeneration'
+import FamilyVisualInfo from './FamilyVisualInfo'
 
 export default function GenerationData() {
+
     const {generationalData} = useContext(GlobalGenerational)
     const [oldGenData,setOldGenData]=useState([]);
     const [idData,setIdData]=useState({});
-    const [selectedParents1,setSelectedParents1]=useState([]);
-    const [selectedParents2,setSelectedParents2]=useState([]);
-    const [genData,setGenData]=useState([]);
+    const [settings,setSettings]=useState({
+        optionsOpen:false,
+        treeGraph:false,
+        showFitness:false,
+        colors:false,
+        selectedValue:'birdID',
+        selectedParents1:[],
+        selectedParents2:[]
+    })
+
+    
 
     useEffect(()=>{
         let idd={}
@@ -24,13 +35,10 @@ export default function GenerationData() {
         gData.pop()
         setOldGenData(gData);
         setIdData(idd)
-        // setSelectedParents1([])
-        // setSelectedParents2([])
-
+        if(gData.length===0) resetSettings();
     },[generationalData])
 
     const createFamilyTree=(bird)=>{
-
         let parents1=[];
         let parents2=[];
         let prevValues=[];
@@ -52,34 +60,55 @@ export default function GenerationData() {
             prevValues[parent.parent2]=parent2
         }    
         getParents(bird);
-        setSelectedParents1(parents1)
-        setSelectedParents2(parents2)
+        let newSettings={...settings}
+        newSettings.selectedParents1=parents1;
+        newSettings.selectedParents2=parents2;
+        setSettings(newSettings)
     }
+
+    const changeSettings=(option)=>{
+        let newSettings={...settings}
+        newSettings[option]=!newSettings[option]
+        setSettings(newSettings);
+    }
+
+    const changeSettingsValue=(value)=>{
+        let newSettings={...settings}
+        newSettings.selectedValue=value;
+        setSettings(newSettings);
+    }
+
+    const resetSettings=()=>{
+        let newSettings={...settings}
+        newSettings.selectedParents1=[];
+        newSettings.selectedParents2=[];
+        setSettings(newSettings)
+    }
+
     return (
         <div className='familyTree'>
-            <VisualHeader header={'Family Tree'}/>
-            {/* <Generations 
-                genData={genData} 
-                selectedParents1={selectedParents1}
-                selectedParents2={selectedParents2} 
-            /> */}
-            <div className='generationContainer'>
+            <VisualHeader header={'Family Tree'} changeSettings={changeSettings} option={'optionsOpen'}/>
+            <GenerationOptions 
+                changeSettings={changeSettings} 
+                changeSettingsValue={changeSettingsValue}
+                settings={settings}/>
+            <FamilyVisualInfo text={'Run simulation and select bird from Current Gen'}/>
+            <div className='generationContainer'
+                style={{maxHeight:settings.optionsOpen?400:500}}
+            >
                 {oldGenData.map((oldGen,index)=>
-                    <Generation 
-                    oldGenData={oldGenData[index]} 
-                    selectedParents1={selectedParents1}
-                    selectedParents2={selectedParents2} 
+                    <Generation
+                        key={index}
+                        oldGenData={oldGenData[index]}
+                        settings={settings}
+                        createFamilyTree={createFamilyTree} 
                     />
                 )} 
-            </div>             
-            <div className='currentGen'>
-                <h3 className='genHeader currentGenHeader'>Current Gen</h3>
-                {generationalData.generationData.currentGeneration.map((gen,index)=>
-                    <div key={index} onClick={()=>createFamilyTree(gen)}>
-                        <p>{gen.birdID}</p>
-                    </div> 
-                )}
-            </div>
+            </div>   
+            <CurrentGeneration 
+                currentGeneration={generationalData.generationData.currentGeneration} 
+                createFamilyTree={createFamilyTree}    
+            />          
         </div>
     )
 }

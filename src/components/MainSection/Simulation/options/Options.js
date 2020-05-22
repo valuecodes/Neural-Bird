@@ -3,7 +3,6 @@ import SimulationControl from './SimulationControl'
 import AdditionalOptions from './AdditionalOptions'
 import SetupOptions from './SetupOptions'
 import {SimulationButtons} from './SimulationButtons'
-import SimulationStats from './SimulationStats'
 import {GlobalContext} from '../../../../context/GlobalState'
 
 export default function Options(props) {
@@ -38,9 +37,6 @@ export default function Options(props) {
                     state={state}
                 />
             </div>
-            {/* <SimulationStats
-                state={state} 
-            /> */}
             <SetupOptions
                 openOptions={openOptions}
                 state={state}

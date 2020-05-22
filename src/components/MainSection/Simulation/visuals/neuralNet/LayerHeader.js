@@ -1,45 +1,29 @@
-import React,{useState,useContext} from 'react'
-import svgs from '../../../../../utils/Utils'
+import React from 'react'
 import AddNeular from './AddNeular'
-import {GlobalContext} from '../../../../../context/GlobalState'
 
 export default function LayerHeader(props) {
-    const {neuralNet}=props
-    const [optionOpen,setOptionOpen]=useState(false);
-    const { activePage }=useContext(GlobalContext);
+    const {neuralNet,optionsOpen}=props
 
-    const openOptions=()=>{
-        setOptionOpen(!optionOpen)
-    }
     let sum = neuralNet.reduce((accumulator, neural)=> 
         accumulator + neural.neurals.length
       , 0)
+
     return (
-        <div className='layerOptions' style={{
-            marginTop:optionOpen?-0:-60
-        }}>
+        <div 
+            className='layerOptions' 
+            style={{height:optionsOpen?35:0}}
+            >
             <div className='lOptions' style={{
-                opacity:optionOpen?1:0,
+                opacity:optionsOpen?1:0,
             }}>
                 <h3>Type: <span className='oValue'>Dense</span> </h3>
                 <h3>Layers: <span className='oValue'>{neuralNet.length}</span> </h3>
                 <h3>Neurals: <span className='oValue'>{sum}</span></h3>
             </div>
-                <img
-                    alt='optionImage'
-                    style={{
-                        marginTop:optionOpen?-40:+20,
-                        visibility:activePage==='simulation'?'visible':'hidden'
-                    }}
-                    onClick={()=>openOptions()} 
-                    className='optionImage layerOpen' 
-                    src={svgs.options}
-                /> 
             <div
-            style={{
-                marginTop:optionOpen?10:-120
-            }}
-            className='neuralOptions'>
+            className='neuralOptions'
+            style={{display:optionsOpen?'':'none'}}
+            >
                 {neuralNet.map((layer,index)=>
                         <AddNeular
                         key={index}

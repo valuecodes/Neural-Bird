@@ -39,9 +39,7 @@ export default function Visuals() {
                 }}>
             </div>
             <div className='visualPages'
-                    style={{
-                        display:currentPage===''?'none':''
-                    }}>
+                    style={{display:currentPage===''?'none':''}}>
                     <div
                         style={{display:currentPage==='nn'?'':'none'}}
                         className='visualPage'>
