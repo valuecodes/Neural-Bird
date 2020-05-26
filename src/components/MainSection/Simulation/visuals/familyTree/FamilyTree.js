@@ -21,8 +21,6 @@ export default function GenerationData() {
         selectedParents2:[]
     })
 
-    
-
     useEffect(()=>{
         let idd={}
         let gData=[...generationalData.generationData.oldGenerations]

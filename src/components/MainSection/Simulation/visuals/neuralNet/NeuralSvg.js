@@ -5,7 +5,7 @@ export default function NeuralSvg(props) {
     const [coordinates,setCoordinates]=useState([]);
     const { nnCoordinates,activePage} =useContext(GlobalContext);
     const {neuralNet}=props;
-    
+
     useEffect(()=>{
         if(nnCoordinates.length!==0){
             var offsets = document.getElementById('layers').getBoundingClientRect();
@@ -45,7 +45,7 @@ export default function NeuralSvg(props) {
     return (
         <svg className='neuralSvg'
         style={{
-            visibility:activePage==='landing'&&window.innerWidth>1000||activePage==='simulation'?'visible':'hidden'
+            visibility:(activePage==='landing'&&window.innerWidth>1000)||activePage==='simulation'?'visible':'hidden'
         }}
         >
             {coordinates.map((elem,index)=>

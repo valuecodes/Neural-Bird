@@ -26,7 +26,6 @@ export function nextGeneration(birds,options,generationalData,currentRound,gener
       createdBirds[w].brain.shuffleGenes(parentTwo.bird);
       createdBirds[w].brain.mutate(mutateRate,alfa);
       if(generationalData.generationData.currentGeneration.length!==0){
-          // oldGen[w].birdID=`${birds[w].id}.${generation}`;
           oldGen[w].fitness=birds[w].fitness;
           oldGen[w].score=birds[w].score;
           oldGen[w].currentRound=currentRound;

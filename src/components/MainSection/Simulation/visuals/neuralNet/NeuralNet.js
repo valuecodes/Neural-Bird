@@ -55,11 +55,7 @@ export default function NeuralNet() {
     }
     
     return (
-        <div className='neuralNet'
-            style={{
-                // visibility:activePage==='landing'||activePage==='simulation'?'visible':'hidden'
-            }}
-        >
+        <div className='neuralNet'>
             <VisualHeader header={'Neural Network'} changeSettings={changeSettings} option={'optionsOpen'}/>
             <LayerHeader 
                 neuralNet={neuralNet}
@@ -71,7 +67,7 @@ export default function NeuralNet() {
             <NeuralSvg neuralNet={neuralNet} />
             <div id='layers'
                         style={{
-                            visibility:activePage==='landing'&&window.innerWidth>1000||activePage==='simulation'?'visible':'hidden'
+                            visibility:(activePage==='landing'&&window.innerWidth>1000)||activePage==='simulation'?'visible':'hidden'
                         }}
             >
                 {neuralNet.map((layer,index)=>

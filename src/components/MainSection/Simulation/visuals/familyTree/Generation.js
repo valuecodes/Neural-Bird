@@ -11,7 +11,6 @@ export default function Generation({oldGenData,settings}) {
         selectedValue
     }=settings
 
-
     useEffect(()=>{
         const getSelectedParents=(currentData)=>{
             let newData=[];

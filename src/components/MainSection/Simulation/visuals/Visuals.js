@@ -25,8 +25,6 @@ export default function Visuals() {
             style={{
                 height:currentPage===''?0:'100vh',
                 visibility:activePage==='simulation'?'visible':'hidden',
-                // marginTop:activePage==='landing'?50:0,
-                // backgroundColor:globalSimulationState==='Offline'?'rgb(211, 211, 212)':'rgba(255,255, 255, 0.0)',
                 zIndex:globalSimulationState==='Offline'?3:2
             }}>   
             <VisualNavigation

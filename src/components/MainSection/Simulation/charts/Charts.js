@@ -81,7 +81,6 @@ export default function Charts() {
                 zIndex:visual==='charts'?2:-1,
                 visibility:activePage==='simulation'?'visible':'hidden',
             }}
-
         >
             <div className='charts'
                 style={{

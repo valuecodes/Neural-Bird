@@ -2,10 +2,6 @@ export default (state,action)=>{
     switch(action.type){
 
         case 'SET_GLOBAL_SIMULATION_STATE':
-
-            if(action.payload.data==='Offline'){
-
-            }
             return{
                 ...state,
                 globalSimulationState:action.payload.data,

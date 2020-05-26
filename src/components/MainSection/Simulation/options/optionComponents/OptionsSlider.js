@@ -6,7 +6,6 @@ export default function OptionSlider({id,name,min,max,def,type,add,desc}) {
     const {options,modifyOptions}=useContext(GlobalOptions);
 
     let value=0;
-    // let valueMax=0;
 
     switch(add[1]) {
         case '/':
@@ -20,8 +19,6 @@ export default function OptionSlider({id,name,min,max,def,type,add,desc}) {
         default:
           value=options[id];
       }
-
-      
 
     return (
         <div className='input'>

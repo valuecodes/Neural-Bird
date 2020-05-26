@@ -3,7 +3,7 @@ import {GlobalContext} from '../../context/GlobalState'
 import svgs from './../../utils/Utils'
 
 export default function NavBar() {
-    const { setActivePage,activePage,setVisual }=useContext(GlobalContext)
+    const { setActivePage,activePage }=useContext(GlobalContext)
 
     return (
         <div className='navbar'>
