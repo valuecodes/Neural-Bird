@@ -3,12 +3,12 @@ import {GlobalContext} from '../../../../context/GlobalState'
 export default function VisualNavigation(props) {
 
     const { activePage }=useContext(GlobalContext);
-    
+
     return (
         <div className='visualNavigation'
             style={{
                 marginTop:activePage==='simulation'?50:0,
-                visibility:activePage==='landing'?'hidden':'visible'
+                visibility:activePage==='simulation'?'visible':'hidden'
             }}
         >            
             <button onClick={()=>props.changePage('')}

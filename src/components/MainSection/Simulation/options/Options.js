@@ -24,7 +24,7 @@ export default function Options(props) {
     return (
         <div className='options'
             style={{
-                marginTop:activePage==='simulation'?0:200
+                marginTop:activePage==='simulation'||activePage==='playMode'?0:200
             }}
         >
             <div className='simulationControl' >
