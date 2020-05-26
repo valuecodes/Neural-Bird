@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import BackGround from './components/background/background'
+import BackGround from './components/backGround/BackGround'
 import Main from './components/MainSection/Main'
 import NavBar from './components/NavBar/NavBar'
 import { GlobalProvider } from './context/GlobalState'
