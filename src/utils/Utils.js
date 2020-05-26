@@ -3,6 +3,7 @@ import info from './pictures/info.svg'
 import bird from './pictures/bird.svg'
 import bg from './pictures/bg1.svg'
 import mainLogo from './pictures/mainLogo.png'
+import background from './pictures/background.png'
 
 // let bird1=new Image();
 // bird1.src=bird;
@@ -19,7 +20,8 @@ let svgs={
     info:info,
     bird:bird1,
     bg:bg,
-    mainLogo:mainLogo
+    mainLogo:mainLogo,
+    background:background
 }
 
 export default svgs

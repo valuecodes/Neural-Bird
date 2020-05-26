@@ -50,20 +50,28 @@ export default function Simulation() {
         deadBirds:[],
         background:new BackGround(-80),
     });    
-    
-    useEffect(()=>{        
+
+    useEffect(()=>{
         const canvas=canvasRef.current;
         const ctx=canvas.getContext('2d');
         const statCanvas = statCanvasRef.current;
         const statctx=statCanvas.getContext('2d');
         setStatCanvas(statctx)
         setMainCanvas(ctx);
+    },[]);
+    
+    useEffect(()=>{        
         let background=new Image();
-        background.src= svgs.bg;
+        background.style.height=100
         background.onload=()=>{
+            background.width = 100;
+            background.height = 150;
             setIcon(svgs.bird);
             setBackground(background)
+            console.log(background)
+            // landingAnimation()
         } 
+        background.src= svgs.bg;
     },[])
 
     useEffect(()=>{

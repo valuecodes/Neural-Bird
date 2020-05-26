@@ -13,7 +13,7 @@ export default function NavBar() {
             alt={'Main Logo'} className='mainLogo' src={svgs.mainLogo}/></div>
             <button onClick={()=>setActivePage('simulation')}>Simulation</button>
             <button onClick={()=>setActivePage('playMode')}>Play</button>
-            <button onClick={()=>setActivePage('leaderboards')}>Leaderboards</button>
+            {/* <button onClick={()=>setActivePage('leaderboards')}>Leaderboards</button> */}
         </div>
     )
 }

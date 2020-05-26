@@ -6,7 +6,7 @@ class BackGround {
             if(this.pos<-6000) this.pos=-60;
         }
         this.draw=(canvas,bg)=>{
-            canvas.drawImage(bg,this.pos,-100)
+            canvas.drawImage(bg,this.pos,-200)
             return
         }
     }
