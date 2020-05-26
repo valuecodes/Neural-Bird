@@ -62,21 +62,17 @@ export default function Simulation() {
     
     useEffect(()=>{        
         let background=new Image();
-        background.style.height=100
+
         background.onload=()=>{
-            background.width = 100;
-            background.height = 150;
             setIcon(svgs.bird);
             setBackground(background)
-            console.log(background)
-            // landingAnimation()
         } 
         background.src= svgs.bg;
     },[])
 
     useEffect(()=>{
         if(activePage!=='landing') resetSimulation();     
-        if(activePage==='playMode') playSimulation();   
+        if(activePage==='playMode') playSetupAnimation();   
     },[activePage])
 
     useEffect(()=>{
@@ -268,6 +264,23 @@ export default function Simulation() {
         statCanvas.fillText(gapWidth, 130, 125);  
     }
 
+    const displayManualStats=(currentRound,round,hScore)=>{
+
+        resetCanvas(statCanvas);
+        statCanvas.font = "20px Arial ";
+        statCanvas.fontColor = "20px Arial";
+        statCanvas.fillStyle = 'rgb(114, 114, 114)';
+        statCanvas.fillText('Round:', 10, 50);  
+        statCanvas.fillText('Score:', 10, 80); 
+        statCanvas.fillText('High Score:', 10, 110); 
+
+        statCanvas.font = "700 26px Arial";
+        statCanvas.fillStyle = 'rgb(55, 61, 80)';
+        statCanvas.fillText(round, 130, 50);
+        statCanvas.fillText(currentRound, 130, 80);
+        statCanvas.fillText(hScore, 130, 110);
+    }
+
     const resetCanvas=(ctx)=>{
         ctx.beginPath(0,0);
         ctx.clearRect(0, 0, 800, 800);
@@ -332,7 +345,8 @@ export default function Simulation() {
     }
 
     const playSimulation=()=>{
-
+        setState('Online')
+        cancelAnimationFrame(currentAnimation.current);
         let { birds,background }=savedData.current
         let pipes=[],currentRound=0
         let inputData=null;
@@ -342,7 +356,8 @@ export default function Simulation() {
         }=options
 
         birds.push(new Bird(options.neuralNetwork,''))
-
+        let round=0;
+        let hScore=0;
         function simulationLoop(){
             background.update();
             birds[0].update();
@@ -367,14 +382,25 @@ export default function Simulation() {
                 pipes.push(new Pipe(300))
                 currentRound=0;
                 background.pos=-80;
+                round++;
             }
 
             currentRound++;
-            mainAnimation(birds,pipes,gapWidth,inputData,background)
+            if(hScore<=currentRound) hScore=currentRound
+            mainAnimation(birds,pipes,gapWidth,inputData,background);
+            displayManualStats(currentRound,round,hScore);
             currentAnimation.current=requestAnimationFrame(simulationLoop)
             savedData.current={birds}
         }
         simulationLoop();
+    }
+
+    const playSetupAnimation=()=>{
+        resetCanvas(mainCanvas)
+        mainCanvas.strokeStyle = "#000000";
+        savedData.current.background.draw(mainCanvas,background)
+        let bird=new Bird(options.neuralNetwork,'')
+        bird.draw(mainCanvas,icon)
     }
 
     const setupAnimation=()=>{
@@ -444,22 +470,49 @@ export default function Simulation() {
         resetCanvas(statCanvas);
     }
     const jump=()=>{
-        if(activePage==='playMode'){
+        if(activePage==='playMode'&&state==='Online'){
             savedData.current.birds[0].up()
         }
+
     }
+
+    const stopPlaySimulation=()=>{
+        cancelAnimationFrame(currentAnimation.current);
+        savedData.current={
+            gapWidth:options.gapWidth,
+            pipes:[],
+            birds:[],
+            generation:[1],
+            currentRound:0,
+            scoreCount:0,
+            roundScore:[],
+            totalRoundScore:[],
+            deadBirds:[],
+            background:new BackGround(-80),
+        };
+        setState('Offline')
+        playSetupAnimation();
+    }
+
+    const startPlaySimulation=()=>{
+        if(state==='Offline'){
+            playSimulation();
+        }
+    }
+
     return (
         <div className='neuralNetwork'
             style={{ 
                 visibility:activePage==='simulation'?'visible':'hidden',
                 // opacity=activePage==='simulation'?1:2
-            }}onClick={(e)=>jump()}
-        >
+            }}>
             <Options
                 speed={speed}
                 startSimulation={startSimulation}
                 pauseSimulation={pauseSimulation}
                 resetSimulation={resetSimulation}
+                startPlaySimulation={startPlaySimulation}
+                stopPlaySimulation={stopPlaySimulation}
                 changeSpeed={changeSpeed}
                 state={state}    
                 generation={savedData.current.generation}
@@ -473,6 +526,7 @@ export default function Simulation() {
                 changeSpeed={changeSpeed}
             />
             <canvas
+                onClick={(e)=>jump()}
                 ref={canvasRef}
                 className='canvas'
                 width={600}
@@ -480,10 +534,10 @@ export default function Simulation() {
             >
             </canvas>
             <canvas
+                style={{visibility:activePage==='landing'?'hidden':'visible'}}
                 ref={statCanvasRef}
                 className='statCanvas'
                 width={200}
-                height={state==='Offline'?0:150}
             >
             </canvas>
         </div>

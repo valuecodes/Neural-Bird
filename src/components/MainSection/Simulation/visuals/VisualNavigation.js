@@ -8,7 +8,8 @@ export default function VisualNavigation(props) {
     return (
         <div className='visualNavigation'
             style={{
-                marginTop:activePage==='simulation'?50:0
+                marginTop:activePage==='simulation'?50:0,
+                visibility:activePage==='landing'?'hidden':'visible'
             }}
         >            
             <button onClick={()=>props.changePage('')}

@@ -2,6 +2,7 @@ import React,{useEffect,useState,useContext} from 'react'
 import SimulationControl from './SimulationControl'
 import AdditionalOptions from './AdditionalOptions'
 import SetupOptions from './SetupOptions'
+import ManualPlay from './ManualPlay'
 import {SimulationButtons} from './SimulationButtons'
 import {GlobalContext} from '../../../../context/GlobalState'
 
@@ -44,7 +45,12 @@ export default function Options(props) {
             <AdditionalOptions 
                 optionsOpen={optionsOpen} 
                 state={state}
-            />  
+            /> 
+            <ManualPlay
+                startPlaySimulation={props.startPlaySimulation}
+                stopPlaySimulation={props.stopPlaySimulation}
+                state={state}
+            />
         </div>
     )
 }

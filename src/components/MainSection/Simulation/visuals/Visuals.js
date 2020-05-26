@@ -10,7 +10,7 @@ export default function Visuals() {
 
     const { setVisual,globalSimulationState,activePage,visual } =useContext(GlobalContext);
     const [currentPage,setCurrentPage]=useState('nn')
-    
+
     useEffect(()=>{
         setCurrentPage(visual)
     },[visual])

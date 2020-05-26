@@ -45,6 +45,7 @@ export const GlobalProvider=({children})=>{
     }
 
     function setActivePage(page){
+        if(window.innerWidth<1500) setVisual('')
         dispatch({
             type:'SET_ACTIVE_PAGE',
             payload:{

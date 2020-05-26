@@ -106,9 +106,6 @@ body{
   z-index: -1;
 }
 
-
-
-
 /* Main Section */
 .mainSection{
   /* max-width: 99vw; */
@@ -130,16 +127,23 @@ body{
   border: 2px solid var(--border-color);
   border-radius: 10px;
   box-shadow: 0px 0px 1px 1px rgba(97, 97, 97, 0.425);
-  /* background-color: rgba(103, 108, 117, 0.521); */
-  /* border-top: 0px; */
-  /* border-bottom: 0px; */
+  background-color: rgba(255, 255, 255, 0.3);
+}
+
+.manualPlay{
+  position: absolute;
+  visibility: visible;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  box-shadow: 0px 0px 1px 1px rgba(97, 97, 97, 0.425);
   background-color: rgba(255, 255, 255, 0.3);
 }
 
 /* Options */
 .options{
-  /* visibility: hidden; */
-  /* background-color: rgb(255, 255, 255); */
   width: 600px;
   display: grid;
   grid-template-columns: 1fr 200px 0px;
@@ -152,7 +156,6 @@ body{
   grid-template-columns: 40px 1fr ;
   font-size: 14px;
   margin-top: -12px;
-
 }
 
 .optionsButton{
@@ -172,12 +175,12 @@ body{
   cursor: pointer;
 }
 
-
 .setupInputs{
   margin-top: 5px;
   height: 130px;
   display: grid;
   grid-template-rows: 60px 1fr 1fr;
+  z-index: 6;
 }
 
 .setupInput{
@@ -320,6 +323,7 @@ body{
   color: #141414;
   border-radius: 5px;
   border-left: 2px solid rgb(77, 77, 77);
+  user-select: none;
 }
 
 
@@ -335,15 +339,21 @@ body{
   background: linear-gradient(90deg, rgba(255, 255, 255, 0.795) 39%, rgba(0,0,0,0) 100%);
 }
 
+.manualState{
+  width: 70%;
+}
+
 .simulationState h3{
   margin: 0px;
   margin-top: 7px;
   padding: 0px;
+  user-select: none;
 }
 
 .simulationState h1{
   margin: 0px;
   padding: 0px;
+  user-select: none;
 }
 
 .statistics h3{
@@ -399,7 +409,7 @@ body{
   margin: 0px;
   padding: 0px;
   font-size: 25px;
-  z-index: 1;
+  z-index: 6;
 }
 
 .speedTag{
@@ -430,7 +440,7 @@ body{
   /* border-left: 2px solid black; */
   /* background-color: #fcfcfc; */
   border-top-right-radius: 7px;
-
+  z-index: 3;
 }
 
 .chartContainer{
@@ -458,7 +468,7 @@ body{
   height: 300px;
   width: 500px;
   margin:auto;
-  margin-top: 0px;
+  /* margin-top: 50px; */
   transition: 500ms margin-top;
 }
 
@@ -1066,8 +1076,7 @@ input[type="checkbox"]:checked:after {
 }
 
 @media only screen and (max-width: 1050px) {
-
-
+  
   .backGroundCircle1{
     display: none;
   }
@@ -1095,7 +1104,17 @@ input[type="checkbox"]:checked:after {
   }
 
   .logo{
-    display: none;
+    width: 100%;    
+    display: flex;
+    margin: auto;
+    left: 0px;
+    z-index: -1;
+  }
+
+  .mainLogo{
+    position: relative;
+    margin: auto;
+    margin-top: 40px;
   }
 
   input[type='range']::-webkit-slider-thumb {
@@ -1118,8 +1137,24 @@ input[type="checkbox"]:checked:after {
     grid-template-rows: 150px 0px 0px 600px 50px;
     border-radius: 0px;
     border: 0px;
-    background-color: rgb(214, 214, 214);
+    background-color: rgb(173, 173, 173);
+    height: auto;
+    /* z-index: 3; */
   }
+
+
+  .manualPlay{
+    height: 100px;
+    margin-top: 100px;
+    background-color: transparent;
+    border: none;
+    box-shadow: 0px 0px 1px 1px rgba(97, 97, 97, 0);
+  }
+
+  .manualState{
+    display: none;
+  }
+
 
   /* Options */
   .options{
@@ -1151,9 +1186,17 @@ input[type="checkbox"]:checked:after {
     grid-template-rows: 40px 1fr;
   }
   .simulationButtons{
+    margin-top: 10px;
     position: absolute;
     grid-template-columns: repeat(auto-fill,minmax(100px,1fr));
     grid-auto-rows: minmax(25px,50px);
+    grid-row: 2/3;
+    margin-top: -65px;
+  }
+
+  .simulationState{
+    margin-top: -60px;
+    grid-row: 1/2;
   }
 
   .additionaOptions{
@@ -1163,8 +1206,9 @@ input[type="checkbox"]:checked:after {
     border: 0px;
     box-shadow: 0px 0px 1px 1px #d3d3d300;
     min-height: 100vh;
-    z-index: 3;
+    z-index: 5;
     overflow: scroll;
+    height: auto;
   }
 
   .inputContainer{
@@ -1211,6 +1255,9 @@ input[type="checkbox"]:checked:after {
     width: 99vw;
     height:75vh;
   }
+  .statCanvas{
+    z-index: 1;
+  }
   
   .simulationStats{
     background-color: #bbbbbb;
@@ -1234,24 +1281,35 @@ input[type="checkbox"]:checked:after {
     grid-template-columns: repeat(auto-fit,minmax(40px,1fr));
     height: 30px;
   }
+
+  .visualHeader{
+    /* visibility: hidden; */
+    width: 100vw;
+    /* height: 50px;
+    background-color: rgb(255, 255, 255);
+    border-radius: 5px;
+    border-left: 2px solid rgb(77, 77, 77);
+    display: grid;
+    grid-template-columns: 1fr 50px; */
+  }
   
   .visualNavigation button{
     height: 30px;
     font-size: 13px;
     border-left: 2px solid rgb(77, 77, 77);
     /* border-left: 0px; */
+    margin: 0px;
   }
 
   .visuals{
-    z-index: 3;
     width: 100vw;
-    height: 100vh;
+    height: 80vh;
+    margin-top: 190px;
   }
 
   .visualPages{
-    margin-top: -10px;
-    padding-top: 80px;
-    height: 110vh;
+    margin-top: -60px;
+    height: 100vh;
   }
 
   .visualInfo{
@@ -1259,10 +1317,11 @@ input[type="checkbox"]:checked:after {
   }
 
   .visualShade{
+    display: none;
     position: absolute;
     height: 180px;
     width: 100vw;
-    background-color: rgb(190, 199, 206);
+    /* background-color: rgb(190, 199, 206); */
     z-index:-1;
   }
 
@@ -1270,38 +1329,63 @@ input[type="checkbox"]:checked:after {
     z-index: 2;
   }
 
+  .layerOptions {
+    width: 100vw;
+  }
+
   .lOptions h3{
     font-size: 15px;
   }
 
   .layerOptions{
-    z-index: 1;
+    z-index: 2;
+  }
+
+  .layer{
+    display: grid;
+    grid-template-rows: 500px repeat(auto-fit,minmax(15,1fr)); 
+    justify-self: center;
+    grid-row-gap: 5px;
+    color: #7c7c7c;
+  }
+
+  #layers{
+    width: 100vw;
+  }
+
+  .neuralNet{
+    margin: auto;
+    height: 600px;
+    /* width: 200px; */
+    margin-top: 50px;
   }
 
   .neuralSvg{
-    z-index: 40;
-    width: 99vw;
+    margin-top: 50px;
+    z-index: -1;
   }
 
   .addLayer{
     margin-top: 20px;
   }
   .chartContainer{
-    overflow-y: scroll;
+    /* overflow-y: scroll; */
     width: 99vw; 
     margin-left: -10px;
-    height: 170px;
+    height: 450px;
     z-index: 5;
+    margin-top: 170px;
   }
   .charts{
     margin-top: 30px;
     width: 90vw;
-    height: 150px;
+    height: 400px;
     grid-row-gap: 0px;
     z-index: 5;
+    
   }  
   .chart{
-    height:150px;
+    height:200px;
     width: 85vw;
   }
 
