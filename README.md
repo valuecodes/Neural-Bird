@@ -1,6 +1,6 @@
 # Neural Birds
 
-Neuroevolution simulator based on the popular flappy bird mobile game. Simulation uses neural networks and genetic algorithms to create optimized birds that survive trough the course.
+Neuroevolution simulator based on the popular flappy bird mobile game. Simulation uses neural networks and genetic algorithms to create optimized birds that survive trough the course. Click [here](https://www.neuralbirds.com/) to test and [here](https://www.youtube.com/watch?v=zGWXS5YHu0w) for video 
 <img src='./public/img2.JPG' width="530" style="float: right;">
 
 ## Built With
