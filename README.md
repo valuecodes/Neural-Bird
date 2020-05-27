@@ -1,7 +1,8 @@
 # Neural Birds
 
 Neuroevolution simulator based on the popular flappy bird mobile game. Simulation uses neural networks and genetic algorithms to create optimized birds that survive trough the course. Click [here](https://www.neuralbirds.com/) to test and [here](https://www.youtube.com/watch?v=zGWXS5YHu0w) for video 
-<img src='./public/img2.JPG' width="530" style="float: right;">
+
+![alt text](./public/pic.JPG)
 
 ## Built With
 * React
@@ -34,5 +35,6 @@ Each offspring has two parents that are chosen from the pool. Offspring "dna" is
     * Neural network weight values visualized in radar chart
     * Updates every time new generation is created
 
-<img src='./public/dna.JPG' width="350" style="float: right;">
-<img src='./public/tree.JPG' width="350" style="float: left;">
+    
+![alt text](./public/dna.JPG)
+![alt text](./public/tree.JPG)
