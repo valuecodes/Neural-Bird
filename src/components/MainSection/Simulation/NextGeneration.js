@@ -88,7 +88,8 @@ export function nextGeneration(birds,options,generationalData,currentRound,gener
 
   function calculateFitness(birds,options) {
     const {selectionPower,poolSize}=options
-    let pool=birds.slice(birds.length-poolSize,birds.length);
+    // let pool=birds.slice(birds.length-poolSize,birds.length);
+    let pool=birds.slice(0,poolSize);
     let sum = 0;
     for (let z=0;z<pool.length;z++) {
       let birdScore=pool[z].score

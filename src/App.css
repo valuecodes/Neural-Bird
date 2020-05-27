@@ -1,4 +1,5 @@
 
+
 body{
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   background-image: linear-gradient(to left, rgb(154, 160, 172) , rgb(211, 211, 212));
@@ -77,7 +78,6 @@ body{
   z-index: -1;
 }
 
-/* BackGround */
 .backGroundCircle2{
   position: absolute;
   height:600px;
@@ -89,7 +89,6 @@ body{
   z-index: -1;
 }
 
-/* BackGround */
 .backGroundCircle3{
   position: absolute;
   height: 15vw;
@@ -99,6 +98,42 @@ body{
   bottom: 0vw;
   left: 15vw;
   z-index: -1;
+}
+
+/* Footer */
+.footer{
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  width: 100vw;
+  height: 40px;
+  display: grid;
+  grid-template-columns: 1fr 60px 1fr;
+  background-color: rgba(71, 71, 71, 0.301);
+  border-top: 2px solid rgba(70, 70, 70, 0.678);
+  /* box-shadow: 0px 0px 1px 1px rgba(97, 97, 97, 0.87); */
+}
+
+.contact{
+  margin: auto;
+  padding-top: 2px;
+}
+
+.copyright{
+  margin-left: auto;
+  margin-right: 50px;
+}
+
+.copyright p{
+  margin: auto;
+  padding: 0px;
+  padding-top: 9px;
+  font-size:17px;
+  color: rgb(34, 34, 34);
+}
+
+.cspan{
+  color: rgb(206, 206, 206);
 }
 
 /* Main Section */
@@ -214,12 +249,11 @@ body{
   transition-timing-function: ease-out;
   position: relative;
   margin-top: 5px;
-  height: 745px;
-  display: grid;
-  grid-template-rows: 40px repeat(10,50px);
+  height: 744px;
+  /* display: grid; */
+  /* grid-template-rows: 40px repeat(10,45px); */
   overflow: hidden;
-  background-color: rgb(178, 192, 185);
-  background-color: rgb(190, 199, 206);
+  background-color: rgba(255, 255, 255, 0.3);
   border: 2px solid var(--border-color);
   border-top-right-radius: 5px;
   border-bottom-right-radius: 5px;
@@ -231,7 +265,13 @@ body{
 }
 
 .aOptionContainer  h2{
-  margin-top: 0px;
+  margin:0px;
+  margin-bottom: 8px;
+  padding: 0px;
+}
+
+.attributes{
+  margin: 0px;
   padding: 0px;
 }
 
@@ -243,7 +283,7 @@ body{
 .input{
   display: grid;
   grid-template-columns: 270px 70px 40px;
-  grid-template-rows: 25px 30px;
+  grid-template-rows: 23px 30px;
 }
 
 .input p{
@@ -1026,6 +1066,10 @@ input[type="checkbox"]:checked:after {
 
 @media only screen and (max-width: 1050px) {
   
+  .footer{
+    display: none;
+  }
+
   .backGroundCircle1{
     display: none;
   }
