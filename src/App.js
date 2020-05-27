@@ -1,9 +1,9 @@
 import React from 'react';
 import './App.css';
-import BackGround from './components/background/BackGround'
+import BackGround from './components/backGround/BackGround'
 import Main from './components/MainSection/Main'
 import NavBar from './components/NavBar/NavBar'
-import Footer from './components/background/Footer'
+import Footer from './components/backGround/Footer'
 import { GlobalProvider } from './context/GlobalState'
 import { GlobalOptionsProvider } from './context/GlobalOptions'
 import {GlobalGenerationalProvider} from './context/GlobalGenerational'
